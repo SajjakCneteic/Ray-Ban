@@ -19,6 +19,7 @@ import Footer from "../customer/Components/footer/Footer";
 import PaymentSuccess from "../customer/Components/paymentSuccess/PaymentSuccess";
 import RateProduct from "../customer/Components/ReviewProduct/RateProduct";
 import NotFound from "../Pages/Notfound";
+import HeaderTop from "../customer/Components/Navbar/HeaderTop";
 
 const CustomerRoutes = () => {
     const location = useLocation();
@@ -32,6 +33,7 @@ const CustomerRoutes = () => {
     <div>
 
     <ThemeProvider theme={customerTheme}>
+      <HeaderTop/>
     {showNavigation && <Navigation />}
      <Routes>
      <Route path="/login" element={<Homepage />}></Route>
