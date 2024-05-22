@@ -19,8 +19,11 @@ import Footer from "../customer/Components/footer/Footer";
 import PaymentSuccess from "../customer/Components/paymentSuccess/PaymentSuccess";
 import RateProduct from "../customer/Components/ReviewProduct/RateProduct";
 import NotFound from "../Pages/Notfound";
+
 import Login from "../customer/Components/Auth/LoginPage";
 import RegisterPage from "../customer/Components/Auth/RegisterPage";
+
+import HeaderTop from "../customer/Components/Navbar/HeaderTop";
 
 
 const CustomerRoutes = () => {
@@ -35,6 +38,7 @@ const CustomerRoutes = () => {
     <div>
 
     <ThemeProvider theme={customerTheme}>
+      <HeaderTop/>
     {showNavigation && <Navigation />}
      <Routes>
      <Route path="/login" element={<Login/>}></Route>
