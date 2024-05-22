@@ -2,6 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 
 const Container = styled.div`
+  width:100%;
   background-color: #333;
   color: #fff;
   padding: 20px;
@@ -31,6 +32,7 @@ const Input = styled.input`
   padding: 10px;
   font-size: 16px;
   border: 1px solid #000;
+  color:#000;
   border-radius: 4px 0 0 4px;
   outline: none;
 `;

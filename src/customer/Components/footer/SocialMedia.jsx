@@ -3,7 +3,7 @@ import styled from 'styled-components';
 
 const SocialMediaBar = styled.div`
   background-color: #e0e0e0;
-  padding: 10px;
+  padding: 20px;
   display: flex;
   justify-content: flex-end;
   align-items: center;
@@ -27,7 +27,7 @@ const SocialMedia = () => {
         <SocialMediaIcon src="https://upload.wikimedia.org/wikipedia/commons/5/51/Facebook_f_logo_%282019%29.svg" alt="Facebook" />
       </SocialMediaLink>
       <SocialMediaLink href="https://www.twitter.com" target="_blank">
-        <SocialMediaIcon src="https://upload.wikimedia.org/wikipedia/commons/6/6f/Logo_of_Twitter.svg" alt="Twitter" />
+        <SocialMediaIcon src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/ce/X_logo_2023.svg/1024px-X_logo_2023.svg.png" alt="Twitter" />
       </SocialMediaLink>
       <SocialMediaLink href="https://www.instagram.com" target="_blank">
         <SocialMediaIcon src="https://upload.wikimedia.org/wikipedia/commons/a/a5/Instagram_icon.png" alt="Instagram" />
