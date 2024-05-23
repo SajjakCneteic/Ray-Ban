@@ -21,6 +21,9 @@ import "../dropdown/dropdown.css";
 import { logoutCustomer } from "../../../action/Customer";
 import logo from "../../../logos/111.png";
 import DropDown from "./DropDown";
+import MenuOpen from "./MenuOpen";
+import OpenHamburger from "./OpenSunglasses";
+import OpenSunglasses from "./OpenSunglasses";
 
 // Utility function to join class names conditionally
 function classNames(...classes) {
@@ -39,30 +42,65 @@ export default function Navigation() {
   const jwt = localStorage.getItem("jwt");
   const location = useLocation();
   const [showDropdown, setShowDropdown] = useState(false);
+  const [isOpen, setIsOpen] = useState(false);
+
 // Initialize menuItemsData as null or an empty object
 const [menuItemsData, setmenuItemsData] = useState(null); // or useState({})
+const [selectedPage, setSelectedPage] = useState(null);
+
+const handlePageClick = (pageName) => {
+  setSelectedPage(pageName === selectedPage ? null : pageName);
+};
 // const menuItemsData =[];
-const Sunglasses = [
-  { name: "Aviator", img: "https://placehold.co/100x50" },
-  { name: "Wayfarer", img: "https://placehold.co/100x50" },
-  { name: "Erika", img: "https://placehold.co/100x50" },
-  { name: "Round", img: "https://placehold.co/100x50" },
-  { name: "New Wayfarer", img: "https://placehold.co/100x50" },
-  { name: "I-shape", img: "https://placehold.co/100x50" },
-  { name: "Justin", img: "https://placehold.co/100x50" },
-  { name: "Clubmaster", img: "https://placehold.co/100x50" }
-];
-const Eyeglasses = [
-  { name: "Aviator", img: "https://placehold.co/100x50" },
-  { name: "Wayfarer", img: "https://placehold.co/100x50" },
-  { name: "Erika", img: "https://placehold.co/100x50" },
-  // { name: "Round", img: "https://placehold.co/100x50" },
-  // { name: "New Wayfarer", img: "https://placehold.co/100x50" },
-  // { name: "I-shape", img: "https://placehold.co/100x50" },
-  // { name: "Justin", img: "https://placehold.co/100x50" },
-  // { name: "Clubmaster", img: "https://placehold.co/100x50" }
-];
-  console.log("this is auth", auth.user,menuItemsData);
+  const Sunglasses = {
+    sidebarData: {
+      shop: ["Men", "Women", "Kids", "All Sunglasses"],
+      giftCard: [
+        "New Arrivals",
+        "Best Sellers",
+        "Reverse",
+        "Scuderia Ferrari",
+        "Chromance",
+        "Polarized ❤️",
+        "Titanium"
+      ]
+    },
+    mainContentData: [ { name: "Aviator", img: "https://india.ray-ban.com/media/catalog/product/cache/ecdbd5a50e6b93b224fc4aacce3c4ac7/0/r/0rx7235_8063_6.png" },
+    { name: "Wayfarer", img: "https://india.ray-ban.com/media/catalog/product/cache/ecdbd5a50e6b93b224fc4aacce3c4ac7/0/r/0rx7236i_6750_6.png" },
+    { name: "Erika", img: "https://india.ray-ban.com/media/catalog/product/cache/ecdbd5a50e6b93b224fc4aacce3c4ac7/0/r/0rx7236i_8368_6.png" },
+    { name: "Round", img: "https://india.ray-ban.com/media/catalog/product/cache/ecdbd5a50e6b93b224fc4aacce3c4ac7/0/r/0rx7237i_5754_6.png" },
+    { name: "New Wayfarer", img: "https://india.ray-ban.com/media/catalog/product/cache/ecdbd5a50e6b93b224fc4aacce3c4ac7/0/r/0rx7237i_8335_6.png" },
+    { name: "I-shape", img: "https://india.ray-ban.com/media/catalog/product/cache/ecdbd5a50e6b93b224fc4aacce3c4ac7/0/r/0rx7239_2012_6.png" },
+    { name: "Justin", img: "https://india.ray-ban.com/media/catalog/product/cache/ecdbd5a50e6b93b224fc4aacce3c4ac7/0/r/0rx8789_1244_6.png" },
+    { name: "Clubmaster", img: "https://india.ray-ban.com/media/catalog/product/cache/ecdbd5a50e6b93b224fc4aacce3c4ac7/0/r/0rx8789_1246_6.png" }]
+
+  }
+
+   
+  
+const Eyeglasses ={
+
+  sidebarData: {
+    shop: ["Men", "Women", "Kids", "All Eyeglasses"],
+    giftCard: [
+      "New Arrivals",
+      "Best Sellers",
+      "Scuderia Ferrari",
+      
+    ],
+    frameStyle: ["Full Rim", "Half Rim"]
+
+  },
+  mainContentData: [  { name: "Aviator Optics", img:"https://india.ray-ban.com/media/catalog/product/cache/ecdbd5a50e6b93b224fc4aacce3c4ac7/0/r/0rx7237i_8335_6.png" },
+  { name: "Hexagonal Optics", img: "https://india.ray-ban.com/media/catalog/product/cache/ecdbd5a50e6b93b224fc4aacce3c4ac7/0/r/0rx7239_2012_6.png" },
+  { name: "State Street Optics", img: "https://india.ray-ban.com/media/catalog/product/cache/ecdbd5a50e6b93b224fc4aacce3c4ac7/0/r/0rx8789_1244_6.png" },
+  { name: "Club Maste Optics", img: "https://india.ray-ban.com/media/catalog/product/cache/ecdbd5a50e6b93b224fc4aacce3c4ac7/0/r/0rx8789_1246_6.png" },
+  { name: "Timeless RX 5228",  img: "https://india.ray-ban.com/media/catalog/product/cache/ecdbd5a50e6b93b224fc4aacce3c4ac7/0/r/0rx8789_1246_6.png" },
+
+]
+}
+
+
 
   // Fetch user and cart data if JWT is present
   useEffect(() => {
@@ -158,7 +196,7 @@ const Eyeglasses = [
                 </div>
 
                 {/* Mobile menu navigation */}
-                <div className="space-y-6 border-t border-gray-200 px-4 py-6 text-center ">
+                {/* <div className="space-y-6 border-t border-gray-200 px-4 py-6 text-center ">
                   {navigation.pages.map((page) => (
                     <div key={page.name} className="flow-root">
                       <a
@@ -169,8 +207,44 @@ const Eyeglasses = [
                       </a>
                     </div>
                   ))}
-                </div>
-
+                </div> */}
+            <div className="space-y-2">
+      {navigation?.pages?.map((page) => (
+        <div key={page.name} className="flow-root">
+          {page.name === 'Sunglasses' || page.name === 'Eyeglasses' ? (
+            <button
+              onClick={() => handlePageClick(page.name)}
+              className="m-2 block p-4 font-medium text-black"
+            >
+              {page.name} {selectedPage === page.name ? '-' : '+'}
+            </button>
+          ) : (
+            <a
+              href={page.href}
+              className="-m-2 block p-2 font-medium text-black"
+            >
+              {page.name}
+            </a>
+          )}
+          <Transition
+            show={selectedPage === page.name && (page.name === 'Sunglasses' || page.name === 'Eyeglasses')}
+            enter="transition duration-200 ease-out"
+            enterFrom="transform -translate-y-4 opacity-0"
+            enterTo="transform translate-y-0 opacity-100"
+            leave="transition duration-150 ease-in"
+            leaveFrom="transform translate-y-0 opacity-100"
+            leaveTo="transform -translate-y-4 opacity-0"
+          >
+            <div className="p-4 border">
+              {page.name === 'Sunglasses' && <OpenSunglasses drawer={isOpen} setDrawer={setIsOpen} sunglasses={Sunglasses} eyeGlasses={Eyeglasses} pages={navigation.pages}/>}
+            </div>
+          </Transition>
+        </div>
+      ))}
+    </div>
+                {/* <OpenHumburger drawer={isOpen} setDrawer={setIsOpen}/> */}
+{/*  CustomAccordion = ({drawer,setDrawer,sunglasses,eyeGlasses}) */}
+<OpenHamburger drawer={isOpen} setDrawer={setIsOpen} sunglasses={Sunglasses} eyeGlasses={Eyeglasses} pages={navigation.pages}/>
                 {/* Sign in option for mobile menu */}
                 <div className="space-y-6 border-t border-gray-200 px-4 py-6">
                   <div className="flow-root">
@@ -212,7 +286,10 @@ const Eyeglasses = [
               <button
                 type="button"
                 className="rounded-md bg-white p-2 text-gray-400 lg:hidden"
-                onClick={() => setOpen(true)}
+                onClick={() =>{setOpen(true)
+setIsOpen(true)
+
+                 } }
               >
                 <span className="sr-only">Open menu</span>
                 <Bars3Icon className="h-6 w-6" aria-hidden="true" />
@@ -326,15 +403,16 @@ const Eyeglasses = [
                         <MenuItem onClick={handleLogout}>Logout</MenuItem>
                       </Menu>
                     </div>
-                  ) : (
+                  ) : (<>
                     <Button
                       onClick={handleOpen}
-                      className="text-sm font-medium text-black hover:text-gray-900"
+                      className=" relative text-sm font-medium text-black hover:text-gray-900"
                       style={{ color: "#000000" }}
                     >
-                      Signin
+                      <img src="image-3.svg" alt="person" />
                     </Button>
-                  )}
+                    {openAuthModal &&<div className="absolute  top-12 right-20 z-990"> <MenuOpen handleClose={handleClose} /></div>}
+                    </>)}
                 </div>
 
                 {/* Search button */}
@@ -388,7 +466,7 @@ const Eyeglasses = [
       </header>
 
       {/* Authentication modal */}
-      <AuthModal handleClose={handleClose} open={openAuthModal} />
+      
 
       {/* Uncomment if needed for additional menu items */}
       {/* <div className="header-desk-navbar">
@@ -412,3 +490,5 @@ const Eyeglasses = [
     </div>
   );
 }
+
+
