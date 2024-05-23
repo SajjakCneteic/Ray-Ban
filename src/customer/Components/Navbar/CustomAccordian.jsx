@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { logout } from '../../../Redux/Auth/Action';
 import { FaSearch } from "react-icons/fa";
 import { API_BASE_URL } from '../../../config/api';
+import OpenSunglasses from './OpenSunglasses';
 
 const CustomAccordion = ({ drawer, setDrawer, sunglasses, eyeGlasses, pages }) => {
   const [openIndex, setOpenIndex] = useState(null);
@@ -14,16 +15,16 @@ const CustomAccordion = ({ drawer, setDrawer, sunglasses, eyeGlasses, pages }) =
   const toggleAccordion = (index) => {
     setOpenIndex(openIndex === index ? null : index);
   };
-
+console.log(sunglasses,"sunglasses",eyeGlasses)
   const datas = [
     { name: 'MY ACCOUNT', children: [{ name: 'LOGIN' }, { name: 'MY ORDERS' }, { name: 'MY STORE CREDIT' }, { name: 'MY SELECTIONS' }, { name: 'GIFT CARD BALANCE' }] },
-    { name: 'SUNGLASSES',children:[] },
-    { name: 'EYEGLASSES',children:[] },
-    { name: 'NEW ARRIVALS',children:[] },
-    { name: 'PRESCRIPTION',children:[] },
-    { name: 'GIFT CARD',children:[] },
-    { name: 'ORDER STATUS',children:[] },
-    { name: 'PROMO',children:[] }
+    { name: 'SUNGLASSES' ,component:OpenSunglasses,data:sunglasses},
+    { name: 'EYEGLASSES',component:OpenSunglasses, data:eyeGlasses},
+    { name: 'NEW ARRIVALS' },
+    // { name: 'PRESCRIPTION' },
+    // { name: 'GIFT CARD' },
+    { name: 'ORDER STATUS' },
+    { name: 'PROMO', }
   ];
 
   return (
@@ -33,23 +34,26 @@ const CustomAccordion = ({ drawer, setDrawer, sunglasses, eyeGlasses, pages }) =
           <AccordionItem key={index}>
             <AccordionButton onClick={() => toggleAccordion(index)}>
               <div>{item.name}</div>
-              <div>{openIndex === index ? '-' : '+'}</div>
+              {(item.children || item.component) && (
+  <div>{openIndex === index ? '-' : '+'}</div>
+)}
             </AccordionButton>
-            {item.children &&
-            <AccordionContent isOpen={openIndex === index}>
-              <NestedAccordionContent>
-                {item.children && item.children.map((child, childIndex) => (
-                  <NestedLink key={childIndex} to={`/${child.name.toLowerCase().replace(/ /g, '-')}`}>
-                    {child.name}
-                  </NestedLink>
-                ))}
-              </NestedAccordionContent>
-            </AccordionContent>
-            }
+            {item.component && openIndex === index && <item.component data={item.data}/>}
+            {item.children && openIndex === index && (
+              <AccordionContent isOpen={openIndex === index}>
+                <NestedAccordionContent>
+                  {item.children.map((child, childIndex) => (
+                    <NestedLink key={childIndex} to={`/${child.name.toLowerCase().replace(/ /g, '-')}`}>
+                      {child.name}
+                    </NestedLink>
+                  ))}
+                </NestedAccordionContent>
+              </AccordionContent>
+            )}
           </AccordionItem>
         ))}
 
-        <AccordionItem>
+        {/* <AccordionItem>
           <AccordionButton>
             <div style={{ display: 'flex', alignItems: 'center' }}>
               <Svg>
@@ -60,7 +64,7 @@ const CustomAccordion = ({ drawer, setDrawer, sunglasses, eyeGlasses, pages }) =
               </div>
             </div>
           </AccordionButton>
-        </AccordionItem>
+        </AccordionItem> */}
       </AccordionWrapper>
     </div>
   );
