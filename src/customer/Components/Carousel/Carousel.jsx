@@ -92,8 +92,8 @@ const Carousel = () => {
     <CarouselContainer>
       <Slider {...settings}>
         {products.map((product) => (
-          <ProductCard key={product.id}>
-            <h3 style={{ color: 'red' ,position:'absolute',marginLeft:'80px'}}>New Arrivals</h3>
+          <ProductCard key={product.id} style={{textAlign:'center'}}>
+            <h3 style={{ color: 'red' ,position:'absolute',textAlign:'center'}}>New Arrivals</h3>
             <img src={product.image} alt={product.name} />
             <p>{product.name}</p>
             <p>$2000.00</p>

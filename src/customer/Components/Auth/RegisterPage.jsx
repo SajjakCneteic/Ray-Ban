@@ -221,7 +221,7 @@ const RegisterPage = () => {
                 <ForgotPassword>
                     <ForgotPasswordLink href="#">Forgot Password?</ForgotPasswordLink>
                 </ForgotPassword>
-                <Button type="submit">LOG IN</Button>
+                <Button type="submit">CREATE ACCOUNT</Button>
 
                 <div style={{marginTop:'60px'}}>
                     <h3>Not a member? <span>Already a member? LOGIN</span></h3>
@@ -231,6 +231,7 @@ const RegisterPage = () => {
             <Sidebar>
                 <SidebarList>
                 <SidebarHeading>POPULAR LINKS</SidebarHeading>
+                <hr style={{color:"black"}}/>
                     <SidebarListItem><SidebarLink href="#">REGISTER</SidebarLink></SidebarListItem>
                     <SidebarListItem><SidebarLink href="#">MY ORDERS</SidebarLink></SidebarListItem>
                     <SidebarListItem><SidebarLink href="#">MY RETURNS</SidebarLink></SidebarListItem>

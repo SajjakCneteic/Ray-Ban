@@ -158,7 +158,7 @@ const Eyeglasses ={
   };
 
   return (
-    <div className="bg-white pb-10">
+    <div className="bg-white pb-4">
       {/* Mobile menu */}
       <Transition.Root show={open} as={Fragment}>
         <Dialog as="div" className="relative flex w-full max-w-md flex-col overflow-y-auto bg-white pb-12 shadow-xl" onClose={setOpen}>
@@ -325,13 +325,13 @@ setIsOpen(true)
                   ))}
                 </div>
               </Popover.Group> */}
-<Popover.Group className="hidden lg:ml-8 lg:block lg:self-stretch z-10 relative">
-  <div className="flex h-full space-x-8">
+<Popover.Group className="hidden w-1/2  lg:ml-8 lg:block lg:self-stretch z-10 relative">
+  <div className="flex justify-around  h-full space-x-8">
     {navigation.pages.map((page) => (
       <a
         key={page.name}
         href={page.href}
-        className="flex items-center text-sm font-medium text-black hover:text-blue-800"
+        className="flex  items-center text-sm font-medium text-black hover:text-blue-800"
         style={{ color: page.name === "PROMO" ? "red" : "black" }}
         onMouseEnter={() => {
           if (page.name === "SUNGLASSES") {
