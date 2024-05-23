@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Transition } from '@headlessui/react';
 
 const Sunglasses = {
@@ -74,7 +74,7 @@ const AccordionItem = ({ title, children, isOpen, onClick }) => (
   </div>
 );
 
-const Accordion = () => {
+const Accordion = ({ data }) => {
   const [openIndex, setOpenIndex] = useState(null);
 
   const handleAccordionClick = (index) => {
@@ -83,7 +83,7 @@ const Accordion = () => {
 
   return (
     <div className="flex flex-wrap max-w-full mx-auto bg-white shadow-lg rounded-lg overflow-hidden">
-      {Object.entries(Sunglasses.sidebarData).map(([key, items], index) => (
+      {Object.entries(data.sidebarData).map(([key, items], index) => (
         <AccordionItem
           key={key}
           title={key.charAt(0).toUpperCase() + key.slice(1)}
@@ -103,31 +103,44 @@ const Accordion = () => {
   );
 };
 
-const MainContent = () => (
-  <div className="flex overflow-x-scroll p-4 space-x-4">
-    {Sunglasses.mainContentData.map((sunglass) => (
-      <div
-        key={sunglass.name}
-        className="min-w-max bg-white shadow-lg rounded-lg
-         overflow-hidden hover:shadow-2xl transition-shadow duration-300"
-      >
-        <img src={sunglass.img} alt={sunglass.name} className="w-full" />
-        <div className="p-4  text-center font-sm text-gray-900">
-          {sunglass.name}
-        </div>
-      </div>
-    ))}
-  </div>
-);
+const MainContent = ({ data }) => {
+  const [currentIndex, setCurrentIndex] = useState(0);
 
-const OpenSunglasses = () => (
-  <div className="min-h-screen bg-gray-100">
-    <div className="">
-      <aside className="w-full ">
-        <Accordion />
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentIndex((prevIndex) => (prevIndex + 2) % data.mainContentData.length);
+    }, 3000); // Change slide every 3 seconds
+    return () => clearInterval(interval);
+  }, [data.mainContentData.length]);
+
+  const visibleSunglasses = data.mainContentData.slice(currentIndex, currentIndex + 2);
+
+  return (
+    <div className="flex overflow-x-scroll p-2 space-x-2">
+      {visibleSunglasses.map((sunglass) => (
+        <div
+          key={sunglass.name}
+          className="bg-white shadow-lg rounded-lg overflow-hidden transition-shadow duration-300"
+          style={{ width: '150px', height: '120px' }}
+        >
+          <img src={sunglass.img} alt={sunglass.name} className="w-full h-auto object-cover" />
+          <div className="p-2 text-center text-sm text-gray-900 h-1/2">
+            {sunglass.name}
+          </div>
+        </div>
+      ))}
+    </div>
+  );
+};
+
+const OpenSunglasses = ({ data }) => (
+  <div className="h-auto bg-gray-100">
+    <div>
+      <aside className="w-full">
+        <Accordion data={data} />
       </aside>
-      <main className="w-full">
-        <MainContent />
+      <main className="w-full h-[150px]">
+        <MainContent data={data} />
       </main>
     </div>
   </div>

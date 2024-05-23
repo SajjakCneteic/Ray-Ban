@@ -161,7 +161,7 @@ const Eyeglasses ={
     <div className="bg-white pb-10">
       {/* Mobile menu */}
       <Transition.Root show={open} as={Fragment}>
-        <Dialog as="div" className="relative z-40 lg:hidden" onClose={setOpen}>
+        <Dialog as="div" className="relative flex w-full max-w-md flex-col overflow-y-auto bg-white pb-12 shadow-xl" onClose={setOpen}>
           <Transition.Child
             as={Fragment}
             enter="transition-opacity ease-linear duration-300"
@@ -197,6 +197,8 @@ const Eyeglasses ={
                 </div>
 
                 {/* Mobile menu navigation */}
+                <CustomAccordion sunglasses={Sunglasses} eyeGlasses={Eyeglasses}/>
+
                 {/* <div className="space-y-6 border-t border-gray-200 px-4 py-6 text-center ">
                   {navigation.pages.map((page) => (
                     <div key={page.name} className="flow-root">
@@ -209,7 +211,7 @@ const Eyeglasses ={
                     </div>
                   ))}
                 </div> */}
-            <div className="space-y-2">
+            {/* <div className="space-y-2">
       {navigation?.pages?.map((page) => (
         <div key={page.name} className="flow-root">
           {page.name === 'Sunglasses' || page.name === 'Eyeglasses' ? (
@@ -242,12 +244,11 @@ const Eyeglasses ={
           </Transition>
         </div>
       ))}
-    </div>
+    </div> */}
                 {/* <OpenHumburger drawer={isOpen} setDrawer={setIsOpen}/> */}
 {/*  CustomAccordion = ({drawer,setDrawer,sunglasses,eyeGlasses}) */}
 {/* <OpenHamburger drawer={isOpen} setDrawer={setIsOpen} sunglasses={Sunglasses} eyeGlasses={Eyeglasses} pages={navigation.pages}/> */}
-<CustomAccordion/>
-                {/* Sign in option for mobile menu */}
+                {/* Sign in option for mobile menu
                 <div className="space-y-6 border-t border-gray-200 px-4 py-6">
                   <div className="flow-root">
                     <a
@@ -257,10 +258,10 @@ const Eyeglasses ={
                       Sign in
                     </a>
                   </div>
-                </div>
+                </div> */}
 
                 {/* Currency option for mobile menu */}
-                <div className="border-t border-gray-200 px-4 py-6">
+                {/* <div className="border-t border-gray-200 px-4 py-6">
                   <a href="/" className="-m-2 flex items-center p-2">
                     <img
                       src="https://tailwindui.com/img/flags/flag-canada.svg"
@@ -272,7 +273,7 @@ const Eyeglasses ={
                     </span>
                     <span className="sr-only">, change currency</span>
                   </a>
-                </div>
+                </div> */}
               </Dialog.Panel>
             </Transition.Child>
           </div>
