@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 
 const CountryListContainer = styled.div`
-  display: flex;
+
   flex-wrap: wrap;
   padding: 20px;
   
@@ -41,15 +41,16 @@ const countries = [
   { name: 'Vietnam', flag: 'https://flagcdn.com/w320/vn.png' },
 ];
 
-const CountryList = () => (
-  <CountryListContainer>
+const CountryList = ({show}) => {
+    console.log(show)
+  return(<CountryListContainer style={{display:`${show?"block":"none"   }`}}>
     {countries.map(country => (
       <CountryItem key={country.name}>
         <CountryFlag src={country.flag} alt={country.name} />
         <span>{country.name}</span>
       </CountryItem>
     ))}
-  </CountryListContainer>
-);
+  </CountryListContainer>)
+};
 
 export default CountryList;
