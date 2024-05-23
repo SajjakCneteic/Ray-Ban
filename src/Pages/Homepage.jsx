@@ -67,6 +67,7 @@ const MainContainer = styled.div`
 .flexdiv {
   display: flex;
   /* gap: 20px; */
+  margin-bottom: 50px;
 }
 
 .flexdiv .hover {
