@@ -74,9 +74,9 @@ const Carousel = () => {
     prevArrow: <PrevArrow />,
     responsive: [
       {
-        breakpoint: 768, // Adjusted breakpoint for mobile view
+        breakpoint: 768, 
         settings: {
-          slidesToShow: 3, // Show 3 items per row on mobile
+          slidesToShow: 3, 
         },
       },
       {
