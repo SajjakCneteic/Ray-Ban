@@ -93,7 +93,7 @@ const Button = styled.button`
     margin-left: auto; /* Aligns the button to the right */
 
     &:hover {
-        background-color: #080808;
+        background-color: #red;
     }
 `;
 
@@ -203,6 +203,7 @@ const Login = () => {
             <Sidebar>
                 <SidebarList>
                 <SidebarHeading>POPULAR LINKS</SidebarHeading>
+                <hr/>
                     <SidebarListItem><SidebarLink href="#">REGISTER</SidebarLink></SidebarListItem>
                     <SidebarListItem><SidebarLink href="#">MY ORDERS</SidebarLink></SidebarListItem>
                     <SidebarListItem><SidebarLink href="#">MY RETURNS</SidebarLink></SidebarListItem>
