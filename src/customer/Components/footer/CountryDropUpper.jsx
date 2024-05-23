@@ -2,12 +2,14 @@ import React from 'react';
 import styled from 'styled-components';
 
 const CountryListContainer = styled.div`
-
-  flex-wrap: wrap;
   padding: 20px;
-  
-  position:'absolute';
-  top:100px;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); /* Responsive grid */
+
+  background: #fff;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 `;
 
 const CountryItem = styled.div`
@@ -41,16 +43,19 @@ const countries = [
   { name: 'Vietnam', flag: 'https://flagcdn.com/w320/vn.png' },
 ];
 
-const CountryList = ({show}) => {
-    console.log(show)
-  return(<CountryListContainer style={{display:`${show?"block":"none"   }`}}>
-    {countries.map(country => (
-      <CountryItem key={country.name}>
-        <CountryFlag src={country.flag} alt={country.name} />
-        <span>{country.name}</span>
-      </CountryItem>
-    ))}
-  </CountryListContainer>)
+const CountryList = ({ show }) => {
+  return (
+    <div style={{ display: `${show ? 'block' : 'none'}` }}>
+      <CountryListContainer>
+        {countries.map(country => (
+          <CountryItem key={country.name}>
+            <CountryFlag src={country.flag} alt={country.name} />
+            <span>{country.name}</span>
+          </CountryItem>
+        ))}
+      </CountryListContainer>
+    </div>
+  );
 };
 
 export default CountryList;

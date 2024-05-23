@@ -1,9 +1,11 @@
 import React, { useState } from 'react';
-import { MdKeyboardArrowUp } from "react-icons/md";
+import { MdKeyboardArrowUp,MdKeyboardArrowDown } from "react-icons/md";
 import styled from 'styled-components';
 import SocialMedia from './SocialMedia';
 import NewsLetter from './NewsLetter';
 import CountryList from './CountryDropUpper';
+import HowCanHelp from './HowCanHelpDropper';
+import ContactForm from './ContactUs';
 
 const FooterContainer = styled.div`
   background-color: #f8f8f8;
@@ -138,27 +140,31 @@ const Copyright = styled.p`
 
 const Footer = () => {
   const [countryShow,SetCountryShow] = useState(false)
-  console.log(countryShow)
+  const [helpPage,setHelpPage] = useState(false)
+  const [contactForm,SetContactForm] = useState(false)
+  
   return (
     <FooterContainer>
       <NewsLetter />
       <SocialMedia />
       <CountryList show={countryShow}/>
+      <HowCanHelp show={helpPage}/>
+      <ContactForm show={contactForm} fn={SetContactForm}/>
       <Container>
         <TopSection>
           <Links >
-            <LinkItem onClick={()=>SetCountryShow(!countryShow)}>
+            <LinkItem onClick={()=>{SetCountryShow(!countryShow); setHelpPage(false);SetContactForm(false);}}>
                 <CountryFlag src="https://upload.wikimedia.org/wikipedia/en/4/41/Flag_of_India.svg" alt="India Flag" />
               <p>INDIA</p>
-              <MdKeyboardArrowUp />
+              {countryShow?<MdKeyboardArrowDown/>:<MdKeyboardArrowUp />}
             </LinkItem>
-            <LinkItem>
-              <a href="#">HOW CAN WE HELP</a>
-              <MdKeyboardArrowUp />
+            <LinkItem onClick={()=>{setHelpPage(!helpPage); SetCountryShow(false);SetContactForm(false);}}>
+              <p>HOW CAN WE HELP</p>
+              {helpPage?<MdKeyboardArrowDown/>:<MdKeyboardArrowUp />}
             </LinkItem>
-            <LinkItem>
-              <a href="#">CONTACT US</a>
-              <MdKeyboardArrowUp />
+            <LinkItem onClick={()=>{SetContactForm(!contactForm); SetCountryShow(false);setHelpPage(false);}}>
+              <p>CONTACT US</p>
+              {contactForm?<MdKeyboardArrowDown/>:<MdKeyboardArrowUp />}
             </LinkItem>
             <LinkItem>
               <a href="#">ORDER STATUS INQUIRY? - CLICK HERE!</a>

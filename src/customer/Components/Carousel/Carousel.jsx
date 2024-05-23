@@ -28,6 +28,7 @@ const CarouselContainer = styled.div`
 
 const ProductCard = styled.div`
   padding: 20px;
+  position: relative;
   margin: 10px; // Adjusted margin to create space between cards
   background-color: aliceblue;
   box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.1);
@@ -93,7 +94,7 @@ const Carousel = () => {
       <Slider {...settings}>
         {products.map((product) => (
           <ProductCard key={product.id}>
-            <h3 style={{ color: 'red' ,position:'absolute',marginLeft:'80px'}}>New Arrivals</h3>
+            <h3 style={{ color: 'red' ,position:'absolute',top:'10px',left:'35%'}}>New Arrivals</h3>
             <img src={product.image} alt={product.name} />
             <p>{product.name}</p>
             <p>$2000.00</p>
