@@ -3,24 +3,23 @@ import { MdKeyboardArrowUp } from "react-icons/md";
 import styled from 'styled-components';
 import SocialMedia from './SocialMedia';
 import NewsLetter from './NewsLetter';
+import CountryList from './CountryDropUpper';
 
 const FooterContainer = styled.div`
   background-color: #f8f8f8;
   text-align: center;
   font-family: Arial, sans-serif;
- 
 `;
 
 const Container = styled.div`
-   padding: 0 70px;
+  padding: 0 20px;
   max-width: 1200px;
   margin: 0 auto;
 `;
 
 const TopSection = styled.div`
   display: flex;
-  flex-wrap: wrap;
-  align-items: center;
+  justify-content: flex-start;
   padding: 20px 0;
   border-bottom: 1px solid #e0e0e0;
 `;
@@ -29,6 +28,7 @@ const CountrySelector = styled.div`
   display: flex;
   align-items: center;
   margin-bottom: 10px;
+  flex: 1;
 `;
 
 const CountryFlag = styled.img`
@@ -39,20 +39,24 @@ const CountryFlag = styled.img`
 
 const Links = styled.div`
   display: flex;
-  /* justify-content: flex-start; */
-  /* flex-direction: column; */
+  flex-wrap: wrap;
   gap: 10px;
+  flex: 2;
+  @media(max-width: 480px){
+    flex-direction: column;
+  }
 `;
 
 const LinkItem = styled.div`
   display: flex;
   align-items: center;
-  font-size: 14px;
+  font-size: 12px;
 
   a {
     text-decoration: none;
     color: black;
     margin-right: 5px;
+
     &:hover {
       text-decoration: underline;
     }
@@ -63,12 +67,23 @@ const LinkItem = styled.div`
   }
 `;
 
+const SecondSection = styled.div`
+  display: flex;
+  gap: 20px;
+  padding: 20px 0;
+  border-bottom: 1px solid #e0e0e0;
+`;
+
 const MiddleSection = styled.div`
   display: flex;
+  flex-wrap: wrap;
   justify-content: space-between;
   align-items: center;
   padding: 20px 0;
   border-bottom: 1px solid #e0e0e0;
+  @media(max-width: 600px){
+    flex-direction: column;
+  }
 `;
 
 const Guarantee = styled.div`
@@ -76,7 +91,8 @@ const Guarantee = styled.div`
   align-items: center;
   justify-content: center;
   font-weight: bold;
-
+  flex: 1;
+  margin-bottom: 10px;
 `;
 
 const GuaranteeIcon = styled.span`
@@ -88,7 +104,7 @@ const PaymentMethods = styled.div`
   justify-content: center;
   flex-wrap: wrap;
   gap: 10px;
-
+  flex: 1;
 `;
 
 const PaymentIcon = styled.img`
@@ -98,22 +114,16 @@ const PaymentIcon = styled.img`
 
 const BottomSection = styled.div`
   padding: 20px 0;
-`;
-
-const SecondSection = styled.div`
-  display: flex;
-  justify-content: flex-end;
-  flex-wrap: wrap;
-  padding: 20px 0;
-  border-bottom: 1px solid #e0e0e0;
+  
 `;
 
 const Disclaimer = styled.p`
   font-size: 12px;
   color: #666;
-  /* max-width: 600px; */
   margin: 20px auto;
   line-height: 1.4;
+  text-align: start;
+ 
 `;
 
 const Copyright = styled.p`
@@ -121,6 +131,9 @@ const Copyright = styled.p`
   color: white;
   padding: 10px 0;
   margin: 0;
+  @media(max-width: 480px){
+    font-size: 10px;
+  }
 `;
 
 const Footer = () => {
@@ -128,13 +141,12 @@ const Footer = () => {
     <FooterContainer>
       <NewsLetter />
       <SocialMedia />
+      <CountryList/>
       <Container>
         <TopSection>
-          <CountrySelector>
-            <CountryFlag src="https://upload.wikimedia.org/wikipedia/en/4/41/Flag_of_India.svg" alt="India Flag" />
-          </CountrySelector>
-          <Links>
-            <LinkItem>
+          <Links >
+            <LinkItem >
+                <CountryFlag src="https://upload.wikimedia.org/wikipedia/en/4/41/Flag_of_India.svg" alt="India Flag" />
               <a href="#">INDIA</a>
               <MdKeyboardArrowUp />
             </LinkItem>
@@ -150,9 +162,10 @@ const Footer = () => {
               <a href="#">ORDER STATUS INQUIRY? - CLICK HERE!</a>
             </LinkItem>
           </Links>
+
         </TopSection>
         <SecondSection>
-          <Links>
+          <Links style={{  justifyContent:' flex-end'}}>
             <LinkItem>
               <a href="#">STORE LOCATOR</a>
             </LinkItem>
@@ -188,7 +201,7 @@ const Footer = () => {
         </BottomSection>
       </Container>
       <Copyright>
-        Copyright ©2020 Luxottica group. All Rights Reserved
+        Copyright ©2024 Luxottica Group. All Rights Reserved
       </Copyright>
     </FooterContainer>
   );

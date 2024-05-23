@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 
 const Container = styled.div`
@@ -6,14 +7,26 @@ const Container = styled.div`
     justify-content: space-between;
     width: 80%;
     margin: 0 auto;
-
     padding: 20px;
- 
     font-family: Arial, sans-serif;
+    hr{
+        margin: 20px 0px ;
+        display:none;
+        border: 1.3px solid #e0e0e0;
+    }
+    @media (max-width: 600px) {
+        flex-direction: column;
+        hr{
+            display:block;
+        }
+    }
 `;
 
 const LoginForm = styled.form`
     width: 50%;
+    @media (max-width: 600px) {
+        width: 98%;
+    }
 `;
 
 const Heading = styled.h6`
@@ -91,6 +104,11 @@ const Sidebar = styled.div`
     display: flex;
     flex-direction: row;
     justify-content: flex-end;
+    @media (max-width: 600px) {
+        width: 100%;
+        padding:0;
+        justify-content: flex-start;
+    }
 `;
 
 const SidebarHeading = styled.h3`
@@ -138,6 +156,7 @@ const Login = () => {
         }
         setErrors(errors);
         // Submit logic...
+        console.log(email,password)
     };
 
     return (
@@ -177,9 +196,10 @@ const Login = () => {
                 <Button type="submit">LOG IN</Button>
 
                 <div style={{marginTop:'60px'}}>
-                    <h3>Not a member? <span>CREATE AN ACCOUNT</span></h3>
+                    <h3>Not a member? <Link to="/sign-up">CREATE AN ACCOUNT</Link></h3>
                 </div>
             </LoginForm>
+            <hr />
             <Sidebar>
                 <SidebarList>
                 <SidebarHeading>POPULAR LINKS</SidebarHeading>
