@@ -124,13 +124,11 @@ export const navigation = {
     },
   ],
   pages: [
-    // { name: 'Company', id: '/' },
     { name: "NEW ARRIVALS", id: "/whyAMEB", href: "/" },
     { name: "SUNGLASSES", id: "/Exams", href: "/" },
     { name: "EYEGLASSES", id: "/shops", href: "/shops" },
     { name: "GIFTCARD", id: "/news", href: "/" },
     { name: "PROMO", id: "/Resources", href: "/" },
     { name: "PRISCRIPTION", id: "/projects", href: "/" },
-    // { name: "Awards", id: "/awards", href: "/" },
   ],
 };
