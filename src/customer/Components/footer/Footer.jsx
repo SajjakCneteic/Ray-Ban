@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { MdKeyboardArrowUp } from "react-icons/md";
 import styled from 'styled-components';
 import SocialMedia from './SocialMedia';
@@ -137,17 +137,19 @@ const Copyright = styled.p`
 `;
 
 const Footer = () => {
+  const [countryShow,SetCountryShow] = useState(false)
+  console.log(countryShow)
   return (
     <FooterContainer>
       <NewsLetter />
       <SocialMedia />
-      <CountryList/>
+      <CountryList show={countryShow}/>
       <Container>
         <TopSection>
           <Links >
-            <LinkItem >
+            <LinkItem onClick={()=>SetCountryShow(!countryShow)}>
                 <CountryFlag src="https://upload.wikimedia.org/wikipedia/en/4/41/Flag_of_India.svg" alt="India Flag" />
-              <a href="#">INDIA</a>
+              <p>INDIA</p>
               <MdKeyboardArrowUp />
             </LinkItem>
             <LinkItem>

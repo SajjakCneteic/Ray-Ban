@@ -27,7 +27,7 @@ const Homepage = () => {
   //   console.log("this is landing page", topProducts);
   return (
     <MainContainer>
-      <div className="firstbanner">
+      <div className="firstbanner" style={{marginBottom:'30px'}}>
         <img src="https://india.ray-ban.com/media/wysiwyg/Banner_7__1.jpg" alt="" />
       </div>
       <div>
