@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useLocation } from 'react-router-dom';
 import styled from 'styled-components';
 
 const Container = styled.div`
@@ -140,7 +141,8 @@ const RegisterPage = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [errors, setErrors] = useState({});
-
+    const location = useLocation();
+console.log(location.pathname)
     const handlePasswordVisibilityToggle = () => {
         setShowPassword(!showPassword);
     };
@@ -221,7 +223,7 @@ const RegisterPage = () => {
                 <ForgotPassword>
                     <ForgotPasswordLink href="#">Forgot Password?</ForgotPasswordLink>
                 </ForgotPassword>
-                <Button type="submit">LOG IN</Button>
+                <Button type="submit">REGISTER</Button>
 
                 <div style={{marginTop:'60px'}}>
                     <h3>Not a member? <span>Already a member? LOGIN</span></h3>
@@ -231,7 +233,11 @@ const RegisterPage = () => {
             <Sidebar>
                 <SidebarList>
                 <SidebarHeading>POPULAR LINKS</SidebarHeading>
-                    <SidebarListItem><SidebarLink href="#">REGISTER</SidebarLink></SidebarListItem>
+                <SidebarListItem>
+  <SidebarLink href="#" style={{fontStyle: location.pathname === "/sign-up" ? "underline" : "normal"}}>
+    REGISTER
+  </SidebarLink>
+</SidebarListItem>
                     <SidebarListItem><SidebarLink href="#">MY ORDERS</SidebarLink></SidebarListItem>
                     <SidebarListItem><SidebarLink href="#">MY RETURNS</SidebarLink></SidebarListItem>
                     <SidebarListItem><SidebarLink href="#">CHECK GIFT CARD BALANCE</SidebarLink></SidebarListItem>

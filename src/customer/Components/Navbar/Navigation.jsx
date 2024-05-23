@@ -157,7 +157,7 @@ const Eyeglasses ={
   };
 
   return (
-    <div className="bg-white pb-10">
+    <div className="bg-white pb-4">
       {/* Mobile menu */}
       <Transition.Root show={open} as={Fragment}>
         <Dialog as="div" className="relative z-40 lg:hidden" onClose={setOpen}>
@@ -301,7 +301,7 @@ setIsOpen(true)
                   <img
                     src="https://india.ray-ban.com/static/version1715928826/frontend/Aceturtle/Rayban_new/en_US/images/logo.svg"
                     alt="Shopwithzosh"
-                    className="h-20 w-auto"
+                    className="h-8 w-auto"
                     style={{ marginTop:10, height: 100, width: 110 }}
                   />
                 </Link>
