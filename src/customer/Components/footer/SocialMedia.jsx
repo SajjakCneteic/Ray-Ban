@@ -7,6 +7,9 @@ const SocialMediaBar = styled.div`
   display: flex;
   justify-content: flex-end;
   align-items: center;
+  @media(max-width: 600px){
+    justify-content: center;
+  }
 `;
 
 const SocialMediaLink = styled.a`

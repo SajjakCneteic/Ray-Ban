@@ -33,6 +33,9 @@ const Homepage = () => {
       <div>
         <Carousel/>
       </div>
+      <div style={{margin: '30px 0',textAlign:'center',fontSize:'23px',fontWeight:'800'}}>
+        <h1>THIS IS WHAT DISRUPTION LOOKS LIKE</h1>
+      </div>
       <div className="flexdiv">
         <div className="hover">
           <img src="https://india.ray-ban.com/media/wysiwyg/Item.jpg" alt="" />
