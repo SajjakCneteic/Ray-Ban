@@ -24,6 +24,7 @@ import DropDown from "./DropDown";
 import MenuOpen from "./MenuOpen";
 import OpenHamburger from "./OpenSunglasses";
 import OpenSunglasses from "./OpenSunglasses";
+import CustomAccordion from "./CustomAccordian";
 
 // Utility function to join class names conditionally
 function classNames(...classes) {
@@ -244,7 +245,8 @@ const Eyeglasses ={
     </div>
                 {/* <OpenHumburger drawer={isOpen} setDrawer={setIsOpen}/> */}
 {/*  CustomAccordion = ({drawer,setDrawer,sunglasses,eyeGlasses}) */}
-<OpenHamburger drawer={isOpen} setDrawer={setIsOpen} sunglasses={Sunglasses} eyeGlasses={Eyeglasses} pages={navigation.pages}/>
+{/* <OpenHamburger drawer={isOpen} setDrawer={setIsOpen} sunglasses={Sunglasses} eyeGlasses={Eyeglasses} pages={navigation.pages}/> */}
+<CustomAccordion/>
                 {/* Sign in option for mobile menu */}
                 <div className="space-y-6 border-t border-gray-200 px-4 py-6">
                   <div className="flow-root">

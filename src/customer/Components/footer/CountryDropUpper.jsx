@@ -5,6 +5,7 @@ const CountryListContainer = styled.div`
   display: flex;
   flex-wrap: wrap;
   padding: 20px;
+  
   position:'absolute';
   top:100px;
 `;

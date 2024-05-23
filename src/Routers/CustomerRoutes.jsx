@@ -39,8 +39,10 @@ const CustomerRoutes = () => {
 
     <ThemeProvider theme={customerTheme}>
       <HeaderTop/>
+
     {/* {showNavigation && <Navigation />} */}
     <Navigation />
+
      <Routes>
      <Route path="/sign-in" element={<Login/>}></Route>
      <Route path="/sign-up" element={<RegisterPage/>}></Route>
