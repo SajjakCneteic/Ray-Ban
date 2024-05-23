@@ -36,14 +36,14 @@ const Homepage = () => {
       <div style={{margin: '30px 0',textAlign:'center',fontSize:'23px',fontWeight:'800'}}>
         <h1>THIS IS WHAT DISRUPTION LOOKS LIKE</h1>
       </div>
-      <div className="flexdiv">
+      <FlexDiv>
         <div className="hover">
           <img src="https://india.ray-ban.com/media/wysiwyg/Item.jpg" alt="" />
         </div>
         <div className="hover">
           <img src="https://india.ray-ban.com/media/wysiwyg/Item1.jpg" alt="" />
         </div>
-      </div>
+      </FlexDiv>
 
       <div className="firstbanner">
         <img src="https://india.ray-ban.com/media/wysiwyg/home/Banner_4_.jpg" alt="" />
@@ -63,19 +63,26 @@ const MainContainer = styled.div`
     height: 100%;
     width:100%
   }
-}
-.flexdiv {
-  display: flex;
-  /* gap: 20px; */
-  margin-bottom: 50px;
+  
 }
 
-.flexdiv .hover {
-  transition: filter 0.3s ease; /* Smooth transition for the hover effect */
-}
-
-.flexdiv .hover:hover {
-  filter: brightness(0.8); /* Adjust the brightness to make the image slightly darker */
-}
 
 `
+const FlexDiv = styled.div`
+ display: flex;
+  flex-direction: row;
+  margin-bottom: 50px;
+  @media(max-width: 480px){
+    flex-direction: column;
+    margin-bottom: 10px;
+  }
+  .hover{
+    transition: filter 0.3s ease;
+  }
+
+  .hover:hover {
+    filter: brightness(0.8); /* Adjust the brightness to make the image slightly darker */
+  }
+`
+
+
