@@ -17,7 +17,7 @@ const Content = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  @media (max-width: 600px) {
+  @media (max-width: 1000px) {
     flex-direction: column;
   }
 `;
@@ -50,52 +50,41 @@ const Text = styled.div`
 
 const Form = styled.form`
   display: flex;
+  flex-direction: row;
   align-items: center;
-  @media (max-width: 768px) {
-    flex-direction: column;
-    width: 100%;
-  }
-  @media (max-width: 600px) {
-    flex-direction: column;
-    width: 100%;
-  }
+  padding: 20px;
+
+  border-radius: 10px;
+
+  /* max-width: 400px; */
+  margin: 0 auto;
 `;
 
 const Input = styled.input`
+  width: 100%;
   padding: 10px;
+  margin: 10px 0;
+  border: 1px solid #ccc;
+  border-radius: 5px;
   font-size: 16px;
-  border: 1px solid #000;
-  color: #000;
-  border-radius: 4px 0 0 4px;
-  outline: none;
-  @media (max-width: 600px) {
-    width: 100%;
-    border-radius: 4px;
-    margin-bottom: 10px;
-  }
 `;
-
 const Button = styled.button`
   padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  background-color: #080808;
+  color: white;
   font-size: 16px;
-  border: 1px solid #000;
-  border-left: none;
-  display:flex-box;
-  background-color: #000;
-  color: #fff;
-  border-radius: 0 4px 4px 0;
+  line-height: 1.5; /* Ensure the text is vertically centered */
   cursor: pointer;
-  outline: none;
-  transition: background-color 0.3s ease;
+  transition: background-color 0.3s;
+  text-align: center; /* Center the text horizontally */
+  white-space: nowrap; /* Prevent text from wrapping to a new line */
+
   &:hover {
-    background-color: #555;
+    background-color: #222223;
   }
-  @media (max-width: 600px) {
-    width: calc(100% - 20px);
-    border-radius: 4px;
-    border-left: 1px solid #000;
-  }
-`;
+`
 
 const Disclaimer = styled.p`
   font-size: 12px;

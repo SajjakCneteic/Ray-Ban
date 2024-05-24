@@ -63,7 +63,7 @@ const NextArrow = styled(Arrow)`
   right: 10px;
 `;
 
-const Carousel = () => {
+const Carousel = ({text}) => {
   const settings = {
     infinite: true,
     speed: 1500,
@@ -95,7 +95,8 @@ const Carousel = () => {
         {products.map((product) => (
 
           <ProductCard key={product.id}>
-            <h3 style={{ color: 'red' ,position:'absolute',top:'10px',left:'35%'}}>New Arrivals</h3>
+
+            {text &&<h3 style={{ color: 'red' ,position:'absolute',top:'10px',left:'35%'}}>New Arrivals</h3>}
 
             <img src={product.image} alt={product.name} />
             <p>{product.name}</p>

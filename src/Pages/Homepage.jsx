@@ -31,7 +31,7 @@ const Homepage = () => {
         <img src="https://india.ray-ban.com/media/wysiwyg/Banner_7__1.jpg" alt="" />
       </div>
       <div>
-        <Carousel/>
+        <Carousel text={'New Arrivals'}/>
       </div>
       <div style={{margin: '30px 0',textAlign:'center',fontSize:'23px',fontWeight:'800'}}>
         <h1>THIS IS WHAT DISRUPTION LOOKS LIKE</h1>
