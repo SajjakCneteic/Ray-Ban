@@ -8,23 +8,30 @@ import {
 } from "@heroicons/react/24/outline";
 
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import { Avatar, Button, Menu, MenuItem } from "@mui/material";
+import { Avatar, Button, Menu, MenuItem, Slide } from "@mui/material";
 import { navigation } from "../../../config/navigationMenu";
-import AuthModal from "../Auth/AuthModal";
+// import AuthModal from "../Auth/AuthModal";
 import { useDispatch, useSelector } from "react-redux";
 import { grey } from "@mui/material/colors";
-import { getUser, logout } from "../../../Redux/Auth/Action";
+// import { getUser, logout } from "../../../Redux/Auth/Action";
 import { getCart } from "../../../Redux/Customers/Cart/Action";
-import menuItemsData from "./data.json";
-import Menuitems from "../dropdown/Menuitems";
+// import menuItemsData from "./data.json";
+// import Menuitems from "../dropdown/Menuitems";
 import "../dropdown/dropdown.css";
 import { logoutCustomer } from "../../../action/Customer";
-import logo from "../../../logos/111.png";
+// import logo from "../../../logos/111.png";
 import DropDown from "./DropDown";
 import MenuOpen from "./MenuOpen";
-import OpenHamburger from "./OpenSunglasses";
-import OpenSunglasses from "./OpenSunglasses";
+// import OpenHamburger from "./OpenSunglasses";
+// import OpenSunglasses from "./OpenSunglasses";
 import CustomAccordion from "./CustomAccordian";
+import ShoppingCart, { EmptyCart } from "./ShoppingCartModel";
+import Collapse from '@mui/material/Collapse';
+
+
+
+
+// export default CartButton;
 
 // Utility function to join class names conditionally
 function classNames(...classes) {
@@ -48,6 +55,11 @@ export default function Navigation() {
 // Initialize menuItemsData as null or an empty object
 const [menuItemsData, setmenuItemsData] = useState(null); // or useState({})
 const [selectedPage, setSelectedPage] = useState(null);
+const [openCart, setOpenCart] = useState(false);
+// const [showDropdown, setShowDropdown] = useState(false);
+// const [menuItemsData, setMenuItemsData] = useState(null);
+const [collapseKey, setCollapseKey] = useState(0);
+
 
 const handlePageClick = (pageName) => {
   setSelectedPage(pageName === selectedPage ? null : pageName);
@@ -101,7 +113,20 @@ const Eyeglasses ={
 ]
 }
 
+// const toggleDropdown = (pageName, data) => {
+//   if (pageName === "SUNGLASSES" ) {
+//     setMenuItemsData(Sunglasses);
+//     setShowDropdown(true);
+//   } else if( pageName === "EYEGLASSES"){
+//     setMenuItemsData(Eyeglasses);
+//     setShowDropdown(true);
 
+//   }else {
+//     setMenuItemsData(null);
+//     setShowDropdown(false);
+//   }
+//   setCollapseKey((prevKey) => prevKey + 1); // Update key to trigger remount
+// };
 
   // Fetch user and cart data if JWT is present
   useEffect(() => {
@@ -150,7 +175,12 @@ const Eyeglasses ={
     handleCloseUserMenu();
     dispatch(logoutCustomer());
   };
-
+const handleOpenCart = () => {
+  setOpenCart(true);
+}
+const handleCloseCart = () => {
+  setOpenCart(false);
+}
   // Navigate to user's orders
   const handleMyOrderClick = () => {
     handleCloseUserMenu();
@@ -158,7 +188,7 @@ const Eyeglasses ={
   };
 
   return (
-    <div className="bg-white pb-4">
+    <div className="bg-white pb-4 z-999">
       {/* Mobile menu */}
       <Transition.Root show={open} as={Fragment}>
         <Dialog as="div" className="relative flex w-full max-w-md flex-col overflow-y-auto bg-white pb-12 shadow-xl" onClose={setOpen}>
@@ -325,8 +355,8 @@ setIsOpen(true)
                   ))}
                 </div>
               </Popover.Group> */}
-<Popover.Group className="hidden w-1/2  lg:ml-8 lg:block lg:self-stretch z-10 relative">
-  <div className="flex justify-around  h-full space-x-8">
+ <Popover.Group className="hidden w-1/2  lg:ml-8 lg:block lg:self-stretch z-10 relative">
+  <div className="flex   h-full space-x-8">
     {navigation.pages.map((page) => (
       <a
         key={page.name}
@@ -355,20 +385,51 @@ setIsOpen(true)
       </a>
     ))}
     {/* Show dropdown if page name is "sunGlasses" or "eyeglasses" */}
+   
     {showDropdown && menuItemsData && (
       <div
         onMouseLeave={() => setShowDropdown(false)}
-        className="absolute top-10 right-10% w-[70vw] h-[50vh] border-1 border-red-500"
+        className="absolute top-10 right-30% w-[70vw] h-[50vh] border-1 border-red-500"
         style={{ zIndex: 1000 }}
       >
         {/* Log menuItemsData to verify its contents */}
-        {console.log("menuItemsData", menuItemsData)}
-        <DropDown data={menuItemsData} />
+        {/* {console.log("menuItemsData", menuItemsData)} */}
+        
+        <DropDown data={menuItemsData} showDropdown={showDropdown} />
       </div>
     )}
   </div>
-</Popover.Group>
-
+</Popover.Group> 
+{/* <Popover.Group className="hidden w-1/2 lg:ml-8 lg:block lg:self-stretch z-10 relative">
+      <div className="flex justify-around h-full space-x-8 relative">
+        {navigation.pages.map((page) => (
+          <div
+            key={page.name}
+            className="relative flex items-center text-sm font-medium text-black hover:text-blue-800"
+            onMouseEnter={(e) => toggleDropdown(page.name, { top: e.clientY, left: e.clientX })}
+            onMouseLeave={() => setShowDropdown(false)}
+          >
+               <div
+              className="text-black hover:text-blue-800"
+              style={{ color: page.name === "PROMO" ? "red" : "black" }}
+            >
+              <a href={page.href}>{page.name}</a>
+            </div>
+            
+          </div>
+        ))}
+        {/* Show dropdown if page name is "SUNGLASSES" or "EYEGLASSES" 
+        <Collapse key={collapseKey} in={showDropdown} timeout="100" unmountOnExit>
+          <div
+            style={{ top: 10, left: 10, zIndex: 1000 }}
+            onMouseLeave={() => setShowDropdown(false)}
+            className="absolute w-[70vw] h-[50vh] border-1 border-red-500"
+          >
+            <DropDown data={menuItemsData} showDropdown={showDropdown} />
+          </div>
+        </Collapse>
+      </div>
+    </Popover.Group> */}
               <div className="ml-auto flex items-center">
                 {/* User authentication and menu */}
                 <div className="hidden lg:flex lg:flex-1 lg:items-center lg:justify-end lg:space-x-6">
@@ -414,7 +475,7 @@ setIsOpen(true)
                     >
                       <img src="image-3.svg" alt="person" />
                     </Button>
-                    {openAuthModal &&<div className="absolute  top-12 right-20 z-990"> <MenuOpen handleClose={handleClose} /></div>}
+                    {openAuthModal &&<div className="absolute  top-16 right-55 z-10"> <MenuOpen handleClose={handleClose} /></div>}
                     </>)}
                 </div>
 
@@ -431,7 +492,7 @@ setIsOpen(true)
                     />
                   </p>
                 </div>
- {/* Search button */}
+ {/* WishList button */}
  <div className="flex lg:ml-6">
                   <p className="p-2 text-black hover:text-blue-500">
                     <span className="sr-only">wishlist</span>
@@ -444,10 +505,12 @@ setIsOpen(true)
                     />
                   </p>
                 </div>
+                {/* CartButton = ({ newUser, cartItems }) */}
+                <CartButton newUser={newUser} cartItems={cartItems} />
                 {/* Cart button */}
-                <div className="ml-4 flow-root lg:ml-6">
+                {/* <div className="ml-4 flow-root lg:ml-6">
                   <Button
-                    onClick={() => navigate("/cart")}
+                        onClick={handleOpenCart}
                     className="group -m-2 flex items-center p-2"
                   >
                     <ShoppingBagIcon
@@ -461,7 +524,8 @@ setIsOpen(true)
                     </span>
                     <span className="sr-only">items in cart, view bag</span>
                   </Button>
-                </div>
+                  {openCart && (cartItems?.cartItems?.cart?.totalQuantity!==undefined?<div className="absolute  top-16 right-20 z-10"> <EmptyCart handleCloseCart={handleCloseCart} /></div> : <div className="absolute  top-16 right-20 z-10"> <ShoppingCart handleCloseCart={handleCloseCart} /></div>)}
+                </div> */}
               </div>
             </div>
           </div>
@@ -494,4 +558,38 @@ setIsOpen(true)
   );
 }
 
+const CartButton = ({ newUser, cartItems }) => {
+  const [openCart, setOpenCart] = useState(false);
 
+  const handleOpenCart = () => setOpenCart(!openCart);
+  const handleCloseCart = () => setOpenCart(false);
+
+  return (
+    <div className="ml-4 flow-root lg:ml-6">
+      <Button
+        onClick={handleOpenCart}
+        className="group -m-2 flex items-center p-2"
+      >
+        <ShoppingBagIcon
+          className="h-6 w-6 flex-shrink-0 text-black group-hover:text-gray-500"
+          aria-hidden="true"
+        />
+        <span className="ml-2 text-sm font-medium text-black group-hover:text-gray-800">
+          {newUser?.newUser?.user?.name
+            ? cartItems?.cartItems?.cart?.totalQuantity
+            : 0}
+        </span>
+        <span className="sr-only">items in cart, view bag</span>
+      </Button>
+      <Slide direction="left" in={openCart} mountOnEnter unmountOnExit>      
+        <div className="absolute top-16 right-20 z-10">
+          {cartItems?.cartItems?.cart?.totalQuantity !== undefined ? (
+            <EmptyCart handleCloseCart={handleCloseCart} />
+          ) : (
+            <ShoppingCart handleCloseCart={handleCloseCart} />
+          )}
+        </div>
+      </Slide>
+    </div>
+  );
+};

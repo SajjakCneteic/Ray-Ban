@@ -124,8 +124,8 @@ export const navigation = {
     },
   ],
   pages: [
-    { name: "NEW ARRIVALS", id: "/shops", href: "/" },
-    { name: "SUNGLASSES", id: "/Exams", href: "/" },
+    { name: "NEW ARRIVALS", id: "/shops", href: "/shops" },
+    { name: "SUNGLASSES", id: "/Exams", href: "/shops" },
     { name: "EYEGLASSES", id: "/shops", href: "/shops" },
     // { name: "GIFTCARD", id: "/news", href: "/" },
     { name: "PROMO", id: "/Resources", href: "/" },
