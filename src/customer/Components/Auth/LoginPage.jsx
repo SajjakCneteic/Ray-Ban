@@ -1,6 +1,8 @@
-import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import React, { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { Link, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
+import { getCustomerNew } from '../../../action/Customer';
 
 const Container = styled.div`
     display: flex;
@@ -139,25 +141,67 @@ const Login = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [errors, setErrors] = useState({});
-
+    const navigate = useNavigate();
+    const dispatch = useDispatch();
+    const jwt = localStorage.getItem("jwt");
+    const [openSnackBar, setOpenSnackBar] = useState(false);
+    const { auth, newUser } = useSelector((store) => store);
+  
+    const handleCloseSnakbar = () => setOpenSnackBar(false);
+    useEffect(() => {
+      // if (jwt) {
+      //   dispatch(getUser(jwt));
+      // }
+    }, [jwt]);
+  
+    useEffect(() => {
+      if (newUser?.newUser?.user || auth.error) setOpenSnackBar(true);
+    }, [newUser?.newUser?.user]);
+  
+    const handleSubmit = (event) => {
+      event.preventDefault();
+      // Basic validation
+      const errors = {};
+      if (!email) {
+          errors.email = 'Email is required';
+      }
+      if (!password) {
+          errors.password = 'Password is required';
+      }
+      setErrors(errors);
+      // Submit logic...
+      console.log(email,password)
+      const data = new FormData(event.currentTarget);
+  
+      const userData = {
+        email: data.get("email"),
+        password: data.get("password"),
+      };
+      // console.log("login user", userData);
+  
+      // dispatch(login(userData));
+      dispatch(getCustomerNew(userData));
+    };
+  
+    // console.log("this is state", newUser?.newUser?.user?.name);
     const handlePasswordVisibilityToggle = () => {
         setShowPassword(!showPassword);
     };
 
-    const handleSubmit = (e) => {
-        e.preventDefault();
-        // Basic validation
-        const errors = {};
-        if (!email) {
-            errors.email = 'Email is required';
-        }
-        if (!password) {
-            errors.password = 'Password is required';
-        }
-        setErrors(errors);
-        // Submit logic...
-        console.log(email,password)
-    };
+    // const handleSubmit = (e) => {
+    //     e.preventDefault();
+    //     // Basic validation
+    //     const errors = {};
+    //     if (!email) {
+    //         errors.email = 'Email is required';
+    //     }
+    //     if (!password) {
+    //         errors.password = 'Password is required';
+    //     }
+    //     setErrors(errors);
+    //     // Submit logic...
+    //     console.log(email,password)
+    // };
 
     return (
 

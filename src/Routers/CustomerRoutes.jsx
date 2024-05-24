@@ -24,6 +24,8 @@ import Login from "../customer/Components/Auth/LoginPage";
 import RegisterPage from "../customer/Components/Auth/RegisterPage";
 
 import HeaderTop from "../customer/Components/Navbar/HeaderTop";
+import ShoppingCart from "../customer/Components/Navbar/ShoppingCartModel";
+import NewArrivals from "../Pages/NewArrivals";
 
 
 const CustomerRoutes = () => {
@@ -43,7 +45,7 @@ const CustomerRoutes = () => {
      <Routes>
      <Route path="/sign-in" element={<Login/>}></Route>
      <Route path="/sign-up" element={<RegisterPage/>}></Route>
-
+<Route path="/shopping-cart" element={<ShoppingCart/>}></Route>
      {/* <Route path="/register" element={<Homepage />}></Route> */}
 
         <Route path="/" element={<Homepage />}></Route>
@@ -60,7 +62,7 @@ const CustomerRoutes = () => {
         <Route path="/account/rate/:productId" element={<RateProduct />}></Route>
         <Route path="/checkout" element={<Checkout />}></Route>
         <Route path="/payment/:orderId" element={<PaymentSuccess />}></Route>
-        <Route path="/shops" element={<Product/>}></Route>
+        <Route path="/shops" element={<NewArrivals/>}></Route>
         <Route path="*" element={<NotFound/>} />
       </Routes>
       <Footer/>

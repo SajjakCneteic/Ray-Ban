@@ -1,4 +1,5 @@
-import { PrinterPosPause } from 'mdi-material-ui';
+import { Collapse } from '@mui/material';
+import { PrinterPosPause, Slide } from 'mdi-material-ui';
 import React from 'react';
 
 const sunglasses = [
@@ -94,7 +95,7 @@ const Sidebar = ({sidebarLinks}) => {
           ))}
         </ul>
         {sidebarLinks.frameStyle && (<>
-            <h2 className="font-bold mt-8 mb-2">Gift Card</h2>
+            <h2 className="font-bold mt-8 mb-2">Frame Style</h2>
         <hr />
        
             <ul className="space-y-2">
@@ -111,10 +112,10 @@ const Sidebar = ({sidebarLinks}) => {
   };
   
 
-const DropDown = ({data}) => {
-    const {sidebarData, mainContentData} = data
+const DropDown = ({data,showDropdown}) => {
+    const {sidebarData, mainContentData} = data;
   return (
-    <div className="flex flex-col mt-10 p-10 bg-white md:flex-row">
+    <div className="flex flex-col mt-10 p-10 border-1 bg-white md:flex-row">
       <Sidebar sidebarLinks={sidebarData}/>
       <MainContent data={mainContentData} />
     </div>
