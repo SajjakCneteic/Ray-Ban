@@ -4,6 +4,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import { getCustomerNew } from '../../../action/Customer';
 import { login } from '../../../Redux/Auth/Action';
+import { Toaster,toast } from 'react-hot-toast';
 
 const Container = styled.div`
     display: flex;
@@ -151,7 +152,7 @@ const Login = () => {
   
     const handleSubmit = async(event) => {
       event.preventDefault();
-      // Basic validation
+
       const errors = {};
       if (!email) {
           errors.email = 'Email is required';
@@ -160,16 +161,14 @@ const Login = () => {
           errors.password = 'Password is required';
       }
       setErrors(errors);
-      // Submit logic...
-      console.log(email,password)
+
       const data = new FormData(event.currentTarget);
-      console.log(data)
       const userData = {
         email: data.get("email"),
         password: data.get("password"),
       };
       try {
-          dispatch(login(userData,navigate));
+          dispatch(login(userData,navigate,toast));
       } catch (error) {
         console.log(error)
       }
@@ -189,6 +188,7 @@ const Login = () => {
     return (
 
         <Container>
+            <Toaster/>
             <LoginForm onSubmit={handleSubmit}>
                 <Heading>LOGIN </Heading>
                 <SubHeading>Log in with your account details.</SubHeading>

@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 import { useDispatch } from 'react-redux';
 import { register } from '../../../Redux/Auth/Action';
+import { Toaster } from 'react-hot-toast';
 
 const Container = styled.div`
     display: flex;
@@ -152,7 +153,7 @@ const RegisterPage = () => {
         setShowPassword(!showPassword);
     };
 
-    const handleSubmit = async(e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
         // Basic validation
         const errors = {};
@@ -182,17 +183,18 @@ const RegisterPage = () => {
             email: data.get("email"),
             password: data.get("password")
         };
-        console.log(userData)
+
         try {
             await dispatch(register(userData))
         } catch (error) {
-            
+
         }
     };
 
     return (
 
         <Container>
+            <Toaster />
             <LoginForm onSubmit={handleSubmit}>
                 <Heading>CREATE ACCOUNT</Heading>
 

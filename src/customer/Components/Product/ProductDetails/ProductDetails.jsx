@@ -7,6 +7,7 @@ import { receiveProductsById } from "../../../../action";
 import { Link, useParams } from "react-router-dom";
 import { AddItemToCartNew, getCartItems } from "../../../../action/cart";
 import { useDispatch, useSelector } from "react-redux";
+import { Toaster } from "react-hot-toast";
 
 export default function ProductDetails() {
   const [activeIndex, setActiveIndex] = useState(null);
@@ -73,6 +74,7 @@ console.log(cartItems)
 
   return (
     <div>
+      <Toaster/>
       <div style={{ display: 'flex', marginLeft: '20px', alignItems: 'center' }}>
         <div style={{ marginRight: '10px', textDecoration: 'underline', color: '#333' }}>
           Home

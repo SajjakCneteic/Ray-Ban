@@ -31,6 +31,7 @@ import MenuOpen from "./MenuOpen";
 import CustomAccordion from "./CustomAccordian";
 import ShoppingCart, { EmptyCart } from "./ShoppingCartModel";
 import Collapse from '@mui/material/Collapse';
+import { Toaster } from "react-hot-toast";
 
 
 
@@ -194,6 +195,7 @@ const handleCloseCart = () => {
   return (
     <div className="bg-white pb-4 z-999">
       {/* Mobile menu */}
+      <Toaster/>
       <Transition.Root show={open} as={Fragment}>
         <Dialog as="div" className="relative flex w-full max-w-md flex-col overflow-y-auto bg-white pb-12 shadow-xl" onClose={setOpen}>
           <Transition.Child

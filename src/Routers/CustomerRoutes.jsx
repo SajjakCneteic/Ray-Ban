@@ -27,6 +27,7 @@ import HeaderTop from "../customer/Components/Navbar/HeaderTop";
 import ShoppingCart from "../customer/Components/Navbar/ShoppingCartModel";
 import NewArrivals from "../Pages/NewArrivals";
 import SunglassClp from "../Pages/SunglassClp";
+import Profile from "../customer/Components/Auth/Profile";
 
 
 const CustomerRoutes = () => {
@@ -54,6 +55,7 @@ const CustomerRoutes = () => {
         <Route path="/about" element={<About />}></Route>
         <Route path="/privaciy-policy" element={<PrivacyPolicy />}></Route>
         <Route path="/sunglass-clp" element={<SunglassClp />}></Route>
+        <Route path="/my-account" element={<Profile />}></Route>
         <Route path="/terms-condition" element={<TearmsCondition />}></Route>
         <Route path="/contact" element={<Contact />}></Route>
         <Route path="/:lavelOne/:lavelTwo/:lavelThree" element={<Product />}></Route>
