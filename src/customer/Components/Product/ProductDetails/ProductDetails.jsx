@@ -1,10 +1,25 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { MdArrowForwardIos } from "react-icons/md";
+import { IoIosArrowDown } from "react-icons/io";
 import Carousel from "../../Carousel/Carousel";
+import { receiveProductsById } from "../../../../action";
+import { useParams } from "react-router-dom";
 
 export default function ProductDetails() {
   const [activeIndex, setActiveIndex] = useState(null);
+  const [productDetails, setProductDetails] = useState({})
+  // const {ProductId} = useParams()
+  const ProductId=58
+  console.log(productDetails)
+  useEffect(() => {
+  
+    receiveProductsById(ProductId).then((res) => {
+   
+      setProductDetails(res);
+    });
+  }, []);
+  console.log(ProductId)
 
   const handleToggle = (index) => {
     setActiveIndex(activeIndex === index ? null : index);
@@ -22,12 +37,12 @@ export default function ProductDetails() {
 
   return (
     <div>
-      <div style={{ display: 'flex', marginLeft: '20px',alignItems:'center' }}>
-        <div style={{ marginRight: '10px', textDecoration: 'underline',color:'#333' }}>
-          Home 
+      <div style={{ display: 'flex', marginLeft: '20px', alignItems: 'center' }}>
+        <div style={{ marginRight: '10px', textDecoration: 'underline', color: '#333' }}>
+          Home
         </div>
-        <div style={{color:'#333' }}><MdArrowForwardIos /></div>
-        <div style={{marginLeft:'10px',fontWeight:'bold'}}>ALICE</div>
+        <div style={{ color: '#333' }}><MdArrowForwardIos /></div>
+        <div style={{ marginLeft: '10px', fontWeight: 'bold' }}>{productDetails?.product.name}</div>
       </div>
       <MainContainer>
         <LeftDiv>
@@ -44,7 +59,7 @@ export default function ProductDetails() {
           {/* Mobile view details show after main image */}
           <StickyContainer className="pricedetails">
             <ProductInfo>
-              <ProductTitle>ALICE</ProductTitle>
+              <ProductTitle>{productDetails?.product.name}</ProductTitle>
               <ProductTagline>New Arrivals</ProductTagline>
             </ProductInfo>
             <SizeInfo>
@@ -66,13 +81,19 @@ export default function ProductDetails() {
             <Container>
               <InfoList>
                 <InfoItem onClick={() => handleToggle(0)}>
-                  <span>MANUFACTURING, PACKAGING AND IMPORT INFO</span>
-                  <span>&gt;</span>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', width: '100%' }}>
+                    <div>MANUFACTURING, PACKAGING AND IMPORT INFO</div>
+                    <div>{activeIndex === 0 ? <IoIosArrowDown /> : <MdArrowForwardIos />
+                    }</div>
+                  </div>
                   {activeIndex === 0 && <AccordionContent>Here is some information about manufacturing, packaging, and import.</AccordionContent>}
                 </InfoItem>
                 <InfoItem onClick={() => handleToggle(1)}>
-                  <span>SIZE</span>
-                  <span>&gt;</span>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', width: '100%' }}>
+                    <div>SIZE</div>
+                    <div>{activeIndex === 1 ? <IoIosArrowDown /> : <MdArrowForwardIos />
+                    }</div>
+                  </div>
                   {activeIndex === 1 && <AccordionContent>Here is some information about size.</AccordionContent>}
                 </InfoItem>
                 <InfoItem onClick={() => handleToggle(2)}>
@@ -171,13 +192,19 @@ export default function ProductDetails() {
             <Container>
               <InfoList>
                 <InfoItem onClick={() => handleToggle(0)}>
-                  <span>MANUFACTURING, PACKAGING AND IMPORT INFO</span>
-                  <span>&gt;</span>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', width: '100%' }}>
+                    <div>MANUFACTURING, PACKAGING AND IMPORT INFO</div>
+                    <div>{activeIndex === 0 ? <IoIosArrowDown /> : <MdArrowForwardIos />
+                    }</div>
+                  </div>
                   {activeIndex === 0 && <AccordionContent>Here is some information about manufacturing, packaging, and import.</AccordionContent>}
                 </InfoItem>
                 <InfoItem onClick={() => handleToggle(1)}>
-                  <span>SIZE</span>
-                  <span>&gt;</span>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', width: '100%' }}>
+                    <div>SIZE</div>
+                    <div>{activeIndex === 1 ? <IoIosArrowDown /> : <MdArrowForwardIos />
+                    }</div>
+                  </div>
                   {activeIndex === 1 && <AccordionContent>Here is some information about size.</AccordionContent>}
                 </InfoItem>
                 <InfoItem onClick={() => handleToggle(2)}>
@@ -185,7 +212,7 @@ export default function ProductDetails() {
                     <img src="https://img.icons8.com/ios-filled/50/000000/delivery.png" alt="Fast Delivery Icon" width="24" height="24" />
                     <span>FAST DELIVERY</span>
                   </InfoIcon>
-                  {activeIndex === 2 && <AccordionContent>Here is some information about fast delivery.</AccordionContent>}
+
                 </InfoItem>
               </InfoList>
             </Container>
@@ -200,8 +227,8 @@ export default function ProductDetails() {
           </StickyContainer>
         </RightDiv>
       </MainContainer>
-      <div><h1 style={{textAlign:'center',fontSize:'24px',fontWeight:'bold',margin:'20px 0',textDecoration:'underline'}}>YOU MAY ALSO LIKE</h1></div>
-      <Carousel/>
+      <div><h1 style={{ textAlign: 'center', fontSize: '24px', fontWeight: 'bold', margin: '20px 0', textDecoration: 'underline' }}>YOU MAY ALSO LIKE</h1></div>
+      <Carousel />
     </div>
   );
 }
@@ -454,7 +481,7 @@ const InfoList = styled.ul`
 
 const InfoItem = styled.li`
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     justify-content: space-between;
     align-items: flex-start;
     padding: 15px;

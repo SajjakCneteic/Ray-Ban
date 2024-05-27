@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
+import { useDispatch } from 'react-redux';
+import { register } from '../../../Redux/Auth/Action';
 
 const Container = styled.div`
     display: flex;
@@ -43,6 +45,7 @@ const SubHeading = styled.p`
 const Label = styled.label`
     display: block;
     /* font-weight: bold; */
+    margin-top: 20px;
     font-size:14px;
     color: #444;
 `;
@@ -50,7 +53,7 @@ const Label = styled.label`
 const Input = styled.input`
     width: 100%;
     padding: 10px;
-    margin-bottom: 20px;
+    margin-bottom: 5px;
     border: none;
     border-bottom: ${({ showBorder }) => (showBorder ? '1px solid #ddd' : 'none')};
     border-radius: 0;
@@ -138,51 +141,97 @@ const SidebarLink = styled.a`
 const RegisterPage = () => {
     const [showPassword, setShowPassword] = useState(false);
     const [email, setEmail] = useState('');
+    const [firstName, setFirstName] = useState('')
+    const [lastName, setLastName] = useState('')
     const [password, setPassword] = useState('');
+    const [phoneNumber, setPhoneNumber] = useState('');
     const [errors, setErrors] = useState({});
+    const dispatch = useDispatch()
 
     const handlePasswordVisibilityToggle = () => {
         setShowPassword(!showPassword);
     };
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async(e) => {
         e.preventDefault();
         // Basic validation
         const errors = {};
+        if (!firstName) {
+            errors.firstName = 'First Name is required';
+        }
+        if (!lastName) {
+            errors.lastName = 'Last Name is required';
+        }
+        if (!phoneNumber) {
+            errors.phoneNumber = 'Phone Number is required';
+        }
         if (!email) {
             errors.email = 'Email is required';
         }
         if (!password) {
             errors.password = 'Password is required';
         }
+
         setErrors(errors);
         // Submit logic...
+        const data = new FormData(e.currentTarget);
+        const userData = {
+            firstName: data.get("first_name"),
+            lastName: data.get("last_name"),
+            phoneNumber: data.get("phone_number"),
+            email: data.get("email"),
+            password: data.get("password")
+        };
+        console.log(userData)
+        try {
+            await dispatch(register(userData))
+        } catch (error) {
+            
+        }
     };
 
     return (
 
         <Container>
             <LoginForm onSubmit={handleSubmit}>
-                <Heading>CREATE ACCOUNT </Heading>
-                
+                <Heading>CREATE ACCOUNT</Heading>
+
                 <Label htmlFor="first_name">First Name</Label>
                 <Input
                     type="text"
                     id="first_name"
-                    name="name"
-                    // value={email}
-                    // onChange={(e) => setEmail(e.target.value)}
+                    name="first_name"
+                    value={firstName}
+                    onChange={(e) => setFirstName(e.target.value)}
                     showBorder={true}
                 />
+                {errors.firstName && <span style={{ color: 'red', fontSize: '10px' }}>{errors.firstName}</span>}
+
                 <Label htmlFor="last_name">Last Name</Label>
                 <Input
                     type="text"
                     id="last_name"
-                    name="name"
-                    // value={email}
-                    // onChange={(e) => setEmail(e.target.value)}
+                    name="last_name"
+                    value={lastName}
+                    onChange={(e) => setLastName(e.target.value)}
                     showBorder={true}
                 />
+                {errors.lastName && <span style={{ color: 'red', fontSize: '10px' }}>{errors.lastName}</span>}
+
+                <Label htmlFor="phone_number">Phone Number</Label>
+                <PasswordContainer>
+                    <Input
+
+                        id="phone_number"
+                        name="phone_number"
+                        value={phoneNumber}
+                        onChange={(e) => setPhoneNumber(e.target.value)}
+                        showBorder={true}
+                    />
+                    {errors.phoneNumber && <span style={{ color: 'red', fontSize: '10px' }}>{errors.phoneNumber}</span>}
+                </PasswordContainer>
+
+
                 <Label htmlFor="email">E-mail address</Label>
                 <Input
                     type="text"
@@ -192,53 +241,42 @@ const RegisterPage = () => {
                     onChange={(e) => setEmail(e.target.value)}
                     showBorder={true}
                 />
-                {errors.email && <span style={{ color: 'red' }}>{errors.email}</span>}
+                {errors.email && <span style={{ color: 'red', fontSize: '10px' }}>{errors.email}</span>}
+
                 <Label htmlFor="password">Password</Label>
                 <PasswordContainer>
                     <Input
-                       
+                        type={showPassword ? 'text' : 'password'}
                         id="password"
                         name="password"
                         value={password}
                         onChange={(e) => setPassword(e.target.value)}
                         showBorder={true}
                     />
-                 
+                    {errors.password && <span style={{ color: 'red', fontSize: '10px' }}>{errors.password}</span>}
                 </PasswordContainer>
-                <Label htmlFor="confirm_password">Confirm Password *</Label>
-                <PasswordContainer>
-                    <Input
-                        // type={showPassword ? 'text' : 'password'}
-                        id="password"
-                        name="password"
-                        value={password}
-                        onChange={(e) => setPassword(e.target.value)}
-                        showBorder={true}
-                    />
-                   
-                </PasswordContainer>
-                {errors.password && <span style={{ color: 'red' }}>{errors.password}</span>}
+
                 <ForgotPassword>
                     <ForgotPasswordLink href="#">Forgot Password?</ForgotPasswordLink>
                 </ForgotPassword>
+
                 <Button type="submit">CREATE ACCOUNT</Button>
 
-                <div style={{marginTop:'60px'}}>
+                <div style={{ marginTop: '60px' }}>
                     <h3>Not a member? <span>Already a member? LOGIN</span></h3>
                 </div>
             </LoginForm>
             <hr />
             <Sidebar>
                 <SidebarList>
-                <SidebarHeading>POPULAR LINKS</SidebarHeading>
-                <hr style={{color:"black"}}/>
+                    <SidebarHeading>POPULAR LINKS</SidebarHeading>
+                    <hr style={{ color: "black" }} />
                     <SidebarListItem><SidebarLink href="#">REGISTER</SidebarLink></SidebarListItem>
                     <SidebarListItem><SidebarLink href="#">MY ORDERS</SidebarLink></SidebarListItem>
                     <SidebarListItem><SidebarLink href="#">MY RETURNS</SidebarLink></SidebarListItem>
                     <SidebarListItem><SidebarLink href="#">CHECK GIFT CARD BALANCE</SidebarLink></SidebarListItem>
                 </SidebarList>
             </Sidebar>
-
         </Container>
     );
 }

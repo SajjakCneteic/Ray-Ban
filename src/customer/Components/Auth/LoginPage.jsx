@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import { getCustomerNew } from '../../../action/Customer';
+import { login } from '../../../Redux/Auth/Action';
 
 const Container = styled.div`
     display: flex;
@@ -95,7 +96,7 @@ const Button = styled.button`
     margin-left: auto; /* Aligns the button to the right */
 
     &:hover {
-        background-color: #red;
+        background-color: red;
     }
 `;
 
@@ -144,21 +145,11 @@ const Login = () => {
     const navigate = useNavigate();
     const dispatch = useDispatch();
     const jwt = localStorage.getItem("jwt");
-    const [openSnackBar, setOpenSnackBar] = useState(false);
     const { auth, newUser } = useSelector((store) => store);
+
+ 
   
-    const handleCloseSnakbar = () => setOpenSnackBar(false);
-    useEffect(() => {
-      // if (jwt) {
-      //   dispatch(getUser(jwt));
-      // }
-    }, [jwt]);
-  
-    useEffect(() => {
-      if (newUser?.newUser?.user || auth.error) setOpenSnackBar(true);
-    }, [newUser?.newUser?.user]);
-  
-    const handleSubmit = (event) => {
+    const handleSubmit = async(event) => {
       event.preventDefault();
       // Basic validation
       const errors = {};
@@ -172,36 +163,28 @@ const Login = () => {
       // Submit logic...
       console.log(email,password)
       const data = new FormData(event.currentTarget);
-  
+      console.log(data)
       const userData = {
         email: data.get("email"),
         password: data.get("password"),
       };
-      // console.log("login user", userData);
-  
-      // dispatch(login(userData));
-      dispatch(getCustomerNew(userData));
+      try {
+          dispatch(login(userData,navigate));
+      } catch (error) {
+        console.log(error)
+      }
+      finally{
+        auth.auth? navigate("/"): navigate("/sign-in")
+      
+      }
     };
   
-    // console.log("this is state", newUser?.newUser?.user?.name);
+//  show password start
     const handlePasswordVisibilityToggle = () => {
         setShowPassword(!showPassword);
     };
 
-    // const handleSubmit = (e) => {
-    //     e.preventDefault();
-    //     // Basic validation
-    //     const errors = {};
-    //     if (!email) {
-    //         errors.email = 'Email is required';
-    //     }
-    //     if (!password) {
-    //         errors.password = 'Password is required';
-    //     }
-    //     setErrors(errors);
-    //     // Submit logic...
-    //     console.log(email,password)
-    // };
+// show password end
 
     return (
 

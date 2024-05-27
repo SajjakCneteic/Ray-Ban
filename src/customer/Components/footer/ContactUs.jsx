@@ -5,8 +5,9 @@ import { RxCross1 } from "react-icons/rx";
 const Container = styled.div`
   width: 100%;
   display: flex;
-  flex-direction: column;
-  padding: 100px;
+  justify-content: space-between;
+  flex-direction: row;
+  padding: 50px;
   @media (max-width: 768px) {
     flex-direction: column;
     padding:5px;
