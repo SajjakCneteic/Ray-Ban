@@ -26,6 +26,7 @@ import RegisterPage from "../customer/Components/Auth/RegisterPage";
 import HeaderTop from "../customer/Components/Navbar/HeaderTop";
 import ShoppingCart from "../customer/Components/Navbar/ShoppingCartModel";
 import NewArrivals from "../Pages/NewArrivals";
+import SunglassClp from "../Pages/SunglassClp";
 
 
 const CustomerRoutes = () => {
@@ -52,6 +53,7 @@ const CustomerRoutes = () => {
         <Route path="/home" element={<Homepage />}></Route>
         <Route path="/about" element={<About />}></Route>
         <Route path="/privaciy-policy" element={<PrivacyPolicy />}></Route>
+        <Route path="/sunglass-clp" element={<SunglassClp />}></Route>
         <Route path="/terms-condition" element={<TearmsCondition />}></Route>
         <Route path="/contact" element={<Contact />}></Route>
         <Route path="/:lavelOne/:lavelTwo/:lavelThree" element={<Product />}></Route>

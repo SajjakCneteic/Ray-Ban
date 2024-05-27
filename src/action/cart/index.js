@@ -90,22 +90,23 @@ export const getCutomerOrdersNew = () => {
   };
 };
 
-export const AddItemToCartNew = (id) => {
-  let data = {
-    productVariantId: id,
-    quantity: 1,
-  };
+export const AddItemToCartNew = (data) => {
+  // let data = {
+  //   productVariantId: id,
+  //   quantity: 1,
+  // };
   // return (dispatch) => {
     return new Promise((resolve, reject) => {
       post("cart", data)
         .then((response) => {
           if (response.status === 200) {
-            // console.log("this getCutomerOrdersNew", response.data);
+          
             store.dispatch({
               type: "GET_ORDER_HISTORY_NEW",
               order: response?.data,
             });
             resolve(response.data);
+            console.log(response.data)
           }
         })
         .catch((error) => {
