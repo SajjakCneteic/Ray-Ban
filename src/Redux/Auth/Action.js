@@ -12,6 +12,7 @@ import {
   LOGOUT
 } from './ActionTypes';
 import api, { API_BASE_URL } from '../../config/api';
+import {toast} from "react-hot-toast"
 // Register action creators
 const registerRequest = () => ({ type: REGISTER_REQUEST });
 const registerSuccess = (user) => ({ type: REGISTER_SUCCESS, payload:user });
@@ -20,12 +21,15 @@ const registerFailure = error => ({ type: REGISTER_FAILURE, payload: error });
 export const register = userData => async dispatch => {
   dispatch(registerRequest());
   try {
-    const response=await axios.post(`${API_BASE_URL}/auth/signup`, userData);
+    const response=await axios.post(`${API_BASE_URL}/signup`, userData);
     const user = response.data;
     if(user.jwt) localStorage.setItem("jwt",user.jwt)
     console.log("registerr :",user)
+toast.success("User Account Created Successfully")
     dispatch(registerSuccess(user));
   } catch (error) {
+    toast.error("Error in User Account Creation")
+
     dispatch(registerFailure(error.message));
   }
 };
@@ -35,21 +39,24 @@ const loginRequest = () => ({ type: LOGIN_REQUEST });
 const loginSuccess = user => ({ type: LOGIN_SUCCESS, payload: user });
 const loginFailure = error => ({ type: LOGIN_FAILURE, payload: error });
 
-export const login = (userData,navigate) => async dispatch => {
+export const login = (userData,navigate,toast) => async dispatch => {
   dispatch(loginRequest());
   try {
     const response = await axios.post(`${API_BASE_URL}/login`, userData);
     const user = response.data;
+  
+
     if(user.token) localStorage.setItem("jwt",user.token)
-     
-    dispatch({ type: GET_USER_SUCCESS, payload: user });
+      dispatch({ type: GET_USER_SUCCESS, payload: user });
     dispatch(loginSuccess(user));
-    alert('Login Successfully')
     navigate('/')
+    toast.success("Login Successfull")
+
+    // alert('Login Successfully')
     
   } catch (error) {
     dispatch(loginFailure(error.message));
-    alert("Please check your email or password")
+    // toast.error("Please check your email or password")
   }
 };
 
@@ -78,6 +85,7 @@ export const getUser = (token) => {
 export const logout = (token) => {
     return async (dispatch) => {
       dispatch({ type: LOGOUT });
+      // toast.success("Logout Successfully")
       localStorage.clear();
     };
   };

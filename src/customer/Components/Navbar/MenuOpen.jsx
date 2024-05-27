@@ -40,6 +40,7 @@ const MenuOpen = ({ handleClose }) => {
   }, [jwt]);
   return (
     <Slide direction="down" in={true} mountOnEnter unmountOnExit>
+      
       <div className={sidebarClasses}>
         <ul className="space-y-4">
           <button className={closeButtonClasses} onClick={handleClose}>
@@ -62,7 +63,7 @@ const MenuOpen = ({ handleClose }) => {
 
 const MenuItem = ({ text }) => {
   const dispatch = useDispatch();
-  const linkClasses = "text-zinc-800 curser-pointer hover:bg-white-900 dark:text-zinc-300 font-semibold dark:hover:text-zinc-200";
+  const linkClasses = "text-zinc-800  hover:bg-white-900 dark:text-zinc-300 font-semibold dark:hover:text-zinc-200";
   if (text.name === "LOG OUT") {
     const handleDropdownItemClick = () => {
       dispatch(logout());
@@ -71,7 +72,7 @@ const MenuItem = ({ text }) => {
 
     return (
       <li>
-        <span className={linkClasses} onClick={handleDropdownItemClick}>{text.name}</span>
+        <span className={linkClasses} style={{cursor:"pointer"}} onClick={handleDropdownItemClick}>{text.name}</span>
       </li>
     );
   }
