@@ -72,7 +72,7 @@ const Cart = () => {
                 <tr>
                   <th className="text-left px-6 py-3 border-b">Product details</th>
                   <th className="text-left px-6 py-3 border-b">Quantity</th>
-                  <th className="text-left px-6 py-3 border-b">Delivery Date</th>
+                  <th className="text-left px-6 py-3 border-b hidden lg:table-cell">Delivery Date</th>
                   <th className="text-left px-6 py-3 border-b">Price</th>
                 </tr>
               </thead>
@@ -80,11 +80,11 @@ const Cart = () => {
                 {CartData.map((item, index) => (
                   <tr key={index}>
                     <td className="px-6 py-4 border-b relative">
-                      <div className="flex items-center gap-4">
+                      <div className="flex flex-col items-center sm:flex-row md:flex-row gap-4">
                         <img src={item.imageSrc} alt="Product Image" className="w-[130px] h-auto mr-4" />
                         <div>
                           <p className="font-semibold">{item.productName}</p>
-                          <p className={textClasses}>ORX72371575453</p>
+                          <p className={textClasses}><b>ORX72371575453 </b></p>
                           <p className={textClasses}>Size: 53</p>
                           <p className={textClasses}>Frame: Square</p>
                         </div>
@@ -99,7 +99,7 @@ const Cart = () => {
                       </div>
                      
                     </td>
-                    <td className="px-6 py-4 border-b">
+                    <td className="px-6 py-4 border-b  hidden lg:table-cell">
                       <p className={priceClasses}>
                         <span style={{color:"black"}}>Estimated Delivery Date</span>
                       <br/>  Mon May 27</p>
@@ -125,7 +125,11 @@ const Cart = () => {
           </div>
           <div className="mt-8 flex justify-end">
             <div className="w-full max-w-md">
+            <hr className="mt-2 mb-2" />
+
               <h2 className="text-lg font-semibold mb-4">Summary</h2>
+              <hr className="mt-2 mb-2" />
+
               <div className="flex justify-between mb-2">
                 <span>Subtotal</span>
                 <span>₹{subtotal.toFixed(2)}</span>
@@ -134,15 +138,20 @@ const Cart = () => {
                 <span>Shipping (Free Shipping)</span>
                 <span>₹0.00</span>
               </div>
+              <hr className="mt-2" />
               <div className="flex justify-between font-bold border-t pt-2">
                 <span>ORDER TOTAL</span>
                 <span>₹{subtotal.toFixed(2)}</span>
+                
               </div>
+              <hr className="mt-2 mb-2" />
               <Link to="/checkout">
               
              
               <button className="bg-red-500 text-white w-full py-2 mt-4">CHECKOUT NOW</button>
               </Link>
+              <hr/>
+
             </div>
           </div>
         </>
