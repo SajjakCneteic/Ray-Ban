@@ -168,7 +168,7 @@ const Eyeglasses ={
     }
     if (
       auth.user?.role !== "ADMIN" &&
-      (location.pathname === "/login" || location.pathname === "/register")
+      (location.pathname === "/sign-in" || location.pathname === "/sing-up")
     ) {
       navigate(-1);
     }
@@ -570,12 +570,13 @@ setIsOpen(true)
 const CartButton = ({ newUser, cartItems }) => {
   const [openCart, setOpenCart] = useState(false);
 const dispatch = useDispatch();
+const jwt= localStorage.getItem("jwt")
   const handleOpenCart = () => setOpenCart(!openCart);
   const handleCloseCart = () => setOpenCart(false);
   // console.log(cartItems.cartItems.cart.totalQuantity,"bag");
   useEffect(() => {
     dispatch(getCartItems());
-  }, [dispatch]);
+  }, [dispatch,jwt]);
   return (
     <div className="ml-4 flow-root lg:ml-6">
       <Button
