@@ -148,9 +148,11 @@ export const updateCartQtyNEW = (reqdata,toast) => {
     lineId: reqdata.lineId,
     quantity: reqdata.quantity,
 };
+console.log(payload)
   return new Promise((resolve, reject) => {
     putCall(`cart`, payload)
       .then((response) => {
+        console.log('response',response.data,response.status)
         if (response.status==200) {
           toast.success('Quantity Updated Successfully');
 
