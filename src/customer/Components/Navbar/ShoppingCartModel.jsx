@@ -33,8 +33,10 @@ const CartItem = ({ imageSrc, productName, price, quantity, onUpdateQuantity, on
 
   const debouncedUpdateQuantity = useCallback(
     debounce((newQuantity) => {
+      if(newQuantity === 0||newQuantity ===null){
       onUpdateQuantity(newQuantity);
-    }, 200),
+      }
+    }, 500),
     [onUpdateQuantity]
   );
 
