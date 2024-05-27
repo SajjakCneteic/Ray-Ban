@@ -34,7 +34,7 @@ const CartItem = ({ imageSrc, productName, price, quantity, onUpdateQuantity, on
   const debouncedUpdateQuantity = useCallback(
     debounce((newQuantity) => {
       onUpdateQuantity(newQuantity);
-    }, 500),
+    }, 200),
     [onUpdateQuantity]
   );
 
@@ -69,15 +69,18 @@ const CartItem = ({ imageSrc, productName, price, quantity, onUpdateQuantity, on
 const ShoppingCart = ({ handleCloseCart }) => {
   const dispatch = useDispatch();
   const cart = useSelector((state) => state.cartItems.cartItems.cart);
-  console.log(cart);
+  console.log(cart,"cart");
   const cartItems = cart?.lines || [];
-
+const jwt = localStorage.getItem("jwt");
   useEffect(() => {
     dispatch(getCartItems());
-  }, [dispatch]);
+  }, [dispatch,jwt]);
 
   const handleUpdateQuantity = (lineId, quantity) => {
-    dispatch(updateCartQtyNEW({ lineId, quantity }, toast));
+    console.log("handleUpdateQuantity", lineId, quantity);
+    updateCartQtyNEW({ lineId, quantity }, toast).then(() => {
+      dispatch(getCartItems());
+    });
   };
 
   const handleRemoveItem = (lineId) => {
@@ -100,14 +103,14 @@ const ShoppingCart = ({ handleCloseCart }) => {
         <button onClick={handleCloseCart} className="w-full bg-red-600 text-white py-2 rounded mb-4">PROCEED TO CHECKOUT</button>
       </Link>
       <div className="overflow-y-auto max-h-40 mb-4">
-        {cartItems.map((item, index) => (
+        {cartItems?.map((item, index) => (
           <CartItem
             key={index}
             imageSrc={item.productVariant.images[0].url}
             productName={item.productVariant.name}
             price={item.productVariant.price}
             quantity={item.quantity}
-            onUpdateQuantity={(quantity) => handleUpdateQuantity(item.id, quantity)}
+            onUpdateQuantity={(quantity) => handleUpdateQuantity(item.id, +quantity)}
             onRemoveItem={() => handleRemoveItem(item.id)}
           />
         ))}

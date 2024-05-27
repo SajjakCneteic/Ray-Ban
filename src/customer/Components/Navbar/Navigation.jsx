@@ -572,6 +572,7 @@ const CartButton = ({ newUser, cartItems }) => {
 const dispatch = useDispatch();
   const handleOpenCart = () => setOpenCart(!openCart);
   const handleCloseCart = () => setOpenCart(false);
+  // console.log(cartItems.cartItems.cart.totalQuantity,"bag");
   useEffect(() => {
     dispatch(getCartItems());
   }, [dispatch]);
@@ -587,7 +588,7 @@ const dispatch = useDispatch();
     aria-label="Shopping Bag"
   />
   <span className="absolute -top-2 -right-1 text-black rounded-lg ml-2 text-sm font-medium group-hover:text-gray-500">
-    {newUser?.user?.name ? cartItems?.cart?.totalQuantity : 0}
+    {cartItems?.cartItems?.cart ? cartItems.cartItems.cart.lines.length : 0}
   </span>
   <span className="sr-only">items in cart, view bag</span>
 </div>
