@@ -21,6 +21,8 @@ import { getCart } from "../../../Redux/Customers/Cart/Action";
 // import Menuitems from "../dropdown/Menuitems";
 import "../dropdown/dropdown.css";
 import { logoutCustomer } from "../../../action/Customer";
+import { getCartItems, RemoveCartItemNew, updateCartQtyNEW } from '../../../action/cart';
+
 // import logo from "../../../logos/111.png";
 import DropDown from "./DropDown";
 import MenuOpen from "./MenuOpen";
@@ -131,11 +133,11 @@ const Eyeglasses ={
 // };
 
   // Fetch user and cart data if JWT is present
-  useEffect(() => {
-    if (jwt) {
-      dispatch(getCart(jwt));
-    }
-  }, [jwt]);
+  // useEffect(() => {
+  //   if (jwt) {
+  //     dispatch(getCart(jwt));
+  //   }
+  // }, [jwt]);
 
   // Event handlers for user menu
   const handleUserClick = (event) => {
@@ -567,10 +569,12 @@ setIsOpen(true)
 
 const CartButton = ({ newUser, cartItems }) => {
   const [openCart, setOpenCart] = useState(false);
-
+const dispatch = useDispatch();
   const handleOpenCart = () => setOpenCart(!openCart);
   const handleCloseCart = () => setOpenCart(false);
-
+  useEffect(() => {
+    dispatch(getCartItems());
+  }, [dispatch]);
   return (
     <div className="ml-4 flow-root lg:ml-6">
       <Button
@@ -590,7 +594,7 @@ const CartButton = ({ newUser, cartItems }) => {
       </Button>
       <Slide direction="left" in={openCart} mountOnEnter unmountOnExit>      
         <div className="absolute top-16 right-20 z-10">
-          {cartItems?.cartItems?.cart?.totalQuantity !== undefined ? (
+          {cartItems?.cartItems?.cart?.totalQuantity === undefined ? (
             <EmptyCart handleCloseCart={handleCloseCart} />
           ) : (
             <ShoppingCart handleCloseCart={handleCloseCart} />
