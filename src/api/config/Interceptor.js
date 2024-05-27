@@ -16,8 +16,8 @@ instance.interceptors.request.use(
     config.headers = {
       "Content-Type": "application/json",
     };
-    if (userAccessToken) {
-      config.headers["accessToken"] = userAccessToken;
+    if (jwt) {
+      config.headers["accesstoken"] = jwt;
     }
     return config;
   },

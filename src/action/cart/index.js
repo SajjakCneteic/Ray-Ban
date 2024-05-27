@@ -1,5 +1,6 @@
 // import { get } from "../api/APIController";
 
+import toast from "react-hot-toast";
 import { getOrdersSuccess } from "../../Redux/Admin/Orders/ActionCreator";
 import store from "../../Redux/Store";
 import { deleteCall, get, post, putCall } from "../../api/config/APIController";
@@ -10,7 +11,7 @@ export const getCartItems = () => {
       get("cart")
         .then((response) => {
           if (response.status === 200) {
-            // console.log("this is new cart response", response.data);
+            console.log("this is new cart response", response.data);
             dispatch({
               type: "GET_CART_ITEMS",
               cartItems: response?.data,
@@ -114,58 +115,56 @@ export const AddItemToCartNew = (id) => {
     });
   // };
 };
+export const RemoveCartItemNew = (lineId) => {
+  let url = `/cart?lineId=${lineId}`;
+  // const {orderId,orderItemId}=reqdata;
+  // const data = { orderId, orderItemId };
 
-export const RemoveCartItemNew = (id) => {
-  let url = `cart?lineId=${id}`;
-  // let data = {
-  //   productVariantId: id,
-  //   quantity: 1,
-  // };
-  // return (dispatch) => {
-    return new Promise((resolve, reject) => {
-      deleteCall(url)
-        .then((response) => {
-          if (response.status === 200) {
-            // console.log("this getCutomerOrdersNew", response.data);
-            // dispatch({
-            //   type: "GET_ORDER_HISTORY_NEW",
-            //   order: response?.data,
-            // });
-            resolve(response.data);
-          }
-        })
-        .catch((error) => {
-          reject(error);
-        })
-        .finally();
-    });
-  };
-// };
-
-
-export const updateCartQtyNEW = (id, qty) => {
-  let params = {
-    lineId: id,
-    quantity: qty,
-  };
-
-  return new Promise((resolve, reject) => {
-    putCall(`cart`, params)
+  return (dispatch) => { // Return a function that accepts dispatch
+    return deleteCall(url)
       .then((response) => {
-        if (response.status == 200) {
-          // store.dispatch({
-          //   type: "GET_CART_ITEMS",
-          //   items: response?.data,
-          // });
-          resolve(response?.data);
+        if (response.status === 200) {
+          // Dispatch an action to update the cart after item removal
+          dispatch(getCartItems());
+          toast.success("Item has been removed from cart");
         } else {
-          return false;
+          // Handle other status codes if needed
+          toast.error("Failed to remove item from cart");
+          console.error("Failed to remove item from cart:", response.data);
         }
       })
       .catch((error) => {
-        return false;
+        // Log or handle the error
+        toast.error("Failed to remove item from cart");
+        console.error("Error removing item from cart:", error);
+      });
+  };
+};
+
+export const updateCartQtyNEW = (reqdata,toast) => {
+  // const { orderId, orderItemId, productId, quantity } = reqdata;
+  const payload = {
+    lineId: reqdata.lineId,
+    quantity: reqdata.quantity,
+};
+  return new Promise((resolve, reject) => {
+    putCall(`cart`, payload)
+      .then((response) => {
+        if (response.status==200) {
+          toast.success('Quantity Updated Successfully');
+
+          resolve(response.data);
+        } else {
+          toast.success('Failed to update cart quantity');
+
+          reject(new Error('Failed to update cart quantity'));
+        }
       })
-      .finally();
+      .catch((error) => {
+        console.error('Error updating cart quantity:', error);
+        toast.error("Failed to update cart quantity");
+        reject(error);
+      });
   });
 };
 
