@@ -5,6 +5,7 @@ import { getOrdersSuccess } from "../../Redux/Admin/Orders/ActionCreator";
 import store from "../../Redux/Store";
 import { deleteCall, get, post, putCall } from "../../api/config/APIController";
 
+
 export const getCartItems = () => {
   return (dispatch) => {
     return new Promise((resolve, reject) => {
@@ -106,7 +107,7 @@ export const AddItemToCartNew = (data) => {
               order: response?.data,
             });
             resolve(response.data);
-            console.log(response.data)
+            toast.success('Product Added into Cart Successfully')
           }
         })
         .catch((error) => {

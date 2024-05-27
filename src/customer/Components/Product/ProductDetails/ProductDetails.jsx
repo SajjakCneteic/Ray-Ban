@@ -4,28 +4,39 @@ import { MdArrowForwardIos } from "react-icons/md";
 import { IoIosArrowDown } from "react-icons/io";
 import Carousel from "../../Carousel/Carousel";
 import { receiveProductsById } from "../../../../action";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { AddItemToCartNew, getCartItems } from "../../../../action/cart";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 export default function ProductDetails() {
   const [activeIndex, setActiveIndex] = useState(null);
   const [productDetails, setProductDetails] = useState({})
   const [qty, setQty] = useState(1)
   const [variants, setVariants] = useState({})
-  const [cartItems,setCartItems] = useState([])
+  const [cartItemAdded,setCartItemAdded] = useState(false)
+  const { cart} = useSelector((store) => store.cartItems.cartItems);
+  const [cartItems, setCartItems] = useState()
+  const dispatch = useDispatch()
+
+ 
   
   useEffect(() => {
-    getCartItems().then((res)=>{
-      setCartItems(res)
-    })
-  }, []);
+    const checkCartItem = () => {
+      const variantExists = cart?.lines.some(
+        (line) => line?.productVariant?.id === variants.id
+      );
+      setCartItemAdded(variantExists); // Set the state based on whether the variant exists
+    };
 
-  console.log(cartItems)
+    checkCartItem();
+  }, [cart, variants.id]);
+
+  
 
   // const {ProductId} = useParams()
 console.log(cartItems)
-  const ProductId = 58
+  const ProductId = 64
+
 
   useEffect(() => {
 
@@ -54,6 +65,9 @@ console.log(cartItems)
     }
     AddItemToCartNew(data)
   }
+  useEffect(() => {
+    dispatch(getCartItems());
+  }, [handleAddToCart]);
 
   const faceShapeGuide = "https://india.ray-ban.com/pub/media/wysiwyg/Rb_PDP_opti/eyeglasses_faceshapeguide-min.jpg";
 
@@ -147,7 +161,8 @@ console.log(cartItems)
                 <Price>₹{variants?.price}</Price>
                 <TaxInfo>(incl. of all taxes)</TaxInfo>
               </PriceContainer>
-              <AddToBagButton onClick={() => handleAddToCart()}>ADD TO BAG</AddToBagButton>
+              {cartItemAdded?<AddToBagButton ><Link to='/cart'>VIEW TO CART</Link></AddToBagButton>:<AddToBagButton onClick={() => handleAddToCart()}>ADD TO BAG</AddToBagButton>}
+              {/* <AddToBagButton onClick={() => handleAddToCart()}>ADD TO BAG</AddToBagButton> */}
             </WidgetContainer>
           </StickyContainer>
           {/* mobile view end */}
@@ -272,7 +287,7 @@ console.log(cartItems)
                 <Price>₹{variants?.price}</Price>
                 <TaxInfo>(incl. of all taxes)</TaxInfo>
               </PriceContainer>
-              <AddToBagButton onClick={() => handleAddToCart()}>ADD TO BAG</AddToBagButton>
+               {cartItemAdded?<AddToBagButton ><Link to='/cart'>VIEW TO CART</Link></AddToBagButton>:<AddToBagButton onClick={() => handleAddToCart()}>ADD TO BAG</AddToBagButton>}
             </WidgetContainer>
           </StickyContainer>
         </RightDiv>
