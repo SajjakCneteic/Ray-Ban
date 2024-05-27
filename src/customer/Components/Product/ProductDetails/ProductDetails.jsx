@@ -5,34 +5,56 @@ import { IoIosArrowDown } from "react-icons/io";
 import Carousel from "../../Carousel/Carousel";
 import { receiveProductsById } from "../../../../action";
 import { useParams } from "react-router-dom";
+import { AddItemToCartNew, getCartItems } from "../../../../action/cart";
+import { useSelector } from "react-redux";
 
 export default function ProductDetails() {
   const [activeIndex, setActiveIndex] = useState(null);
   const [productDetails, setProductDetails] = useState({})
-  // const {ProductId} = useParams()
-  const ProductId=58
-  console.log(productDetails)
-  useEffect(() => {
+  const [qty, setQty] = useState(1)
+  const [variants, setVariants] = useState({})
+  const [cartItems,setCartItems] = useState([])
   
+  useEffect(() => {
+    getCartItems().then((res)=>{
+      setCartItems(res)
+    })
+  }, []);
+
+  console.log(cartItems)
+
+  // const {ProductId} = useParams()
+console.log(cartItems)
+  const ProductId = 58
+
+  useEffect(() => {
+
     receiveProductsById(ProductId).then((res) => {
-   
+
       setProductDetails(res);
+      setVariants(res.product.variants[0])
     });
   }, []);
-  console.log(ProductId)
 
+  const decrementQty = () => {
+    setQty((prev) => Math.max(prev - 1, 1));
+  };
+
+  const incrementQty = () => {
+    setQty((prev) => prev + 1);
+  };
   const handleToggle = (index) => {
     setActiveIndex(activeIndex === index ? null : index);
   };
 
-  const mainImage = "https://india.ray-ban.com/media/catalog/product/0/r/0rx7236i_8368_6.png";
-  const thumbnailImages = [
-    "https://india.ray-ban.com/media/catalog/product/0/r/0rx7236i_8368_2.png",
-    "https://india.ray-ban.com/media/catalog/product/0/r/0rx7236i_8368_3.png",
-    "https://india.ray-ban.com/media/catalog/product/0/r/0rx7236i_8368_4.png",
-    "https://india.ray-ban.com/media/catalog/product/0/r/0rx7236i_8368_5.png",
-    "https://india.ray-ban.com/media/catalog/product/0/r/0rx7236i_8368_6.png"
-  ];
+  const handleAddToCart = () => {
+    const data = {
+      productVariantId: variants.id,
+      quantity: qty
+    }
+    AddItemToCartNew(data)
+  }
+
   const faceShapeGuide = "https://india.ray-ban.com/pub/media/wysiwyg/Rb_PDP_opti/eyeglasses_faceshapeguide-min.jpg";
 
   return (
@@ -42,41 +64,55 @@ export default function ProductDetails() {
           Home
         </div>
         <div style={{ color: '#333' }}><MdArrowForwardIos /></div>
-        <div style={{ marginLeft: '10px', fontWeight: 'bold' }}>{productDetails?.product.name}</div>
+        <div style={{ marginLeft: '10px', fontWeight: 'bold' }}>{productDetails?.product?.name}</div>
       </div>
       <MainContainer>
         <LeftDiv>
           <MainImage>
-            <img src={mainImage} alt="Main Product" />
+            <img src={variants?.images?.[0].url} alt="Main Product" />
           </MainImage>
           <ExtraImages>
-            {thumbnailImages.map((image, index) => (
+            {variants?.images?.map((image, index) => (
               <Thumbnail key={index}>
-                <img src={image} alt={`Thumbnail ${index + 1}`} />
+                <img src={image.url} alt={`Thumbnail ${index + 1}`} />
               </Thumbnail>
             ))}
           </ExtraImages>
           {/* Mobile view details show after main image */}
           <StickyContainer className="pricedetails">
             <ProductInfo>
-              <ProductTitle>{productDetails?.product.name}</ProductTitle>
+              <ProductTitle>{variants?.name}</ProductTitle>
               <ProductTagline>New Arrivals</ProductTagline>
             </ProductInfo>
             <SizeInfo>
               <div>SIZE:</div>
-              <div className="sizes">50</div>
+              <span className="sizes">{variants?.attributes?.Size}</span>
             </SizeInfo>
+            <FlexContainer>
+              <Button disabled={qty === 1} onClick={decrementQty}>
+                -
+              </Button>
+              <Quantity>{qty}</Quantity>
+              <Button onClick={incrementQty}>+</Button>
+            </FlexContainer>
             <Guides>
               <GuideLink>Size Guide</GuideLink>
               <GuideLink>Face Guide</GuideLink>
             </Guides>
             <FrameDetails>
-              <FrameDetailItem>FRAME Gold</FrameDetailItem>
-              <FrameDetailItem>LENSES Gold</FrameDetailItem>
+              <FrameDetailItem>FRAME {variants?.attributes?.Frame}</FrameDetailItem>
+              <FrameDetailItem>LENSES {variants?.attributes?.Lenses}</FrameDetailItem>
             </FrameDetails>
             <ColorInfo>
               <div>1 COLOR</div>
-              <ColorThumbnail src={mainImage} alt="Color Option" />
+              {productDetails?.product?.variants?.map((variant, index) => (
+                <ColorThumbnail
+                  onClick={() => setVariants(variant)}
+                  key={index}
+                  src={variant.images[0].url}
+                  alt="Color Option"
+                />
+              ))}
             </ColorInfo>
             <Container>
               <InfoList>
@@ -108,10 +144,10 @@ export default function ProductDetails() {
             <WidgetContainer >
               <PriceContainer>
                 <MRP>MRP</MRP>
-                <Price>₹5,990.00</Price>
+                <Price>₹{variants?.price}</Price>
                 <TaxInfo>(incl. of all taxes)</TaxInfo>
               </PriceContainer>
-              <AddToBagButton>ADD TO BAG</AddToBagButton>
+              <AddToBagButton onClick={() => handleAddToCart()}>ADD TO BAG</AddToBagButton>
             </WidgetContainer>
           </StickyContainer>
           {/* mobile view end */}
@@ -170,24 +206,38 @@ export default function ProductDetails() {
         <RightDiv>
           <StickyContainer className="details">
             <ProductInfo>
-              <ProductTitle>ALICE</ProductTitle>
+              <ProductTitle>{variants?.name}</ProductTitle>
               <ProductTagline>New Arrivals</ProductTagline>
             </ProductInfo>
             <SizeInfo >
               <div>SIZE:</div>
-              <div className="sizes">50</div>
+              <span className="sizes">{variants?.attributes?.Size}</span>
             </SizeInfo>
+            <FlexContainer>
+              <Button disabled={qty === 1} onClick={decrementQty}>
+                -
+              </Button>
+              <Quantity>{qty}</Quantity>
+              <Button onClick={incrementQty}>+</Button>
+            </FlexContainer>
             <Guides>
               <GuideLink>Size Guide</GuideLink>
               <GuideLink>Face Guide</GuideLink>
             </Guides>
             <FrameDetails>
-              <FrameDetailItem>FRAME Gold</FrameDetailItem>
-              <FrameDetailItem>LENSES Gold</FrameDetailItem>
+              <FrameDetailItem>FRAME {variants?.attributes?.Frame}</FrameDetailItem>
+              <FrameDetailItem>LENSES {variants?.attributes?.Lenses}</FrameDetailItem>
             </FrameDetails>
+            <div>1 COLOR</div>
             <ColorInfo>
-              <div>1 COLOR</div>
-              <ColorThumbnail src={mainImage} alt="Color Option" />
+              {productDetails?.product?.variants?.map((variant, index) => (
+                <ColorThumbnail
+                  onClick={() => setVariants(variant)}
+                  key={index}
+                  src={variant.images[0].url}
+                  alt="Color Option"
+                />
+              ))}
             </ColorInfo>
             <Container>
               <InfoList>
@@ -219,10 +269,10 @@ export default function ProductDetails() {
             <WidgetContainer>
               <PriceContainer>
                 <MRP>MRP</MRP>
-                <Price>₹5,990.00</Price>
+                <Price>₹{variants?.price}</Price>
                 <TaxInfo>(incl. of all taxes)</TaxInfo>
               </PriceContainer>
-              <AddToBagButton>ADD TO BAG</AddToBagButton>
+              <AddToBagButton onClick={() => handleAddToCart()}>ADD TO BAG</AddToBagButton>
             </WidgetContainer>
           </StickyContainer>
         </RightDiv>
@@ -431,7 +481,7 @@ const SizeInfo = styled.div`
   display: flex;
   flex-direction: column;
   .sizes{
-    width:40px;
+    /* width:40px; */
     color:blue;
     border: 2px solid gray;
     padding:5px;
@@ -461,8 +511,9 @@ const FrameDetailItem = styled.p`
 `;
 
 const ColorInfo = styled.div`
-  display: flex;
-  flex-direction: column;
+  display: grid;
+  gap:5px;
+ grid-template-columns:repeat(4,1fr)
 `;
 
 const ColorThumbnail = styled.img`
@@ -550,4 +601,38 @@ const AddToBagButton = styled.button`
   font-weight: bold;
   border: none;
   cursor: pointer;
+`;
+
+const FlexContainer = styled.div`
+  display: flex;
+  align-items: center;
+`;
+
+const Button = styled.button`
+  background-color: #ff9900;
+  color: white;
+  border: none;
+  padding: 10px 15px;
+  font-size: 1em;
+  cursor: pointer;
+  border-radius: 5px;
+  margin: 0 5px;
+  transition: background-color 0.3s;
+
+  &:hover {
+    background-color: #cc7a00;
+  }
+
+  &:focus {
+    outline: none;
+  }
+`;
+
+const Quantity = styled.span`
+  padding: 10px 20px;
+  font-size: 1.2em;
+  font-weight: bold;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  margin: 0 5px;
 `;
