@@ -1,12 +1,14 @@
 import React, { Fragment, useEffect, useState } from "react";
 import { Dialog, Popover, Transition } from "@headlessui/react";
+import SearchIcon from '@mui/icons-material/Search';
 import {
   Bars3Icon,
   MagnifyingGlassIcon,
-  ShoppingBagIcon,
   XMarkIcon,
 } from "@heroicons/react/24/outline";
-
+import PersonIcon from '@mui/icons-material/Person';
+import FavoriteIcon from '@mui/icons-material/Favorite';
+import ShoppingBagIcon from '@mui/icons-material/ShoppingBag';
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { Avatar, Button, Menu, MenuItem, Slide } from "@mui/material";
 import { navigation } from "../../../config/navigationMenu";
@@ -473,7 +475,8 @@ setIsOpen(true)
                       className=" relative text-sm font-medium text-black hover:text-gray-900"
                       style={{ color: "#000000" }}
                     >
-                      <img src="image-3.svg" alt="person" />
+                      <PersonIcon className="h-6 w-6" />
+                      {/* <img src="image-3.svg" alt="person" /> */}
                     </Button>
                     {openAuthModal &&<div className="absolute  top-16 right-55 z-10"> <MenuOpen handleClose={handleClose} /></div>}
                     </>)}
@@ -481,9 +484,10 @@ setIsOpen(true)
 
                 {/* Search button */}
                 <div className="flex lg:ml-6">
-                  <p className="p-2 text-black hover:text-blue-500">
+                  <p className="p-2 text-black hover:text-gray-500">
                     <span className="sr-only">Search</span>
-                    <MagnifyingGlassIcon
+                    <SearchIcon
+                    // <MagnifyingGlassIcon
                       className="h-6 w-6"
                       aria-hidden="true"
                       onClick={() => {
@@ -494,15 +498,18 @@ setIsOpen(true)
                 </div>
  {/* WishList button */}
  <div className="flex lg:ml-6">
-                  <p className="p-2 text-black hover:text-blue-500">
+                  <p className="p-2 text-black hover:text-gray-500">
                     <span className="sr-only">wishlist</span>
-                    <img src="image-4.svg"
+                    <FavoriteIcon onClick={() => {
+                        navigate("/shops");
+                      }} />
+                    {/* <img src="image-4.svg"
                       className="h-6 w-6"
                       aria-hidden="true"
                       onClick={() => {
                         navigate("/shops");
                       }}
-                    />
+                    /> */}
                   </p>
                 </div>
                 {/* CartButton = ({ newUser, cartItems }) */}
@@ -570,16 +577,16 @@ const CartButton = ({ newUser, cartItems }) => {
         onClick={handleOpenCart}
         className="group -m-2 flex items-center p-2"
       >
-        <ShoppingBagIcon
-          className="h-6 w-6 flex-shrink-0 text-black group-hover:text-gray-500"
-          aria-hidden="true"
-        />
-        <span className="ml-2 text-sm font-medium text-black group-hover:text-gray-800">
-          {newUser?.newUser?.user?.name
-            ? cartItems?.cartItems?.cart?.totalQuantity
-            : 0}
-        </span>
-        <span className="sr-only">items in cart, view bag</span>
+      <div className="relative">
+  <ShoppingBagIcon
+    className="h-6 w-6 flex-shrink-0 text-black group-hover:text-gray-500"
+    aria-label="Shopping Bag"
+  />
+  <span className="absolute -top-2 -right-1 text-black rounded-lg ml-2 text-sm font-medium group-hover:text-gray-500">
+    {newUser?.user?.name ? cartItems?.cart?.totalQuantity : 0}
+  </span>
+  <span className="sr-only">items in cart, view bag</span>
+</div>
       </Button>
       <Slide direction="left" in={openCart} mountOnEnter unmountOnExit>      
         <div className="absolute top-16 right-20 z-10">

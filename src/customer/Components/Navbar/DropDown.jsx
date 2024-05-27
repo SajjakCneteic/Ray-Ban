@@ -1,6 +1,8 @@
 import { Collapse } from '@mui/material';
-import { PrinterPosPause, Slide } from 'mdi-material-ui';
+import { PrinterPosPause } from 'mdi-material-ui';
 import React from 'react';
+import { Slide } from '@mui/material';
+
 
 const sunglasses = [
   { name: "Aviator", img: "https://india.ray-ban.com/media/catalog/product/cache/ecdbd5a50e6b93b224fc4aacce3c4ac7/0/r/0rx7235_8063_6.png" },
@@ -59,6 +61,8 @@ const SunglassesGrid = ({data}) => {
 
 const MainContent = ({data}) => {
   return (
+    <Slide direction="left" in={true} mountOnEnter unmountOnExit>
+
     <div className="w-full md:w-3/4 p-4">
       <div className="flex justify-between items-center mb-2">
         <h2 className="font-bold">MOST POPULAR</h2>
@@ -68,6 +72,7 @@ const MainContent = ({data}) => {
       <hr/>
       <SunglassesGrid data={data} />
     </div>
+    </Slide>
   );
 };
 
@@ -75,6 +80,8 @@ const Sidebar = ({sidebarLinks}) => {
     const linkClass = "text-gray-700 hover:text-blue-700";
   
     return (
+      <Slide direction="right" in={true} mountOnEnter unmountOnExit>
+
       <div className="w-full md:w-1/4 p-4">
         <h2 className="font-bold mb-2">SHOP</h2>
         <hr />
@@ -108,6 +115,7 @@ const Sidebar = ({sidebarLinks}) => {
             </>
         )}
       </div>
+      </Slide>
     );
   };
   
