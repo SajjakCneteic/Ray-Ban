@@ -17,7 +17,7 @@ const CustomAccordion = ({ drawer, setDrawer, sunglasses, eyeGlasses, pages }) =
   };
 console.log(sunglasses,"sunglasses",eyeGlasses)
   const datas = [
-    { name: 'MY ACCOUNT', children: [{ name: 'LOGIN' }, { name: 'MY ORDERS' }, { name: 'MY STORE CREDIT' }, { name: 'MY SELECTIONS' }, { name: 'GIFT CARD BALANCE' }] },
+    { name: 'MY ACCOUNT', children: [{ name: 'LOGIN' ,address:'/sign-in'}, { name: 'MY ORDERS' }, { name: 'MY STORE CREDIT' }, { name: 'MY SELECTIONS' }, { name: 'GIFT CARD BALANCE' }] },
     { name: 'SUNGLASSES' ,component:OpenSunglasses,data:sunglasses},
     { name: 'EYEGLASSES',component:OpenSunglasses, data:eyeGlasses},
     { name: 'NEW ARRIVALS' },
@@ -43,9 +43,11 @@ console.log(sunglasses,"sunglasses",eyeGlasses)
               <AccordionContent isOpen={openIndex === index}>
                 <NestedAccordionContent>
                   {item.children.map((child, childIndex) => (
-                    <NestedLink key={childIndex} to={`/${child.name.toLowerCase().replace(/ /g, '-')}`}>
+                    <Link to={child.address}>
+                    <NestedLink key={childIndex} >
                       {child.name}
                     </NestedLink>
+                    </Link>
                   ))}
                 </NestedAccordionContent>
               </AccordionContent>
@@ -53,18 +55,6 @@ console.log(sunglasses,"sunglasses",eyeGlasses)
           </AccordionItem>
         ))}
 
-        {/* <AccordionItem>
-          <AccordionButton>
-            <div style={{ display: 'flex', alignItems: 'center' }}>
-              <Svg>
-                <FrameIcon alt="" src="/frame.svg" />
-              </Svg>
-              <div style={{ marginLeft: '10px' }}>
-                Delivery Country <a style={{ textDecoration: 'underline' }} href="#">Australia</a>
-              </div>
-            </div>
-          </AccordionButton>
-        </AccordionItem> */}
       </AccordionWrapper>
     </div>
   );

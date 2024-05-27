@@ -12,7 +12,6 @@ import {
   LOGOUT
 } from './ActionTypes';
 import api, { API_BASE_URL } from '../../config/api';
-
 // Register action creators
 const registerRequest = () => ({ type: REGISTER_REQUEST });
 const registerSuccess = (user) => ({ type: REGISTER_SUCCESS, payload:user });
@@ -36,17 +35,21 @@ const loginRequest = () => ({ type: LOGIN_REQUEST });
 const loginSuccess = user => ({ type: LOGIN_SUCCESS, payload: user });
 const loginFailure = error => ({ type: LOGIN_FAILURE, payload: error });
 
-export const login = userData => async dispatch => {
+export const login = (userData,navigate) => async dispatch => {
   dispatch(loginRequest());
   try {
     const response = await axios.post(`${API_BASE_URL}/login`, userData);
     const user = response.data;
     if(user.token) localStorage.setItem("jwt",user.token)
-    console.log("login ",user)
+     
     dispatch({ type: GET_USER_SUCCESS, payload: user });
     dispatch(loginSuccess(user));
+    alert('Login Successfully')
+    navigate('/')
+    
   } catch (error) {
     dispatch(loginFailure(error.message));
+    alert("Please check your email or password")
   }
 };
 
