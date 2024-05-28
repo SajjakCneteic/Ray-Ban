@@ -1,4 +1,4 @@
-import React, {  useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Slide } from '@mui/material';
 import toast from 'react-hot-toast';
 import { useDispatch } from 'react-redux';
@@ -6,44 +6,38 @@ import { logout } from '../../../Redux/Auth/Action';
 import { Link } from 'react-router-dom';
 
 
-// let sidebarItems = [
-//   { name: "LOG IN / REGISTER", link: "/sign-in" },
-//   { name: "MY ACCOUNT", link: "/my-account" },
-//   { name: "MY ORDERS", link: "/my-orders" },
-//   { name: "MY STORE CREDIT", link: "./my-store-credit" }
-// ];
-
 const MenuOpen = ({ handleClose }) => {
-  const jwt = localStorage.getItem("jwt");
-  const sidebarClasses = "relative mr-2 z-10 bg-zinc-200 p-5 w-60 dark:bg-zinc-800";
+  const jwt = localStorage.getItem('jwt');
+  const sidebarClasses = 'relative mr-2 z-10 bg-zinc-200 p-5 w-60 dark:bg-zinc-800';
   const [sidebarItems, setSidebarItems] = useState([
-    // { name: "LOG IN / REGISTER", link: "/sign-in" },
-  { name: "MY ACCOUNT", link: "/my-account" },
-  { name: "MY ORDERS", link: "/my-orders" },
-  { name: "MY STORE CREDIT", link: "./my-store-credit" }
+    { name: 'MY ACCOUNT', link: '/my-account' },
+    { name: 'MY ORDERS', link: '/my-orders' },
+    { name: 'MY STORE CREDIT', link: './my-store-credit' },
   ]);
+
 
   const closeButtonClasses = "absolute top-1 right-3 z-index-10 text-zinc-800 dark:text-zinc-300 cursor-pointer";
   console.log(jwt,"jwt")
 
   
  
+
   useEffect(() => {
     const updatedSidebarItems = [
-      { name: "MY ACCOUNT", link: "/my-account" },
-      { name: "MY ORDERS", link: "/my-orders" },
-      { name: "MY STORE CREDIT", link: "./my-store-credit" }
+      { name: 'MY ACCOUNT', link: '/my-account' },
+      { name: 'MY ORDERS', link: '/my-orders' },
+      { name: 'MY STORE CREDIT', link: './my-store-credit' },
     ];
     if (jwt) {
-      updatedSidebarItems.push({ name: "LOG OUT" });
+      updatedSidebarItems.push({ name: 'LOG OUT' });
     } else {
-      updatedSidebarItems.unshift({ name: "LOG IN / REGISTER", link: "/sign-in" });
+      updatedSidebarItems.unshift({ name: 'LOG IN / REGISTER', link: '/sign-in' });
     }
     setSidebarItems(updatedSidebarItems);
   }, [jwt]);
+
   return (
     <Slide direction="down" in={true} mountOnEnter unmountOnExit>
-      
       <div className={sidebarClasses}>
         <ul className="space-y-4">
           <button className={closeButtonClasses} onClick={handleClose}>
@@ -51,13 +45,9 @@ const MenuOpen = ({ handleClose }) => {
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12"></path>
             </svg>
           </button>
-          {sidebarItems.map((item, index) => 
-            {
-             
-
-             return <MenuItem key={index} text={item} />
-            }
-          )}
+          {sidebarItems.map((item, index) => (
+            <MenuItem key={index} text={item} />
+          ))}
         </ul>
       </div>
     </Slide>
@@ -66,22 +56,36 @@ const MenuOpen = ({ handleClose }) => {
 
 const MenuItem = ({ text }) => {
   const dispatch = useDispatch();
-  const linkClasses = "text-zinc-800  hover:bg-white-900 dark:text-zinc-300 font-semibold dark:hover:text-zinc-200";
-  if (text.name === "LOG OUT") {
+  const linkClasses = 'text-zinc-800 hover:bg-white-900 dark:text-zinc-300 font-semibold dark:hover:text-zinc-200';
+  
+ 
+
+  if (text.name === 'LOG OUT') {
     const handleDropdownItemClick = () => {
       dispatch(logout());
-      toast.success("Logged out successfully");
+      window.location.href = "/sign-in";
+      window.location.reload();
+      toast.success('Logged out successfully');
     };
 
     return (
       <li>
-        <span className={linkClasses} style={{cursor:"pointer"}} onClick={handleDropdownItemClick}>{text.name}</span>
+        <span className={linkClasses} style={{ cursor: 'pointer' }} onClick={handleDropdownItemClick}>
+          {text.name}
+        </span>
       </li>
     );
   }
+
+  
+
   return (
     <li>
-      <Link to={text.link} className={linkClasses}>{text.name}</Link>
+
+      <Link to={text.link} className={linkClasses}>
+        {text.name}
+      </Link>
+
     </li>
   );
 };

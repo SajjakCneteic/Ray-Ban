@@ -50,13 +50,18 @@ export const login = (userData,navigate,toast) => async dispatch => {
     if(user.token) localStorage.setItem("jwt",user.token)
     dispatch({ type: GET_USER_SUCCESS, payload: user });
     dispatch(loginSuccess(user));
-    navigate('/')
     toast.success("Login Successfull")
+
     
   } catch (error) {
     dispatch(loginFailure(error.message));
     toast.error(error.message)
     console.log(error)
+    navigate('/')
+
+    // alert('Login Successfully')
+    
+ 
   }
 };
 

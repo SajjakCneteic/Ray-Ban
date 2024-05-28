@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
 import { getCartItems, RemoveCartItemNew, updateCartQtyNEW } from '../../../action/cart';
 import { toast, Toaster } from 'react-hot-toast';
-
+import DeleteIcon from '@mui/icons-material/Delete';
 const Cart = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -53,19 +53,18 @@ const Cart = () => {
                 </tr>
               </thead>
               <tbody>
-                {cart?.lines?.map((item) => (
+                {cart?.lines?.map((item,index) => (
                   <tr key={item.id}>
                     <td className="px-6 py-4 border-b relative">
                       <div className="flex flex-col items-center mt-2 sm:flex-row md:flex-row gap-4">
-                        {/* <img src={item.productVariant.images[0].url} alt="Product Image" className="w-[130px] h-auto mr-4" /> */}
                         <div className="flex flex-col items-center sm:flex-row md:flex-row gap-4">
-                        <img src={item.productVariant.images[0].url} alt="Product Image" className="w-[130px] h-auto mr-4" />
+                        <img src={item.productVariant.images[index].url} alt="Product Image" className="w-[130px] h-auto mr-4" />
                         <div>
                           <p className="font-semibold">{item.productVariant.name}</p>
                           <p className={textClasses}>Quantity: {item.quantity}</p>
                           <p>Unit Price: ₹{item.productVariant.price.toLocaleString()}</p>
                         </div>
-                        <span onClick={() => handleRemoveItemFromCart(item.id)} className="absolute cursor-pointer top-0 right-10 font-semibold text-red-500 text-sm mt-2 inline-block">× Remove</span>
+                        <span onClick={() => handleRemoveItemFromCart(item.id)} className="absolute cursor-pointer top-0 right-10 font-semibold text-red-500 text-sm mt-2 inline-block"> <DeleteIcon/> </span>
                       </div>
                         {/* <span onClick={() => handleRemoveItemFromCart(item)} className="absolute top-0 right-10 font-semibold text-red-500 text-sm mt-2 inline-block">× Remove</span> */}
                       </div>

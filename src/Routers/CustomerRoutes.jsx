@@ -28,6 +28,7 @@ import ShoppingCart from "../customer/Components/Navbar/ShoppingCartModel";
 import NewArrivals from "../Pages/NewArrivals";
 import SunglassClp from "../Pages/SunglassClp";
 import Profile from "../customer/Components/Auth/Profile";
+import TransactionComponent from "../customer/Components/Checkout/TransactionComponent";
 
 
 const CustomerRoutes = () => {
@@ -40,6 +41,7 @@ const CustomerRoutes = () => {
   // const path=["/","/home","/about","/privacy-policy","/terms-condition","/contact","/men",`/product/${productId}`]
   return (
     <div>
+
 
       <ThemeProvider theme={customerTheme}>
         <HeaderTop />
@@ -71,6 +73,8 @@ const CustomerRoutes = () => {
         </Routes>
         <Footer />
       </ThemeProvider>
+
+    
 
     </div>
   );
