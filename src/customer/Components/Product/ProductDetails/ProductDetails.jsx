@@ -120,7 +120,7 @@ console.log(cartItems)
               <FrameDetailItem>LENSES {variants?.attributes?.Lenses}</FrameDetailItem>
             </FrameDetails>
             <ColorInfo>
-              <div>1 COLOR</div>
+              <div>{productDetails?.product?.variants.length} COLOR</div>
               {productDetails?.product?.variants?.map((variant, index) => (
                 <ColorThumbnail
                   onClick={() => setVariants(variant)}
@@ -245,7 +245,7 @@ console.log(cartItems)
               <FrameDetailItem>FRAME {variants?.attributes?.Frame}</FrameDetailItem>
               <FrameDetailItem>LENSES {variants?.attributes?.Lenses}</FrameDetailItem>
             </FrameDetails>
-            <div>1 COLOR</div>
+            <div>{productDetails?.product?.variants.length} COLOR</div>
             <ColorInfo>
               {productDetails?.product?.variants?.map((variant, index) => (
                 <ColorThumbnail

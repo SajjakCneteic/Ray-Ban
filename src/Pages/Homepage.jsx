@@ -1,53 +1,57 @@
 import React, { useEffect, useState } from "react";
-import HomeCarousel from "../customer/Components/Carousel/HomeCarousel";
-import { homeCarouselData } from "../customer/Components/Carousel/HomeCaroselData";
-import HomeProductSection from "../customer/Components/Home/HomeProductSection";
 import { receiveGetContent, receiveProducts } from "../action";
 import styled from "styled-components";
 import Carousel from "../customer/Components/Carousel/Carousel";
+import { API_BASE_URL } from "../config/api";
+import axios from "axios";
+import { Link } from "react-router-dom";
 
 const Homepage = () => {
-  const [topProducts, setTopProducts] = useState();
   const [banners, setBanners] = useState()
 
   useEffect(() => {
-    receiveProducts().then((data) => {
-      setTopProducts(data.hits);
-    });
-  }, []);
+    const fetchData = async () => {
+
+      const res = await axios.get(`${API_BASE_URL}/content`)
+      setBanners(res.data)
+    }
+    fetchData()
+  }, [])
+
+  console.log(banners)
 
 
-  useEffect(() => {
-    receiveGetContent().then((data) => {
-      console.log("this is banners", data)
-      setBanners(data);
-    });
-  }, []);
 
-  //   console.log("this is landing page", topProducts);
   return (
     <MainContainer>
-      <div className="firstbanner" style={{marginBottom:'30px'}}>
-        <img src="https://india.ray-ban.com/media/wysiwyg/Banner_7__1.jpg" alt="" />
-      </div>
+      <Link to='/shops'>
+        <div className="firstbanner" style={{ marginBottom: '30px' }}>
+          <img src={banners?.[2].url} alt="" />
+        </div>
+      </Link>
       <div>
-        <Carousel text={'New Arrivals'}/>
+        <Carousel text={'New Arrivals'} />
       </div>
-      <div style={{margin: '30px 0',textAlign:'center',fontSize:'23px',fontWeight:'800'}}>
+      <div style={{ margin: '30px 0', textAlign: 'center', fontSize: '23px', fontWeight: '800' }}>
         <h1>THIS IS WHAT DISRUPTION LOOKS LIKE</h1>
       </div>
       <FlexDiv>
-        <div className="hover">
-          <img src="https://india.ray-ban.com/media/wysiwyg/Item.jpg" alt="" />
-        </div>
-        <div className="hover">
-          <img src="https://india.ray-ban.com/media/wysiwyg/Item1.jpg" alt="" />
-        </div>
+        <Link to='/shops'>
+          <div className="hover">
+            <img src={banners?.[0].url} alt="" />
+          </div>
+        </Link>
+        <Link to='/shops'>
+          <div className="hover">
+            <img src={banners?.[1].url} alt="" />
+          </div>
+        </Link>
       </FlexDiv>
-
-      <div className="firstbanner">
-        <img src="https://india.ray-ban.com/media/wysiwyg/home/Banner_4_.jpg" alt="" />
-      </div>
+      <Link to='/shops'>
+        <div className="firstbanner">
+          <img src={banners?.[3].url} alt="" />
+        </div>
+      </Link>
 
     </MainContainer>
   );

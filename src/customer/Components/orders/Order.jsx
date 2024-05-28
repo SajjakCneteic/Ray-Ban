@@ -1,77 +1,153 @@
-import { Box, Grid } from "@mui/material";
-import React, { useEffect, useSyncExternalStore } from "react";
-import OrderCard from "./OrderCard";
-import FiberManualRecordIcon from "@mui/icons-material/FiberManualRecord";
-import { useDispatch, useSelector } from "react-redux";
-import { getOrderHistory } from "../../../Redux/Customers/Order/Action";
-import BackdropComponent from "../BackDrop/Backdrop";
-import { getCutomerOrdersNew } from "../../../action/cart";
+import React, { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import styled from 'styled-components';
+import { getCutomerOrdersNew } from '../../../action/cart';
+import { Link } from 'react-router-dom';
 
-const orderStatus = [
-  { label: "On The Way", value: "onTheWay" },
-  { label: "Delivered", value: "delevered" },
-  { label: "Cancelled", value: "cancelled" },
-  { label: "Returned", vlue: "returned" },
-];
+const TableContainer = styled.div`
+  width: 100%;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  overflow: hidden;
+  margin: 10px auto;
+  margin-bottom: 100px;
+  @media (max-width: 768px) {
+    width: 100%;
+    overflow-x: auto;
+  }
+`;
+
+const Table = styled.table`
+  width: 100%;
+  border-collapse: collapse;
+`;
+
+const Th = styled.th`
+  padding: 12px;
+  text-align: left;
+  background-color: #333;
+  font-weight: bold;
+  color:white;
+`;
+
+const Td = styled.td`
+  padding: 12px;
+  text-align: left;
+ 
+`;
+
+const Status = styled.span`
+  color: white;
+  background-color: #ff4d4f;
+  padding: 4px 8px;
+  border-radius: 4px;
+`;
+
+const Ellipsis = styled.td`
+  cursor: pointer;
+  text-decoration: underline;
+  &:hover {
+    text-decoration: none;
+    Link{
+      color: red;
+    }
+  }
+`;
+
+const CustomerInfo = styled.div`
+  display: flex;
+  flex-direction: column;
+`;
+
+const CustomerName = styled.span`
+  font-weight: bold;
+`;
+
+const CustomerCompany = styled.span`
+  color: #888;
+`;
+
+const CreatedAt = styled.div`
+  display: flex;
+  flex-direction: column;
+`;
+
+const CreatedDate = styled.span`
+  font-weight: bold;
+`;
+
+const CreatedTime = styled.span`
+  color: #888;
+`;
+
+const Tr = styled.tr`
+  &:nth-child(even) {
+    background-color: #ffffff; /* Background color for even rows */
+  }
+  &:nth-child(odd) {
+    background-color: #c8c8c8; /* Background color for odd rows */
+  }
+`
 
 const Order = () => {
+  const [data, setData] = useState([])
   const dispatch = useDispatch();
-  const jwt = localStorage.getItem("jwt");
-  const { order, newOrder } = useSelector((store) => store);
-
+  const { newOrder } = useSelector((store) => store);
   useEffect(() => {
-    // dispatch(getOrderHistory({ jwt }));
-  }, [jwt]);
-  useEffect(() => {
-    dispatch(getCutomerOrdersNew());
-  }, []);
+    const fetchData = async () => {
+      try {
+        const orders = await dispatch(getCutomerOrdersNew());
+        setData(orders) // Access the response data here
+      } catch (error) {
+        console.error('Error fetching customer orders:', error);
+      }
+    };
 
-  // console.log("users orders ", newOrder?.orderNew?.orders);
+    fetchData();
+  }, [dispatch]);
+
+  const formatDate = (dateString) => {
+    const date = new Date(dateString);
+    return `${date.toLocaleDateString()} ${date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}`;
+  };
+  console.log(data)
   return (
-    <Box className="px-10">
-      <Grid container spacing={0} sx={{ justifyContent: "space-between" }}>
-        <Grid item xs={2.5} className="">
-          <div className="h-auto shadow-lg bg-white border p-5 sticky top-5">
-            <h1 className="font-bold text-lg">Filters</h1>
-            <div className="space-y-4 mt-10">
-              <h1 className="font-semibold">ORDER STATUS</h1>
-              {orderStatus.map((option, optionIdx) => (
-                <div key={option.value} className="flex items-center">
-                  <input
-                    //   id={`filter-${section.id}-${optionIdx}`}
-                    //   name={`${section.id}[]`}
-                    defaultValue={option.value}
-                    type="checkbox"
-                    defaultChecked={option.checked}
-                    className="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500"
-                  />
-                  <label
-                    //   htmlFor={`filter-${section.id}-${optionIdx}`}
-                    className="ml-3 text-sm text-gray-600"
-                  >
-                    {option.label}
-                  </label>
-                </div>
-              ))}
-            </div>
-          </div>
-        </Grid>
-        <Grid item xs={9}>
-          <Box className="space-y-5 ">
-            <p>Order History</p>
-            {newOrder?.orderNew?.orders?.length > 0 &&
-              newOrder?.orderNew?.orders?.map((order) => {
-                return order?.lines?.map((item, index) => (
-                  <OrderCard item={item} order={order} />
-                ));
-              })}
-          </Box>
-        </Grid>
-      </Grid>
+    <TableContainer>
+      <Table>
+        <thead>
+          <tr>
+            <Th>ID</Th>
+            <Th>Product Name</Th>
+            <Th>Total Amount</Th>
+            <Th>Status</Th>
+            <Th>Order Date</Th>
+            <Th></Th>
+          </tr>
+        </thead>
+        <tbody>
+          {data?.orders?.map((data, index) =>
 
-      <BackdropComponent open={false} />
-    </Box>
+            <Tr>
+              <Td>{data.orderId}</Td>
+              <Td>
+                <CustomerInfo>
+                  <CustomerName>{data?.lines?.[0].productName}</CustomerName>
+                </CustomerInfo>
+              </Td>
+              <Td>{data?.totalAmount}</Td>
+              <Td><Status style={{ backgroundColor: `${data?.status == 'Delivered' ? 'green' : 'red'}` }}>{data?.status}</Status></Td>
+              <Td>
+                <CreatedAt>
+                  <CreatedDate>{formatDate(data?.orderDate)}</CreatedDate>
+                </CreatedAt>
+              </Td>
+              <Ellipsis><Link to={`/account/order/${data.orderId}`}>View Details</Link></Ellipsis>
+            </Tr>
+          )}
+        </tbody>
+      </Table>
+    </TableContainer>
   );
-};
+}
 
 export default Order;

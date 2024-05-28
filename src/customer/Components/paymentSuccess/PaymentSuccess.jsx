@@ -1,103 +1,131 @@
-import React, { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { updatePayment } from "../../../Redux/Customers/Payment/Action";
-import { Alert, AlertTitle, Box, Button, Grid } from "@mui/material";
-import { deepPurple } from "@mui/material/colors";
-import StarIcon from "@mui/icons-material/Star";
-import { getOrderById } from "../../../Redux/Customers/Order/Action";
-import OrderTraker from "../orders/OrderTraker";
-import AddressCard from "../adreess/AdreessCard";
-import { useParams } from "react-router-dom";
-import { useNavigate } from "react-router-dom";
+import React from 'react';
+import { Link } from 'react-router-dom';
+import styled, { createGlobalStyle } from 'styled-components';
+
+const GlobalStyle = createGlobalStyle`
+  body {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+  }
+`;
+
+const Card = styled.div`
+  width: 100%;
+  max-width: 350px;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  background-color: #fff;
+  text-align: center;
+  margin: 20px auto;
+  transition: box-shadow 0.3s ease-in-out;
+
+  &:hover {
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
+  }
+
+  @media (max-width: 600px) {
+    padding: 15px;
+  }
+`;
+
+const Title = styled.h2`
+  color: #4CAF50;
+  margin-bottom: 20px;
+  font-size: 1.5em;
+
+  @media (max-width: 600px) {
+    font-size: 1.2em;
+    margin-bottom: 15px;
+  }
+`;
+
+const Icon = styled.div`
+ width:100%;
+ padding:20px 100px;
+ img{
+  width:100%;
+ }
+`;
+
+const Details = styled.div`
+  text-align: left;
+  margin-bottom: 20px;
+
+  @media (max-width: 600px) {
+    margin-bottom: 15px;
+  }
+`;
+
+const Detail = styled.p`
+  margin: 5px 0;
+  color: #666;
+  display: flex;
+  justify-content: space-between;
+
+  @media (max-width: 600px) {
+    margin: 3px 0;
+    font-size: 0.9em;
+  }
+`;
+
+const BoldDetail = styled(Detail)`
+  font-weight: bold;
+`;
+
+const Buttons = styled.div`
+  display: flex;
+  justify-content: space-around;
+
+  @media (max-width: 600px) {
+    flex-direction: column;
+    align-items: center;
+  }
+`;
+
+const Button = styled.button`
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  color: #fff;
+  background-color: ${props => (props.primary ? '#2196F3' : '#f44336')};
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+
+  &:hover {
+    background-color: ${props => (props.primary ? '#1976D2' : '#d32f2f')};
+  }
+
+  @media (max-width: 600px) {
+    width: 100%;
+    margin: 5px 0;
+  }
+`;
 
 const PaymentSuccess = () => {
-  // razorpay_payment_link_reference_id
-  // razorpay_payment_id
-  const navigate = useNavigate();
-  const [paymentId, setPaymentId] = useState("");
-  const [referenceId, setReferenceId] = useState("");
-  const [paymentStatus, setPaymentStatus] = useState("");
-  const { orderId } = useParams();
-
-  const jwt = localStorage.getItem("jwt");
-  const dispatch = useDispatch();
-  const { order } = useSelector((store) => store);
-
-  useEffect(() => {
-    // console.log("orderId",orderId)
-    // const urlParams = new URLSearchParams(window.location.search);
-    // setPaymentId(urlParams.get("razorpay_payment_id"));
-    // setReferenceId(urlParams.get("razorpay_payment_link_reference_id"));
-    // setPaymentStatus(urlParams.get("razorpay_payment_link_status"));
-  }, []);
-
-  useEffect(() => {
-    // if (paymentId && paymentStatus === "paid") {
-    //   const data = { orderId, paymentId, jwt };
-    //   dispatch(updatePayment(data));
-    //   dispatch(getOrderById(orderId));
-    // }
-  }, [orderId, paymentId]);
-
   return (
-    <div className="px-2 lg:px-36">
-      <div className="flex flex-col justify-center items-center">
-        {/* <Alert
-          variant="filled"
-          severity="success"
-          sx={{ mb: 6, width: "fit-content" }}
-        >
-          <AlertTitle>order Success orderId {orderId}</AlertTitle>
-          Congratulation Your Order Get Placed
-        </Alert> */}
-        <p style={{ fontSize: 25 }}>Your Order Success OrderId: {orderId}</p>
-        <p> Congratulation Your Order Get Placed...!</p>
-        <Button
-          onClick={() => navigate("/")}
-          variant="contained"
-          type="submit"
-          sx={{ padding: ".8rem 2rem", marginTop: "2rem", }}
-        >
-          Home
-        </Button>
-      </div>
-
-      {/* <OrderTraker activeStep={1}/> */}
-
-      {/* <Grid container className="space-y-5 py-5 pt-20">
-        {order.order?.orderItems.map((item) => (
-          <Grid
-            container
-            item
-            className="shadow-xl rounded-md p-5 border"
-            sx={{ alignItems: "center", justifyContent: "space-between" }}
-          >
-            <Grid item xs={6}>
-              {" "}
-              <div className="flex  items-center ">
-                <img
-                  className="w-[5rem] h-[5rem] object-cover object-top"
-                  src={item?.product.imageUrl}
-                  alt=""
-                />
-                <div className="ml-5 space-y-2">
-                  <p className="">{item.product.title}</p>
-                  <p className="opacity-50 text-xs font-semibold space-x-5">
-                    <span>Color: pink</span> <span>Size: {item.size}</span>
-                  </p>
-                  <p>Seller: {item.product.brand}</p>
-                  <p>₹{item.price}</p>
-                </div>
-              </div>
-            </Grid>
-            <Grid item>
-              <AddressCard address={order.order?.shippingAddress} />
-            </Grid>
-          </Grid>
-        ))}
-      </Grid> */}
-    </div>
+    <>
+      <GlobalStyle />
+      <Card>
+        <Title>Payment successful!</Title>
+        <Icon><img src="https://cdn-icons-png.flaticon.com/512/5709/5709755.png" alt="" /></Icon>
+        <Details>
+          <Detail>Payment type <span>Net banking</span></Detail>
+          <Detail>Bank <span>HDFC</span></Detail>
+          <Detail>Mobile <span>8897131444</span></Detail>
+          <Detail>Email <span>example@example.com</span></Detail>
+          <BoldDetail>Amount paid <span>500.00</span></BoldDetail>
+          <Detail>Transaction id <span>125478965698</span></Detail>
+        </Details>
+        <Buttons>
+          <Button primary>PRINT</Button>
+          <Button> <Link to='/shops'> CLOSE</Link></Button>
+        </Buttons>
+      </Card>
+    </>
   );
-};
+}
 
 export default PaymentSuccess;

@@ -13,6 +13,7 @@ import {
 } from './ActionTypes';
 import api, { API_BASE_URL } from '../../config/api';
 import {toast} from "react-hot-toast"
+
 // Register action creators
 const registerRequest = () => ({ type: REGISTER_REQUEST });
 const registerSuccess = (user) => ({ type: REGISTER_SUCCESS, payload:user });
@@ -47,16 +48,20 @@ export const login = (userData,navigate,toast) => async dispatch => {
   
 
     if(user.token) localStorage.setItem("jwt",user.token)
-      dispatch({ type: GET_USER_SUCCESS, payload: user });
+    dispatch({ type: GET_USER_SUCCESS, payload: user });
     dispatch(loginSuccess(user));
     toast.success("Login Successfull")
+
+    
+  } catch (error) {
+    dispatch(loginFailure(error.message));
+    toast.error(error.message)
+    console.log(error)
     navigate('/')
 
     // alert('Login Successfully')
     
-  } catch (error) {
-    dispatch(loginFailure(error.message));
-    toast.error("Please check your email or password")
+ 
   }
 };
 

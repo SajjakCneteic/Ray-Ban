@@ -1,9 +1,13 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
+import { getCutomerOrdersNew } from '../../../action/cart';
+import { useDispatch } from 'react-redux';
+import {Link} from 'react-router-dom'
 
 const Container = styled.div`
   display: flex;
   padding: 20px;
+  margin: 0 100px;
   flex-direction: column;
 
   @media (min-width: 768px) {
@@ -58,17 +62,21 @@ const Section = styled.section`
 
 const Heading = styled.h2`
   margin-top: 0;
+  font-size: 23px;
+  font-weight: bold;
 `;
 
 const SubHeading = styled.h3`
   margin-bottom: 5px;
+  font-size: 20px;
+  font-weight: bold;
 `;
 
 const Paragraph = styled.p`
   margin: 5px 0;
 `;
 
-const Link = styled.a`
+const Links = styled.p`
   color: #007bff;
   text-decoration: none;
 
@@ -78,12 +86,26 @@ const Link = styled.a`
 `;
 
 export default function Profile() {
+  const [data,setData] = useState({})
+  const dispatch = useDispatch()
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const orders = await dispatch(getCutomerOrdersNew());
+        setData(orders.customer) // Access the response data here
+      } catch (error) {
+        console.error('Error fetching customer orders:', error);
+      }
+    };
+
+    fetchData();
+  }, [dispatch]);
   return (
     <Container>
       <Sidebar>
         <SidebarList>
           <SidebarItem className="active">My Account</SidebarItem>
-          <SidebarItem>My Orders</SidebarItem>
+          <SidebarItem><Link to="/account/order"> My Orders</Link></SidebarItem>
           <SidebarItem>My Wish List</SidebarItem>
           <SidebarItem>Address Book</SidebarItem>
           <SidebarItem>Store Credit & Refunds</SidebarItem>
@@ -95,24 +117,29 @@ export default function Profile() {
         <Section>
           <SubHeading>Account Information</SubHeading>
         </Section>
+        <hr style={{margin:'30px 0'}} />
         <Section>
           <SubHeading>Contact Information</SubHeading>
-          <Paragraph>Sajjak Ali</Paragraph>
-          <Paragraph>sajjak2506@gmail.com</Paragraph>
+          <Paragraph><b>Name :</b> {data?.name}</Paragraph>
+          <Paragraph><b>Email :</b> {data?.email}</Paragraph>
+          <Paragraph><b>Phone Number :</b> {data?.phoneNumber}</Paragraph>
         </Section>
         <Section>
           <SubHeading>Address Book <Link href="#">Manage Addresses</Link></SubHeading>
         </Section>
-        <Section>
+        <hr style={{margin:'30px 0'}} />
+        <div style={{display:'flex',justifyContent:'space-between'}}>
+        <Section >
           <SubHeading>Default Billing Address</SubHeading>
           <Paragraph>You have not set a default billing address.</Paragraph>
-          <Link href="#">EDIT ADDRESS</Link>
+          <Links href="#">EDIT ADDRESS</Links>
         </Section>
         <Section>
           <SubHeading>Default Shipping Address</SubHeading>
           <Paragraph>You have not set a default shipping address.</Paragraph>
-          <Link href="#">EDIT ADDRESS</Link>
+          <Links href="#">EDIT ADDRESS</Links>
         </Section>
+        </div>
       </Content>
     </Container>
   );

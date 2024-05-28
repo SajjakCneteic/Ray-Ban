@@ -5,6 +5,7 @@ import { useDispatch } from 'react-redux';
 import { logout } from '../../../Redux/Auth/Action';
 import { Link } from 'react-router-dom';
 
+
 const MenuOpen = ({ handleClose }) => {
   const jwt = localStorage.getItem('jwt');
   const sidebarClasses = 'relative mr-2 z-10 bg-zinc-200 p-5 w-60 dark:bg-zinc-800';
@@ -14,8 +15,13 @@ const MenuOpen = ({ handleClose }) => {
     { name: 'MY STORE CREDIT', link: './my-store-credit' },
   ]);
 
-  const closeButtonClasses = 'absolute top-1 right-3 z-index-10 text-zinc-800 dark:text-zinc-300 cursor-pointer';
+
+  const closeButtonClasses = "absolute top-1 right-3 z-index-10 text-zinc-800 dark:text-zinc-300 cursor-pointer";
+  console.log(jwt,"jwt")
+
   
+ 
+
   useEffect(() => {
     const updatedSidebarItems = [
       { name: 'MY ACCOUNT', link: '/my-account' },
@@ -75,9 +81,11 @@ const MenuItem = ({ text }) => {
 
   return (
     <li>
+
       <Link to={text.link} className={linkClasses}>
         {text.name}
       </Link>
+
     </li>
   );
 };

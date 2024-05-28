@@ -153,6 +153,8 @@ const RegisterPage = () => {
         setShowPassword(!showPassword);
     };
 
+// handle submit start
+
     const handleSubmit = async (e) => {
         e.preventDefault();
         // Basic validation
@@ -190,6 +192,7 @@ const RegisterPage = () => {
 
         }
     };
+// handle submit end
 
     return (
 
