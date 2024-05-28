@@ -3,6 +3,7 @@ import { Slide } from '@mui/material';
 import toast from 'react-hot-toast';
 import { useDispatch } from 'react-redux';
 import { logout } from '../../../Redux/Auth/Action';
+import { Link } from 'react-router-dom';
 
 
 // let sidebarItems = [
@@ -24,6 +25,8 @@ const MenuOpen = ({ handleClose }) => {
 
   const closeButtonClasses = "absolute top-1 right-3 z-index-10 text-zinc-800 dark:text-zinc-300 cursor-pointer";
   console.log(jwt,"jwt")
+
+  
  
   useEffect(() => {
     const updatedSidebarItems = [
@@ -78,7 +81,7 @@ const MenuItem = ({ text }) => {
   }
   return (
     <li>
-      <a href={text.link} className={linkClasses}>{text.name}</a>
+      <Link to={text.link} className={linkClasses}>{text.name}</Link>
     </li>
   );
 };

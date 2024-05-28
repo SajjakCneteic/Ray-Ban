@@ -1,135 +1,166 @@
-import { Box, Button, Grid, Typography } from "@mui/material";
-import React, { useState } from "react";
-import OrderTraker from "./OrderTraker";
-import StarIcon from "@mui/icons-material/Star";
-import { useNavigate, useParams } from "react-router-dom";
-// import AddressCard from "../adreess/AdreessCard";
-import { deepPurple } from "@mui/material/colors";
-import { useDispatch, useSelector } from "react-redux";
-import { useEffect } from "react";
-import { getOrderById } from "../../../Redux/Customers/Order/Action";
-import BackdropComponent from "../BackDrop/Backdrop";
-import { ordersById } from "../../../action";
-import AddressCard from "../adreess/AdreessCard";
+import React, { useEffect, useState } from 'react';
+import { useParams } from 'react-router-dom';
+import styled from 'styled-components';
+import { useDispatch } from 'react-redux';
+import { ordersById } from '../../../action';
+
+const Container = styled.div`
+  padding: 20px;
+  max-width: 800px;
+  margin: 0 auto;
+  font-family: 'Arial', sans-serif;
+
+  @media (max-width: 600px) {
+    padding: 10px;
+  }
+`;
+
+const Section = styled.div`
+  margin-bottom: 20px;
+`;
+
+const Title = styled.h2`
+  margin-bottom: 10px;
+  font-size: 2em;
+
+  @media (max-width: 600px) {
+    font-size: 1.5em;
+  }
+`;
+
+const SubTitle = styled.h3`
+  margin-bottom: 10px;
+  font-size: 1.5em;
+
+  @media (max-width: 600px) {
+    font-size: 1.2em;
+  }
+`;
+
+const Text = styled.p`
+  margin: 5px 0;
+  font-size: 1.1em;
+`;
+
+const Status = styled.span`
+  color: white;
+  background-color: ${props => props.statusColor || '#000'};
+  padding: 4px 8px;
+  border-radius: 4px;
+`;
+
+const Card = styled.div`
+  display: flex;
+  flex-direction: column;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+  margin: 16px 0;
+  overflow: hidden;
+
+  @media (min-width: 600px) {
+    flex-direction: row;
+  }
+`;
+
+const CardImage = styled.img`
+  max-width: 40%;
+  height: auto;
+
+
+`;
+
+const CardContent = styled.div`
+  padding: 16px;
+  flex: 1;
+`;
+
+const CardTitle = styled.h2`
+  font-size: 1.5em;
+  margin-bottom: 8px;
+`;
+
+const CardText = styled.p`
+  font-size: 1em;
+  margin-bottom: 8px;
+`;
+
+const CardPrice = styled.div`
+  font-size: 1.2em;
+  margin-bottom: 4px;
+`;
+
+const CardQuantity = styled.div`
+  font-size: 1.2em;
+  margin-bottom: 4px;
+`;
+
+const CardTotal = styled.div`
+  font-size: 1.2em;
+  margin-bottom: 4px;
+`;
+
+const getStatusColor = (status) => {
+  switch (status) {
+    case 'PaymentSettled':
+      return '#4caf50';
+    case 'Pending':
+      return '#ff9800';
+    case 'Cancelled':
+      return '#f44336';
+    default:
+      return '#000';
+  }
+};
 
 const OrderDetails = () => {
-  const dispatch = useDispatch();
-  const jwt = localStorage.getItem("jwt");
-  const { orderId } = useParams();
-  const { order } = useSelector((store) => store);
+  const [data, setData] = useState({})
+  const { orderId } = useParams()
+  const dispatch = useDispatch()
 
-  const [linesData, setLinesData] = useState();
-
-  console.log("order", linesData);
-
+  console.log(data)
   useEffect(() => {
-    // dispatch(getOrderById(orderId));
-    ordersById(orderId).then((res) => {
-      console.log("this is order detials page1", res.data);
-      setLinesData(res.data.order);
-    });
-  }, []);
+    const fetchData = async () => {
+      try {
+        const orders = await ordersById(orderId);
+        setData(orders); // Access the response data here
+      } catch (error) {
+        console.error('Error fetching customer orders:', error);
+      }
+    };
 
-  const navigate = useNavigate();
+    fetchData();
+  }, [orderId]);
+
+
   return (
-    <>
-      {linesData && (
-        <div className=" px-2 lg:px-36 space-y-7 ">
-          <Grid container className="p-3 shadow-lg">
-            <Grid xs={12}>
-              <p className="font-bold text-lg py-2">Address</p>
-            </Grid>
-            <Grid item xs={6}>
-              <AddressCard address={linesData?.shippingAddress} />
-            </Grid>
-          </Grid>
-          <Box className="p-5 shadow-lg border rounded-md">
-            <Grid
-              container
-              sx={{ justifyContent: "space-between", alignItems: "center" }}
-            >
-              <Grid item xs={9}>
-                <OrderTraker
-                  activeStep={
-                    order.order?.orderStatus === "PLACED"
-                      ? 1
-                      : order.order?.orderStatus === "CONFIRMED"
-                      ? 2
-                      : order.order?.orderStatus === "SHIPPED"
-                      ? 3
-                      : 5
-                  }
-                />
-              </Grid>
-              <Grid item>
-                {order.order?.orderStatus === "DELIVERED" && (
-                  <Button sx={{ color: "" }} color="error" variant="text">
-                    RETURN
-                  </Button>
-                )}
+    <Container>
+      {/* <Section>
+        <Title>Order Details</Title>
+        <Text><strong>Order ID:</strong> {order.id}</Text>
+        <Text><strong>Order Date:</strong> {order.date}</Text>
+        <Text><strong>Total Amount:</strong> INR {order.amount}</Text>
+        <Text><strong>Status:</strong> <Status statusColor={getStatusColor(order.status)}>{order.status}</Status></Text>
+      </Section>
 
-                {order.order?.orderStatus !== "DELIVERED" && (
-                  <Button sx={{ color: deepPurple[500] }} variant="text">
-                    cancel order
-                  </Button>
-                )}
-              </Grid>
-            </Grid>
-          </Box>
+      <Card>
+        <CardImage src={order.product.image} alt={order.product.name} />
+        <CardContent>
+          <CardTitle>{order.product.name}</CardTitle>
+          <CardPrice>Price: USD {order.product.price}</CardPrice>
+          <CardQuantity>Quantity: {order.product.quantity}</CardQuantity>
+          <CardTotal>Total: INR {order.product.total}</CardTotal>
+        </CardContent>
+      </Card>
 
-          <Grid container className="space-y-5">
-            {linesData &&
-              linesData?.lines.length > 0 &&
-              linesData?.lines.map((item) => (
-                <Grid
-                  container
-                  item
-                  className="shadow-xl rounded-md p-5 border"
-                  sx={{ alignItems: "center", justifyContent: "space-between" }}
-                >
-                  <Grid item xs={6}>
-                    {" "}
-                    <div className="flex  items-center ">
-                      <img
-                        className="w-[5rem] h-[5rem] object-cover object-top"
-                        src={item.productVariant.product.featuredAsset.preview}
-                        alt=""
-                      />
-                      <div className="ml-5 space-y-2">
-                        <p className="">{item.productVariant.name}</p>
-                        {/* <p className="opacity-50 text-xs font-semibold space-x-5">
-                    <span>Color: pink</span> <span>Size: {item.size}</span>
-                  </p> */}
-                        <p>Quantity: {item.quantity}</p>
-                        <p>₹{linesData.totalWithTax / 100} </p>
-                      </div>
-                    </div>
-                  </Grid>
-                  <Grid item>
-                    {
-                      <Box
-                        sx={{ color: deepPurple[500] }}
-                        onClick={() =>
-                          navigate(`/account/rate/${item.product._id}`)
-                        }
-                        className="flex items-center cursor-pointer"
-                      >
-                        <StarIcon
-                          sx={{ fontSize: "2rem" }}
-                          className="px-2 text-5xl"
-                        />
-                        <span>Rate & Review Product</span>
-                      </Box>
-                    }
-                  </Grid>
-                </Grid>
-              ))}
-          </Grid>
-        </div>
-      )}
-      <BackdropComponent open={false} />
-    </>
+      <Section>
+        <SubTitle>Shipping Information</SubTitle>
+        <Text><strong>Name:</strong> {order.shipping.name}</Text>
+        <Text><strong>Phone:</strong> {order.shipping.phone}</Text>
+        <Text><strong>Address:</strong> {order.shipping.address}</Text>
+      </Section> */}
+    </Container>
   );
 };
-// sx={{width:"10px",height:"10px"}}
+
 export default OrderDetails;

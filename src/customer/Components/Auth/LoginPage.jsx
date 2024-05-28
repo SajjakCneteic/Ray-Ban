@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link,  useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import { getCustomerNew } from '../../../action/Customer';
 import { login } from '../../../Redux/Auth/Action';
@@ -143,16 +143,14 @@ const Login = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [errors, setErrors] = useState({});
-    const navigate = useNavigate();
     const dispatch = useDispatch();
     const jwt = localStorage.getItem("jwt");
-    const { auth, newUser } = useSelector((store) => store);
+    const navigate = useNavigate()
 
- 
+ // handle submit start
   
     const handleSubmit = async(event) => {
       event.preventDefault();
-
       const errors = {};
       if (!email) {
           errors.email = 'Email is required';
@@ -161,22 +159,27 @@ const Login = () => {
           errors.password = 'Password is required';
       }
       setErrors(errors);
-
       const data = new FormData(event.currentTarget);
       const userData = {
         email: data.get("email"),
         password: data.get("password"),
       };
       try {
-          dispatch(login(userData,navigate,toast));
+         await dispatch(login(userData,navigate,toast));
+        
       } catch (error) {
         console.log(error)
       }
-      finally{
-        auth.auth? navigate("/"): navigate("/sign-in")
-      
-      }
+     
     };
+
+    useEffect(()=>{
+        if(jwt){
+            navigate('/')
+        }
+        
+    },[jwt])
+// handle submit end
   
 //  show password start
     const handlePasswordVisibilityToggle = () => {
