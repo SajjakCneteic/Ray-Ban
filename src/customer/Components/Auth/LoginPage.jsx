@@ -167,7 +167,7 @@ const Login = () => {
 
       try {
          await dispatch(login(userData,navigate,toast));
-        
+         window.location.reload();
       } catch (error) {
         console.log(error)
       }

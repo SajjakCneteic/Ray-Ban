@@ -1,6 +1,6 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
-import styled, { createGlobalStyle } from 'styled-components';
+import React, { useEffect, useState } from 'react';
+import { Link, useLocation } from 'react-router-dom';
+import styled, { createGlobalStyle, keyframes } from 'styled-components';
 
 const GlobalStyle = createGlobalStyle`
   body {
@@ -8,6 +8,17 @@ const GlobalStyle = createGlobalStyle`
     padding: 0;
     box-sizing: border-box;
     font-family: Arial, sans-serif;
+  }
+`;
+
+const fadeIn = keyframes`
+  from {
+    opacity: 0;
+    transform: scale(0.8);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
   }
 `;
 
@@ -42,12 +53,16 @@ const Title = styled.h2`
   }
 `;
 
-const Icon = styled.div`
- width:100%;
- padding:20px 100px;
- img{
-  width:100%;
- }
+const IconWrapper = styled.div`
+  width: 100%;
+  padding: 20px 100px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
+
+const AnimationContainer = styled.div`
+  animation: ${fadeIn} 1s ease-in-out;
 `;
 
 const Details = styled.div`
@@ -105,27 +120,50 @@ const Button = styled.button`
 `;
 
 const PaymentSuccess = () => {
+  const location = useLocation();
+  const paymentsuccessdata = location.state;
+  const [showDetails, setShowDetails] = useState(false);
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setShowDetails(true);
+    }, 2000);
+    return () => clearTimeout(timer);
+  }, []);
+
   return (
     <>
       <GlobalStyle />
       <Card>
         <Title>Payment successful!</Title>
-        <Icon><img src="https://cdn-icons-png.flaticon.com/512/5709/5709755.png" alt="" /></Icon>
-        <Details>
-          <Detail>Payment type <span>Net banking</span></Detail>
-          <Detail>Bank <span>HDFC</span></Detail>
-          <Detail>Mobile <span>8897131444</span></Detail>
-          <Detail>Email <span>example@example.com</span></Detail>
-          <BoldDetail>Amount paid <span>500.00</span></BoldDetail>
-          <Detail>Transaction id <span>125478965698</span></Detail>
-        </Details>
+        <IconWrapper>
+          {!showDetails ? (
+            <AnimationContainer>
+              <svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="green" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="feather feather-check-circle">
+                <path d="M9 11l3 3L22 4"></path>
+                <path d="M21 12v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-9"></path>
+                <path d="M22 4L12 14 9 11 4 16"></path>
+              </svg>
+            </AnimationContainer>
+          ) : (
+            <img src="https://cdn-icons-png.flaticon.com/512/5709/5709755.png" alt="Success" />
+          )}
+        </IconWrapper>
+        {showDetails && (
+          <Details>
+            <Detail>Payment type <span>{paymentsuccessdata?.paymentMethod}</span></Detail>
+            <Detail>Mobile <span>{paymentsuccessdata?.mobile}</span></Detail>
+            <BoldDetail>Amount paid <span>₹ {paymentsuccessdata?.totalAmount}</span></BoldDetail>
+            <Detail>Transaction id <span>125478965698</span></Detail>
+          </Details>
+        )}
         <Buttons>
           <Button primary>PRINT</Button>
-          <Button> <Link to='/shops'> CLOSE</Link></Button>
+          <Button><Link to='/shops'>CLOSE</Link></Button>
         </Buttons>
       </Card>
     </>
   );
-}
+};
 
 export default PaymentSuccess;
