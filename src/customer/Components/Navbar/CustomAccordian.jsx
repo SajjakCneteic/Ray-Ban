@@ -1,60 +1,77 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import styled, { keyframes } from 'styled-components';
 import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { logout } from '../../../Redux/Auth/Action';
-import { FaSearch } from "react-icons/fa";
-import { API_BASE_URL } from '../../../config/api';
 import OpenSunglasses from './OpenSunglasses';
 
 const CustomAccordion = ({ drawer, setDrawer, sunglasses, eyeGlasses, pages }) => {
   const [openIndex, setOpenIndex] = useState(null);
-  const auth = useSelector(state => state.auth.auth);
   const dispatch = useDispatch();
+  const jwt = localStorage.getItem('jwt');
+  
+  const [sidebarItems, setSidebarItems] = useState([
+    { name: 'MY ACCOUNT', children: jwt ? [{ name: 'MY ORDERS' }, { name: 'MY STORE CREDIT' }, { name: 'MY SELECTIONS' }, { name: 'LOGOUT' }] : [{ name: 'LOGIN', address: '/sign-in' }, { name: 'MY ORDERS' }, { name: 'MY STORE CREDIT' }, { name: 'MY SELECTIONS' }, { name: 'GIFT CARD BALANCE' }] },
+    { name: 'SUNGLASSES', component: OpenSunglasses, data: sunglasses },
+    { name: 'EYEGLASSES', component: OpenSunglasses, data: eyeGlasses },
+    { name: 'NEW ARRIVALS' },
+    { name: 'ORDER STATUS' },
+    { name: 'PROMO' },
+  ]);
+
+  useEffect(() => {
+    setSidebarItems([
+      { name: 'MY ACCOUNT', children: jwt ? [{ name: 'MY ORDERS' }, { name: 'MY STORE CREDIT' }, { name: 'MY SELECTIONS' }, { name: 'LOGOUT' }] : [{ name: 'LOGIN', address: '/sign-in' }, { name: 'MY ORDERS' }, { name: 'MY STORE CREDIT' }, { name: 'MY SELECTIONS' }, { name: 'GIFT CARD BALANCE' }] },
+      { name: 'SUNGLASSES', component: OpenSunglasses, data: sunglasses },
+      { name: 'EYEGLASSES', component: OpenSunglasses, data: eyeGlasses },
+      { name: 'NEW ARRIVALS' },
+      { name: 'ORDER STATUS' },
+      { name: 'PROMO' },
+    ]);
+  }, [jwt, sunglasses, eyeGlasses]);
 
   const toggleAccordion = (index) => {
     setOpenIndex(openIndex === index ? null : index);
   };
-console.log(sunglasses,"sunglasses",eyeGlasses)
-  const datas = [
-    { name: 'MY ACCOUNT', children: [{ name: 'LOGIN' ,address:'/sign-in'}, { name: 'MY ORDERS' }, { name: 'MY STORE CREDIT' }, { name: 'MY SELECTIONS' }, { name: 'GIFT CARD BALANCE' }] },
-    { name: 'SUNGLASSES' ,component:OpenSunglasses,data:sunglasses},
-    { name: 'EYEGLASSES',component:OpenSunglasses, data:eyeGlasses},
-    { name: 'NEW ARRIVALS' },
-    // { name: 'PRESCRIPTION' },
-    // { name: 'GIFT CARD' },
-    { name: 'ORDER STATUS' },
-    { name: 'PROMO', }
-  ];
+
+  const handleLogout = () => {
+    dispatch(logout());
+    localStorage.removeItem('jwt');
+  };
 
   return (
     <div style={{ height: '100%', width: '100%' }}>
       <AccordionWrapper>
-        {datas.map((item, index) => (
+        {sidebarItems.map((item, index) => (
           <AccordionItem key={index}>
             <AccordionButton onClick={() => toggleAccordion(index)}>
               <div>{item.name}</div>
               {(item.children || item.component) && (
-  <div>{openIndex === index ? '-' : '+'}</div>
-)}
+                <div>{openIndex === index ? '-' : '+'}</div>
+              )}
             </AccordionButton>
-            {item.component && openIndex === index && <item.component data={item.data}/>}
+            {item.component && openIndex === index && <item.component data={item.data} />}
             {item.children && openIndex === index && (
               <AccordionContent isOpen={openIndex === index}>
                 <NestedAccordionContent>
                   {item.children.map((child, childIndex) => (
-                    <Link to={child.address}>
-                    <NestedLink key={childIndex} >
-                      {child.name}
-                    </NestedLink>
-                    </Link>
+                    child.name === 'LOGOUT' ? (
+                      <NestedLink key={childIndex} onClick={handleLogout}>
+                        {child.name}
+                      </NestedLink>
+                    ) : (
+                      <Link key={childIndex} to={child.address || '#'}>
+                        <NestedLink>
+                          {child.name}
+                        </NestedLink>
+                      </Link>
+                    )
                   ))}
                 </NestedAccordionContent>
               </AccordionContent>
             )}
           </AccordionItem>
         ))}
-
       </AccordionWrapper>
     </div>
   );
@@ -120,7 +137,7 @@ const NestedAccordionContent = styled.div`
   flex-direction: column;
 `;
 
-const NestedLink = styled(Link)`
+const NestedLink = styled.div`
   display: block;
   text-decoration: none;
   color: #333;
@@ -128,27 +145,8 @@ const NestedLink = styled(Link)`
   background-color: #ffffff;
   border-bottom: 1px solid #f0f0f0;
   transition: background-color 0.3s;
-
+curser: pointer;
   &:hover {
     background-color: #f9f9f9;
   }
-`;
-
-const FrameIcon = styled.img`
-  width: 25px;
-  height: 20px;
-  flex: 1;
-  position: relative;
-  max-height: 100%;
-`;
-
-const Svg = styled.div`
-  width: 25px;
-  height: 20px;
-  overflow: hidden;
-  flex-shrink: 0;
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  justify-content: center;
 `;

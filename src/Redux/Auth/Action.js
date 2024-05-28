@@ -49,14 +49,14 @@ export const login = (userData,navigate,toast) => async dispatch => {
     if(user.token) localStorage.setItem("jwt",user.token)
       dispatch({ type: GET_USER_SUCCESS, payload: user });
     dispatch(loginSuccess(user));
-    navigate('/')
     toast.success("Login Successfull")
+    navigate('/')
 
     // alert('Login Successfully')
     
   } catch (error) {
     dispatch(loginFailure(error.message));
-    // toast.error("Please check your email or password")
+    toast.error("Please check your email or password")
   }
 };
 

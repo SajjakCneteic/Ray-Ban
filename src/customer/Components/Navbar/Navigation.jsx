@@ -3,7 +3,6 @@ import { Dialog, Popover, Transition } from "@headlessui/react";
 import SearchIcon from '@mui/icons-material/Search';
 import {
   Bars3Icon,
-  MagnifyingGlassIcon,
   XMarkIcon,
 } from "@heroicons/react/24/outline";
 import PersonIcon from '@mui/icons-material/Person';
@@ -12,39 +11,17 @@ import ShoppingBagIcon from '@mui/icons-material/ShoppingBag';
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { Avatar, Button, Menu, MenuItem, Slide } from "@mui/material";
 import { navigation } from "../../../config/navigationMenu";
-// import AuthModal from "../Auth/AuthModal";
 import { useDispatch, useSelector } from "react-redux";
 import { grey } from "@mui/material/colors";
-// import { getUser, logout } from "../../../Redux/Auth/Action";
-import { getCart } from "../../../Redux/Customers/Cart/Action";
-// import menuItemsData from "./data.json";
-// import Menuitems from "../dropdown/Menuitems";
 import "../dropdown/dropdown.css";
 import { logoutCustomer } from "../../../action/Customer";
-import { getCartItems, RemoveCartItemNew, updateCartQtyNEW } from '../../../action/cart';
-
-// import logo from "../../../logos/111.png";
+import { getCartItems } from '../../../action/cart';
 import DropDown from "./DropDown";
 import MenuOpen from "./MenuOpen";
-// import OpenHamburger from "./OpenSunglasses";
-// import OpenSunglasses from "./OpenSunglasses";
 import CustomAccordion from "./CustomAccordian";
 import ShoppingCart, { EmptyCart } from "./ShoppingCartModel";
-import Collapse from '@mui/material/Collapse';
 import { Toaster } from "react-hot-toast";
-
-
-
-
-// export default CartButton;
-
-// Utility function to join class names conditionally
-function classNames(...classes) {
-  return classes.filter(Boolean).join(" ");
-}
-
 export default function Navigation() {
-  // State to manage mobile menu open/close
   const [open, setOpen] = useState(false);
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -56,20 +33,14 @@ export default function Navigation() {
   const location = useLocation();
   const [showDropdown, setShowDropdown] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
-
-// Initialize menuItemsData as null or an empty object
-const [menuItemsData, setmenuItemsData] = useState(null); // or useState({})
+  const [menuItemsData, setmenuItemsData] = useState(null); 
 const [selectedPage, setSelectedPage] = useState(null);
 const [openCart, setOpenCart] = useState(false);
-// const [showDropdown, setShowDropdown] = useState(false);
-// const [menuItemsData, setMenuItemsData] = useState(null);
-const [collapseKey, setCollapseKey] = useState(0);
 
 
 const handlePageClick = (pageName) => {
   setSelectedPage(pageName === selectedPage ? null : pageName);
 };
-// const menuItemsData =[];
   const Sunglasses = {
     sidebarData: {
       shop: ["Men", "Women", "Kids", "All Sunglasses"],
@@ -117,28 +88,6 @@ const Eyeglasses ={
 
 ]
 }
-
-// const toggleDropdown = (pageName, data) => {
-//   if (pageName === "SUNGLASSES" ) {
-//     setMenuItemsData(Sunglasses);
-//     setShowDropdown(true);
-//   } else if( pageName === "EYEGLASSES"){
-//     setMenuItemsData(Eyeglasses);
-//     setShowDropdown(true);
-
-//   }else {
-//     setMenuItemsData(null);
-//     setShowDropdown(false);
-//   }
-//   setCollapseKey((prevKey) => prevKey + 1); // Update key to trigger remount
-// };
-
-  // Fetch user and cart data if JWT is present
-  // useEffect(() => {
-  //   if (jwt) {
-  //     dispatch(getCart(jwt));
-  //   }
-  // }, [jwt]);
 
   // Event handlers for user menu
   const handleUserClick = (event) => {
@@ -234,82 +183,9 @@ const handleCloseCart = () => {
 
                 {/* Mobile menu navigation */}
                 <CustomAccordion sunglasses={Sunglasses} eyeGlasses={Eyeglasses}/>
-
-                {/* <div className="space-y-6 border-t border-gray-200 px-4 py-6 text-center ">
-                  {navigation.pages.map((page) => (
-                    <div key={page.name} className="flow-root">
-                      <a
-                        href={page.href}
-                        className="-m-2 block p-2 font-medium text-black"
-                      >
-                        {page.name}
-                      </a>
-                    </div>
-                  ))}
-                </div> */}
-            {/* <div className="space-y-2">
-      {navigation?.pages?.map((page) => (
-        <div key={page.name} className="flow-root">
-          {page.name === 'Sunglasses' || page.name === 'Eyeglasses' ? (
-            <button
-              onClick={() => handlePageClick(page.name)}
-              className="m-2 block p-4 font-medium text-black"
-            >
-              {page.name} {selectedPage === page.name ? '-' : '+'}
-            </button>
-          ) : (
-            <a
-              href={page.href}
-              className="-m-2 block p-2 font-medium text-black"
-            >
-              {page.name}
-            </a>
-          )}
-          <Transition
-            show={selectedPage === page.name && (page.name === 'Sunglasses' || page.name === 'Eyeglasses')}
-            enter="transition duration-200 ease-out"
-            enterFrom="transform -translate-y-4 opacity-0"
-            enterTo="transform translate-y-0 opacity-100"
-            leave="transition duration-150 ease-in"
-            leaveFrom="transform translate-y-0 opacity-100"
-            leaveTo="transform -translate-y-4 opacity-0"
-          >
-            <div className="p-4 border">
-              {page.name === 'Sunglasses' && <OpenSunglasses drawer={isOpen} setDrawer={setIsOpen} sunglasses={Sunglasses} eyeGlasses={Eyeglasses} pages={navigation.pages}/>}
-            </div>
-          </Transition>
-        </div>
-      ))}
-    </div> */}
-                {/* <OpenHumburger drawer={isOpen} setDrawer={setIsOpen}/> */}
-{/*  CustomAccordion = ({drawer,setDrawer,sunglasses,eyeGlasses}) */}
-{/* <OpenHamburger drawer={isOpen} setDrawer={setIsOpen} sunglasses={Sunglasses} eyeGlasses={Eyeglasses} pages={navigation.pages}/> */}
-                {/* Sign in option for mobile menu
-                <div className="space-y-6 border-t border-gray-200 px-4 py-6">
-                  <div className="flow-root">
-                    <a
-                      href="/"
-                      className="-m-2 block p-2 font-medium text-black"
-                    >
-                      Sign in
-                    </a>
-                  </div>
-                </div> */}
-
-                {/* Currency option for mobile menu */}
-                {/* <div className="border-t border-gray-200 px-4 py-6">
-                  <a href="/" className="-m-2 flex items-center p-2">
-                    <img
-                      src="https://tailwindui.com/img/flags/flag-canada.svg"
-                      alt=""
-                      className="block h-auto w-5 flex-shrink-0"
-                    />
-                    <span className="ml-3 block text-base font-medium text-black">
-                      CAD
-                    </span>
-                    <span className="sr-only">, change currency</span>
-                  </a>
-                </div> */}
+    
+               
+              
               </Dialog.Panel>
             </Transition.Child>
           </div>
@@ -346,21 +222,7 @@ setIsOpen(true)
                 </Link>
               </div>
 
-              {/* Main navigation links */}
-              {/* <Popover.Group className="hidden lg:ml-8 lg:block lg:self-stretch z-10">
-                <div className="flex h-full space-x-8">
-                  {navigation.pages.map((page) => (
-                    <a
-                      key={page.name}
-                      href={page.href}
-                      className="flex items-center text-sm font-medium text-black hover:text-blue-800"
-                      style={{color: page.name == "PROMO" ? "red" : "black"}}
-                    >
-                      {page.name}
-                    </a>
-                  ))}
-                </div>
-              </Popover.Group> */}
+           
  <Popover.Group className="hidden w-1/2  lg:ml-8 lg:block lg:self-stretch z-10 relative">
   <div className="flex   h-full space-x-8">
     {navigation.pages.map((page) => (
@@ -406,36 +268,7 @@ setIsOpen(true)
     )}
   </div>
 </Popover.Group> 
-{/* <Popover.Group className="hidden w-1/2 lg:ml-8 lg:block lg:self-stretch z-10 relative">
-      <div className="flex justify-around h-full space-x-8 relative">
-        {navigation.pages.map((page) => (
-          <div
-            key={page.name}
-            className="relative flex items-center text-sm font-medium text-black hover:text-blue-800"
-            onMouseEnter={(e) => toggleDropdown(page.name, { top: e.clientY, left: e.clientX })}
-            onMouseLeave={() => setShowDropdown(false)}
-          >
-               <div
-              className="text-black hover:text-blue-800"
-              style={{ color: page.name === "PROMO" ? "red" : "black" }}
-            >
-              <a href={page.href}>{page.name}</a>
-            </div>
-            
-          </div>
-        ))}
-        {/* Show dropdown if page name is "SUNGLASSES" or "EYEGLASSES" 
-        <Collapse key={collapseKey} in={showDropdown} timeout="100" unmountOnExit>
-          <div
-            style={{ top: 10, left: 10, zIndex: 1000 }}
-            onMouseLeave={() => setShowDropdown(false)}
-            className="absolute w-[70vw] h-[50vh] border-1 border-red-500"
-          >
-            <DropDown data={menuItemsData} showDropdown={showDropdown} />
-          </div>
-        </Collapse>
-      </div>
-    </Popover.Group> */}
+
               <div className="ml-auto flex items-center">
                 {/* User authentication and menu */}
                 <div className="hidden lg:flex lg:flex-1 lg:items-center lg:justify-end lg:space-x-6">
@@ -507,64 +340,18 @@ setIsOpen(true)
                     <FavoriteIcon onClick={() => {
                         navigate("/shops");
                       }} />
-                    {/* <img src="image-4.svg"
-                      className="h-6 w-6"
-                      aria-hidden="true"
-                      onClick={() => {
-                        navigate("/shops");
-                      }}
-                    /> */}
+                   
                   </p>
                 </div>
-                {/* CartButton = ({ newUser, cartItems }) */}
                 <CartButton newUser={newUser} cartItems={cartItems} />
-                {/* Cart button */}
-                {/* <div className="ml-4 flow-root lg:ml-6">
-                  <Button
-                        onClick={handleOpenCart}
-                    className="group -m-2 flex items-center p-2"
-                  >
-                    <ShoppingBagIcon
-                      className="h-6 w-6 flex-shrink-0 text-black group-hover:text-gray-500"
-                      aria-hidden="true"
-                    />
-                    <span className="ml-2 text-sm font-medium text-black group-hover:text-gray-800">
-                      {newUser?.newUser?.user?.name
-                        ? cartItems?.cartItems?.cart?.totalQuantity
-                        : 0}
-                    </span>
-                    <span className="sr-only">items in cart, view bag</span>
-                  </Button>
-                  {openCart && (cartItems?.cartItems?.cart?.totalQuantity!==undefined?<div className="absolute  top-16 right-20 z-10"> <EmptyCart handleCloseCart={handleCloseCart} /></div> : <div className="absolute  top-16 right-20 z-10"> <ShoppingCart handleCloseCart={handleCloseCart} /></div>)}
-                </div> */}
+                
               </div>
             </div>
           </div>
         </nav>
       </header>
 
-      {/* Authentication modal */}
-      
-
-      {/* Uncomment if needed for additional menu items */}
-      {/* <div className="header-desk-navbar">
-        <div className="header-desk-container">
-          <nav>
-            <ul className="menus">
-              {menuItemsData.map((menu, index) => {
-                const depthLevel = 0;
-                return (
-                  <Menuitems
-                    items={menu}
-                    key={index}
-                    depthLevel={depthLevel}
-                  />
-                );
-              })}
-            </ul>
-          </nav>
-        </div>
-      </div> */}
+    
     </div>
   );
 }
@@ -575,7 +362,6 @@ const dispatch = useDispatch();
 const jwt= localStorage.getItem("jwt")
   const handleOpenCart = () => setOpenCart(!openCart);
   const handleCloseCart = () => setOpenCart(false);
-  // console.log(cartItems.cartItems.cart.totalQuantity,"bag");
   useEffect(() => {
     dispatch(getCartItems());
   }, [dispatch,jwt]);
@@ -598,7 +384,7 @@ const jwt= localStorage.getItem("jwt")
       </Button>
       <Slide direction="left" in={openCart} mountOnEnter unmountOnExit>      
         <div className="absolute top-16 right-20 z-10">
-          {cartItems?.cartItems?.cart?.totalQuantity === undefined ? (
+          {cartItems?.cartItems?.cart?.totalQuantity === 0 ? (
             <EmptyCart handleCloseCart={handleCloseCart} />
           ) : (
             <ShoppingCart handleCloseCart={handleCloseCart} />

@@ -36,7 +36,7 @@ export default function ProductDetails() {
 
   // const {ProductId} = useParams()
 console.log(cartItems)
-  const ProductId = 64
+  const ProductId = 58
 
 
   useEffect(() => {

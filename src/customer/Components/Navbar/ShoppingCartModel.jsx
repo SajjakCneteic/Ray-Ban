@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import toast from 'react-hot-toast';
 import { RemoveCartItemNew, updateCartQtyNEW, getCartItems } from '../../../action/cart';
-
+import DeleteIcon from '@mui/icons-material/Delete';
 const buttonStyles = 'absolute top-2 right-2 text-zinc-500 hover:text-zinc-700';
 const containerStyles = 'flex justify-center items-center w-full h-[40vh] bg-zinc-100';
 const innerContainerStyles = 'relative w-full h-[40vh] max-w-md p-4 bg-white border border-zinc-300 rounded shadow-md';
@@ -24,6 +24,7 @@ export const EmptyCart = ({ handleCloseCart }) => {
   );
 };
 
+
 const CartItem = ({ imageSrc, productName, price, quantity, onUpdateQuantity, onRemoveItem }) => {
   const [inputQuantity, setInputQuantity] = useState(quantity);
 
@@ -33,17 +34,19 @@ const CartItem = ({ imageSrc, productName, price, quantity, onUpdateQuantity, on
 
   const debouncedUpdateQuantity = useCallback(
     debounce((newQuantity) => {
-      if(newQuantity === 0||newQuantity ===null){
-      onUpdateQuantity(newQuantity);
+      if (newQuantity > 0) {
+        onUpdateQuantity(newQuantity);
       }
-    }, 500),
+    }, 2000),
     [onUpdateQuantity]
   );
 
   const handleChange = (e) => {
     const newQuantity = e.target.value;
     setInputQuantity(newQuantity);
-    debouncedUpdateQuantity(newQuantity);
+    if (newQuantity > 0) {
+      debouncedUpdateQuantity(newQuantity);
+    }
   };
 
   return (
@@ -61,7 +64,7 @@ const CartItem = ({ imageSrc, productName, price, quantity, onUpdateQuantity, on
             className="w-12 border border-zinc-300 dark:border-zinc-700 rounded px-2 py-1 text-zinc-900 dark:text-zinc-100"
             onChange={handleChange}
           />
-          <button className="ml-2 text-zinc-500 dark:text-zinc-400" onClick={onRemoveItem}>🗑️</button>
+          <button className="ml-2 text-zinc-500 dark:text-zinc-400" onClick={onRemoveItem}><DeleteIcon/></button>
         </div>
       </div>
     </div>
@@ -80,9 +83,7 @@ const jwt = localStorage.getItem("jwt");
 
   const handleUpdateQuantity = (lineId, quantity) => {
     console.log("handleUpdateQuantity", lineId, quantity);
-    updateCartQtyNEW({ lineId, quantity }, toast).then(() => {
-      dispatch(getCartItems());
-    });
+    updateCartQtyNEW({ lineId, quantity }, toast)
   };
 
   const handleRemoveItem = (lineId) => {
@@ -95,20 +96,25 @@ const jwt = localStorage.getItem("jwt");
     <div className="bg-white z-100 dark:bg-zinc-800 p-4 w-96 border border-zinc-300 dark:border-zinc-700 shadow-lg rounded">
       <div className="flex justify-between items-center border-b pb-2 mb-2">
         <span className="text-zinc-700 dark:text-zinc-300">{cartItems.length} Items in Cart</span>
-        <button onClick={handleCloseCart} className="text-zinc-500 dark:text-zinc-400">✕</button>
+        <button onClick={()=>{
+          dispatch(getCartItems());
+        handleCloseCart()}} className="text-zinc-500 dark:text-zinc-400">✕</button>
       </div>
       <div className="flex justify-between items-center mb-4">
         <span className="text-zinc-700 dark:text-zinc-300">Cart Subtotal :</span>
         <span className="text-zinc-900 dark:text-zinc-100 font-bold">₹{subtotal}</span>
       </div>
       <Link to="/checkout">
-        <button onClick={handleCloseCart} className="w-full bg-red-600 text-white py-2 rounded mb-4">PROCEED TO CHECKOUT</button>
+        <button onClick={()=>{
+          dispatch(getCartItems())
+          handleCloseCart();
+        }}  className="w-full bg-red-600 text-white py-2 rounded mb-4">PROCEED TO CHECKOUT</button>
       </Link>
       <div className="overflow-y-auto max-h-40 mb-4">
         {cartItems?.map((item, index) => (
           <CartItem
             key={index}
-            imageSrc={item.productVariant.images[0].url}
+            imageSrc={item.productVariant.images[index].url}
             productName={item.productVariant.name}
             price={item.productVariant.price}
             quantity={item.quantity}
@@ -117,7 +123,11 @@ const jwt = localStorage.getItem("jwt");
           />
         ))}
       </div>
-      <button className="w-full text-center text-zinc-700 dark:text-zinc-300 py-2 border-t border-zinc-300 dark:border-zinc-700" onClick={handleCloseCart}>
+      <button className="w-full text-center text-zinc-700 dark:text-zinc-300 py-2 border-t border-zinc-300 dark:border-zinc-700" onClick={()=>{
+                  dispatch(getCartItems())
+
+        handleCloseCart()
+        }}>
         <Link to="/cart">View and Edit Cart</Link>
       </button>
     </div>

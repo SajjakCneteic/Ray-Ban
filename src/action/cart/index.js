@@ -176,11 +176,11 @@ console.log(payload)
 
 export const placeOrder = async (data) => {
 
-
+console.log(data,"paymentData")
   return new Promise((resolve, reject) => {
     return post("checkout", data)
       .then((res) => {
-        getCartItems()
+       
         resolve(res);
         // getCustomerLoginCart();
       })

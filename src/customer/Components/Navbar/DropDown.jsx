@@ -20,7 +20,6 @@ const linkClass = "hover:underline";
 const textCenterClass = "text-center";
 
 const SunglassesGrid = ({data}) => {
-    // console.log(props,"dropdown")
   return (
     <div className={gridClass}>
       {data?.map((item, index) => (
@@ -33,31 +32,7 @@ const SunglassesGrid = ({data}) => {
   );
 };
 
-// const Sidebar = () => {
-//   return (
-//     <div className="w-full md:w-1/4 p-4">
-//         <h2 className="font-bold mb-2">SHOP</h2>
-//       <hr/>
-//       <ul className="space-y-2">
-//         <li><a href="#" className={linkClass}>Men</a></li>
-//         <li><a href="#" className={linkClass}>Women</a></li>
-//         <li><a href="#" className={linkClass}>Kids</a></li>
-//         <li><a href="#" className={linkClass}>All Sunglasses</a></li>
-//       </ul>
-//       <h2 className="font-bold mt-8 mb-2">Gift Card</h2>
-//       <hr/>
-//       <ul className="space-y-2">
-//         <li><a href="#" className={linkClass}>New Arrivals</a></li>
-//         <li><a href="#" className={linkClass}>Best Sellers</a></li>
-//         <li><a href="#" className={linkClass}>Reverse</a></li>
-//         <li><a href="#" className={linkClass}>Scuderia Ferrari</a></li>
-//         <li><a href="#" className={linkClass}>Chromance</a></li>
-//         <li><a href="#" className={linkClass}>Polarized <span className="text-red-500">❤️</span></a></li>
-//         <li><a href="#" className={linkClass}>Titanium</a></li>
-//       </ul>
-//     </div>
-//   );
-// };
+
 
 const MainContent = ({data}) => {
   return (
