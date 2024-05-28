@@ -4,13 +4,19 @@ import { Link, useNavigate } from 'react-router-dom';
 import { getCartItems, RemoveCartItemNew, updateCartQtyNEW } from '../../../action/cart';
 import { toast, Toaster } from 'react-hot-toast';
 import DeleteIcon from '@mui/icons-material/Delete';
+const getEstimatedDeliveryDate = () => {
+  const currentDate = new Date();
+  currentDate.setDate(currentDate.getDate() + 5);
+  const options = { weekday: 'short', month: 'short', day: 'numeric' };
+  return currentDate.toLocaleDateString('en-US', options);
+};
 const Cart = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const jwt = localStorage.getItem("jwt");
   const { cart} = useSelector((store) => store.cartItems.cartItems);
   const [showCouponForm, setShowCouponForm] = useState(false);
-
+  const estimatedDeliveryDate = getEstimatedDeliveryDate();
   useEffect(() => {
     dispatch(getCartItems());
   }, [dispatch]);
@@ -79,7 +85,7 @@ const Cart = () => {
                     <td className="px-6 py-4 border-b hidden lg:table-cell">
                       <p className={priceClasses}>
                         <span style={{ color: "black" }}>Estimated Delivery Date</span>
-                        <br /> Mon May 27
+                        <br /> {estimatedDeliveryDate}
                       </p>
                     </td>
                     <td className="px-6 py-4 border-b">

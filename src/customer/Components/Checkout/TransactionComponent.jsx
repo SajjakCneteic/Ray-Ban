@@ -1,6 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { getCartItems, placeOrder } from '../../../action/cart';
+import { useNavigate } from 'react-router-dom';
+import { toast } from 'react-hot-toast';
+import PaymentInfo from './PaymentInfo';
 // import { fetchCart } from './redux/actions/cartActions'; // Example import, adjust based on your project structure
 
 const inputClasses = "border p-2 rounded";
@@ -144,126 +147,3 @@ console.log("transation",cart)
 
 export default TransactionComponent;
 
-const PaymentInfo = ({ shippingInfo }) => {
-  const [selectedPaymentMethod, setSelectedPaymentMethod] = useState('Credit Card');
-  const cart = useSelector((store) => store.cartItems.cartItems.cart);
-  const dispatch = useDispatch();
-  const paymentMethods = [
-    'Credit Card',
-    'Debit Card',
-    'Net Banking',
-    'Wallet',
-    'UPI',
-    'EMI Options'
-  ];
-
-  const handlePaymentMethodChange = (method) => {
-    setSelectedPaymentMethod(method);
-  };
-
-  const handleMakePayment = () => {
-    const paymentData = {
-      cartId: cart?.id,
-      shippingAddress: shippingInfo,
-      // paymentMethod: selectedPaymentMethod
-    };
-    placeOrder(paymentData).then((response) => {
-      alert('payment successfully done');
-      dispatch(getCartItems());
-      console.log(response);
-    });
-    console.log(JSON.stringify(paymentData, null, 2));
-  };
-  // const subtotal = `₹${(cart.lines?.reduce((acc, line) => acc + line.linePrice, 0)).toLocaleString()}.00`;
-
-  return (
-    <div className="mb-4 flex gap-2">
-      <div className="flex flex-col gap-2 mb-4">
-        {paymentMethods.map((method, index) => (
-          <button
-            key={index}
-            className={`${buttonClasses} ${selectedPaymentMethod === method ? 'bg-green-500 text-white' : 'border'}`}
-            onClick={() => handlePaymentMethodChange(method)}
-          >
-            {method}
-          </button>
-        ))}
-      </div>
-      <div className="border p-4 rounded w-full">
-        <div className="flex justify-between mb-4">
-          <span>We Accept:</span>
-          <img src={'/mastercard.png'} alt="Accepted Cards" className='h-8 w-16 object-cover' />
-        </div>
-        {selectedPaymentMethod === 'Credit Card' && (
-          <div className="grid grid-cols-1 gap-4 mb-4">
-            <input type="text" className={inputClasses} placeholder="Card Number" />
-            <div className="grid grid-cols-2 gap-4">
-              <select className={inputClasses}>
-                <option>Month</option>
-              </select>
-              <select className={inputClasses}>
-                <option>Year</option>
-              </select>
-            </div>
-            <input type="text" className={inputClasses} placeholder="CVV" />
-          </div>
-        )}
-        {selectedPaymentMethod === 'Debit Card' && (
-          <div className="grid grid-cols-1 gap-4 mb-4">
-            <input type="text" className={inputClasses} placeholder="Card Number" />
-            <div className="grid grid-cols-2 gap-4">
-              <select className={inputClasses}>
-                <option>Month</option>
-              </select>
-              <select className={inputClasses}>
-                <option>Year</option>
-              </select>
-            </div>
-            <input type="text" className={inputClasses} placeholder="CVV" />
-          </div>
-        )}
-        {selectedPaymentMethod === 'Net Banking' && (
-          <div className="grid grid-cols-1 gap-4 mb-4">
-            <select className={inputClasses}>
-              <option>Bank</option>
-            </select>
-          </div>
-        )}
-        {selectedPaymentMethod === 'Wallet' && (
-          <div className="grid grid-cols-1 gap-4 mb-4">
-            <select className={inputClasses}>
-              <option>Wallet</option>
-            </select>
-          </div>
-        )}
-        {selectedPaymentMethod === 'UPI' && (
-          <div className="grid grid-cols-1 gap-4 mb-4">
-            <input type="text" className={inputClasses} placeholder="UPI ID" />
-          </div>
-        )}
-        {selectedPaymentMethod === 'EMI Options' && (
-          <div className="grid grid-cols-1 gap-4 mb-4">
-            <select className={inputClasses}>
-              <option>Bank</option>
-            </select>
-            <select className={inputClasses}>
-              <option>EMI Tenure</option>
-            </select>
-          </div>
-        )}
-        <div className="flex items-center mb-4">
-          <input type="checkbox" id="privacy-policy" className={checkboxClasses} />
-          <label htmlFor="privacy-policy">I agree with the Privacy Policy by proceeding with this payment.</label>
-        </div>
-        <div className="text-center font-bold text-xl mb-4">
-          {/* INR 26670.00 (Total Amount Payable) */}
-          INR {cart?.total} (Total Amount Payable)
-        </div>
-        <div className="flex justify-center">
-          <button className={`bg-green-500 text-white ${buttonClasses} mr-2`} onClick={handleMakePayment}>Make Payment</button>
-          <button  className={`bg-zinc-300 text-black ${buttonClasses}`}>Cancel</button>
-        </div>
-      </div>
-    </div>
-  );
-};
