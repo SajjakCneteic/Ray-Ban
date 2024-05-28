@@ -1,70 +1,82 @@
-import * as React from "react";
-import Box from "@mui/material/Box";
-import Stepper from "@mui/material/Stepper";
-import Step from "@mui/material/Step";
-import StepLabel from "@mui/material/StepLabel";
-import Button from "@mui/material/Button";
-import Typography from "@mui/material/Typography";
-import AddDeliveryAddressForm from "./AddAddress";
+import React, { useState, useEffect } from "react";
+import { Box, Stepper, Step, StepLabel, CircularProgress, Button, Typography } from '@mui/material';
+import { CheckCircle, CircleOutlined } from '@mui/icons-material/';
+import { motion } from 'framer-motion';
 import { useLocation, useNavigate } from "react-router-dom";
-import OrderSummary from "./OrderSummary";
+import AddDeliveryAddressForm from "./ShippingAddressForm";
+import PaymentMethod from "./PaymentMethod";
 
-const steps = [
-  "Login",
-  "Delivery Adress",
-  "Order Summary",
-  "Payment",
-];
+const steps = ['Shipping', 'Review & Payments'];
 
 export default function Checkout() {
-  const [activeStep, setActiveStep] = React.useState(1);
-  const [skipped, setSkipped] = React.useState(new Set());
+  const [activeStep, setActiveStep] = useState(0);
   const location = useLocation();
   const queryParams = new URLSearchParams(location.search);
-  const step = queryParams.get('step');
-  const navigate=useNavigate();
-  const [data,setData]=React.useState({})
+  const step = parseInt(queryParams.get('step'), 10) || 0;
+  const navigate = useNavigate();
 
-console.log("step",step)
-
+  useEffect(() => {
+    setActiveStep(step);
+  }, [step]);
 
   const handleNext = () => {
-    let newSkipped = skipped;
-
-
-    setActiveStep((prevActiveStep) => prevActiveStep + 1);
-    setSkipped(newSkipped);
+    const nextStep = activeStep + 1;
+    setActiveStep(nextStep);
+    navigate(`/checkout?step=${nextStep}`);
   };
 
-  const handleBack = (datas) => {
-    setData(datas)
-    navigate(`/checkout?step=${step-1}`)
-
+  const handleBack = () => {
+    const prevStep = activeStep - 1;
+    setActiveStep(prevStep);
+    navigate(`/checkout?step=${prevStep}`);
   };
-
-
 
   const handleReset = () => {
     setActiveStep(0);
+    navigate('/checkout?step=0');
   };
 
-  const handlePayment=()=>{
-    console.log("handle payment")
-  }
-
   return (
-    <Box className="px-5 lg:px-32 " sx={{ width: "100%" }}>
-      <Stepper activeStep={step}>
-        {steps.map((label, index) => {
-          const stepProps = {};
-          const labelProps = {};
-
-          return (
-            <Step key={label} {...stepProps}>
-              <StepLabel {...labelProps}>{label}</StepLabel>
-            </Step>
-          );
-        })}
+    <Box className="px-5 lg:px-8" sx={{ width: "100%" }}>
+      <Stepper alternativeLabel activeStep={activeStep}>
+        {steps.map((label, index) => (
+          <Step key={label}>
+            <StepLabel
+              StepIconComponent={(props) =>
+                activeStep > index ? (
+                  <motion.div
+                    initial={{ opacity: 0, scale: 0.8 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    transition={{ duration: 0.5 }}
+                  >
+                    <CheckCircle color="secondary" style={{ fontSize: 30 }} />
+                  </motion.div>
+                ) : index === activeStep ? (
+                  <motion.div
+                    initial={{ opacity: 0, scale: 0.8 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    transition={{ duration: 0.5 }}
+                  >
+                    <CircularProgress color="secondary" size={30} />
+                  </motion.div>
+                ) : (
+                  <CircleOutlined
+                    sx={{
+                      color: 'rgba(0,0,0,0.26)',
+                      transition: 'color 0.3s ease',
+                      '&:hover': {
+                        color: 'red',
+                      },
+                    }}
+                    style={{ fontSize: 30 }}
+                  />
+                )
+              }
+            >
+              {label}
+            </StepLabel>
+          </Step>
+        ))}
       </Stepper>
       {activeStep === steps.length ? (
         <React.Fragment>
@@ -81,25 +93,21 @@ console.log("step",step)
           <Box sx={{ display: "flex", flexDirection: "row", pt: 2 }}>
             <Button
               color="inherit"
-              disabled={step == 2}
+              disabled={activeStep === 0}
               onClick={handleBack}
               sx={{ mr: 1 }}
             >
               Back
             </Button>
             <Box sx={{ flex: "1 1 auto" }} />
-
-
           </Box>
-          {/* <Typography sx={{ my: 6 }}>Title</Typography> */}
-
-          <div className="my-5">
-            {step == 2? <AddDeliveryAddressForm handleNext={handleNext} handleBack={handleBack} />:<OrderSummary data={data}/>}
+          <div className="w-[100%]">
+            {activeStep === 0 ? (
+              <AddDeliveryAddressForm handleNext={handleNext} />
+            ) : (
+              <PaymentMethod handleNext={handleNext} />
+            )}
           </div>
-
-          {/* <AddDeliveryAddressForm handleNext={handleNext} /> */}
-
-
         </React.Fragment>
       )}
     </Box>
