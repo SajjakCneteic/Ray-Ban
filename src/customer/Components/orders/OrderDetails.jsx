@@ -123,7 +123,7 @@ const OrderDetails = () => {
     const fetchData = async () => {
       try {
         const orders = await ordersById(orderId);
-        setData(orders); // Access the response data here
+        setData(orders.data.order); // Access the response data here
       } catch (error) {
         console.error('Error fetching customer orders:', error);
       }
@@ -132,33 +132,39 @@ const OrderDetails = () => {
     fetchData();
   }, [orderId]);
 
+  const formatDate = (dateString) => {
+    const date = new Date(dateString);
+    return `${date.toLocaleDateString()} ${date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}`;
+  };
 
   return (
     <Container>
-      {/* <Section>
+      <Section>
         <Title>Order Details</Title>
-        <Text><strong>Order ID:</strong> {order.id}</Text>
-        <Text><strong>Order Date:</strong> {order.date}</Text>
-        <Text><strong>Total Amount:</strong> INR {order.amount}</Text>
-        <Text><strong>Status:</strong> <Status statusColor={getStatusColor(order.status)}>{order.status}</Status></Text>
+        <Text><strong>Order ID:</strong> {data?.code}</Text>
+        <Text><strong>Sku:</strong> {data?.lines?.[0]?.productVariant?.sku}</Text>
+        {/* <Text><strong>Order Date:</strong> {formatDate(data?.orderDate)}</Text> */}
+        <Text><strong>Quantity:</strong> {data?.lines?.[0]?.quantity}</Text>
+        <Text><strong>Total Amount:</strong>  {data?.totalWithTax}</Text>
+        <Text><strong>Status:</strong> <Status statusColor={getStatusColor(data.state)}>{data.state}</Status></Text>
       </Section>
 
       <Card>
-        <CardImage src={order.product.image} alt={order.product.name} />
+        <CardImage src={data?.lines?.[0]?.productVariant?.product?.featuredAsset?.preview}  />
         <CardContent>
-          <CardTitle>{order.product.name}</CardTitle>
-          <CardPrice>Price: USD {order.product.price}</CardPrice>
-          <CardQuantity>Quantity: {order.product.quantity}</CardQuantity>
-          <CardTotal>Total: INR {order.product.total}</CardTotal>
+          <CardTitle>{data?.lines?.[0]?.productVariant?.name}</CardTitle>
+          <CardPrice>Price: {data?.lines?.[0]?.productVariant?.price}</CardPrice>
+          {/* <CardQuantity>Quantity: {order.product.quantity}</CardQuantity>
+          <CardTotal>Total: INR {order.product.total}</CardTotal> */}
         </CardContent>
       </Card>
 
       <Section>
         <SubTitle>Shipping Information</SubTitle>
-        <Text><strong>Name:</strong> {order.shipping.name}</Text>
-        <Text><strong>Phone:</strong> {order.shipping.phone}</Text>
-        <Text><strong>Address:</strong> {order.shipping.address}</Text>
-      </Section> */}
+        {/* <Text><strong>Name:</strong> {order.shipping.name}</Text>
+        <Text><strong>Phone:</strong> {order.shipping.phone}</Text> */}
+        <Text><strong>Address:</strong> {data?.shippingAddress?.company}</Text>
+      </Section>
     </Container>
   );
 };
