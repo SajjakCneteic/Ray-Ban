@@ -104,7 +104,7 @@ const ShoppingCart = ({ handleCloseCart }) => {
         <span className="text-zinc-700 dark:text-zinc-300">Cart Subtotal :</span>
         <span className="text-zinc-900 dark:text-zinc-100 font-bold">₹{subtotal}</span>
       </div>
-      <Link to="/checkout">
+      <Link to="/checkout?step=1">
         <button onClick={handleCloseCart} className="w-full bg-red-600 text-white py-2 rounded mb-4">PROCEED TO CHECKOUT</button>
       </Link>
       <div className="overflow-y-auto max-h-40 mb-4">

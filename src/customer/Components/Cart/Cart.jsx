@@ -127,7 +127,7 @@ const Cart = () => {
                 <span>₹{subtotal.toLocaleString()}</span>
               </div>
               <hr className="mt-2 mb-2" />
-              <Link to="/checkout">
+              <Link to="/checkout?step=1">
                 <button className="bg-red-500 text-white w-full py-2 mt-4">CHECKOUT NOW</button>
               </Link>
               <hr />
