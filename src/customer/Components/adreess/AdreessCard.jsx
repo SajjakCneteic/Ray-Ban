@@ -3,7 +3,7 @@ import { Box, Typography, Paper, Divider, Grid } from "@mui/material";
 import PhoneIcon from "@mui/icons-material/Phone";
 import HomeIcon from "@mui/icons-material/Home";
 
-const AddressCard = ({ address }) => {
+const AddressCard = ({heading, address }) => {
   const {
    
     
@@ -11,7 +11,7 @@ const AddressCard = ({ address }) => {
     streetLine1,
     streetLine2,
     city,
-    province,
+    state,
     postalCode,
     country,
   } = address || {};
@@ -19,7 +19,7 @@ const AddressCard = ({ address }) => {
   return (
     <Paper elevation={5} sx={{ padding: 3, borderRadius: 2 }}>
       <Typography variant="h6" component="h1" sx={{ fontWeight: "bold", pb: 2 }}>
-        Delivery Address
+       {heading || "Delivery Address"}
       </Typography>
       <Divider sx={{ mb: 2 }} />
       <Grid container spacing={2}>
@@ -44,10 +44,10 @@ const AddressCard = ({ address }) => {
                 </Typography>
               )}
               <Typography variant="body2" component="p">
-                {`${city || "N/A"}, ${province || "Maharashtra"} ${postalCode || "N/A"}`}
+                {`${city || "N/A"}, ${state || "N/A"} ${postalCode || "N/A"}`}
               </Typography>
               <Typography variant="body2" component="p">
-                {country || "India"}
+                {country || "N/A"}
               </Typography>
             </Box>
           </Box>
