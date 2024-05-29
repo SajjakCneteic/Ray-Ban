@@ -21,7 +21,7 @@ const CustomAccordion = ({ drawer, setDrawer, sunglasses, eyeGlasses, pages }) =
 
   useEffect(() => {
     setSidebarItems([
-      { name: 'MY ACCOUNT', children: jwt ? [{ name: 'MY ORDERS',address: '/account/order' }, { name: 'MY STORE CREDIT' }, { name: 'MY SELECTIONS' }, { name: 'LOGOUT',address:'/' }] : [{ name: 'LOGIN', address: '/sign-in' }, { name: 'MY ORDERS' }, { name: 'MY STORE CREDIT' }, { name: 'MY SELECTIONS' }, { name: 'GIFT CARD BALANCE' }] },
+      { name: 'MY ACCOUNT', children: jwt ? [{ name: 'MY ORDERS',address: '/account/order' }, { name: 'MY STORE CREDIT' }, { name: 'MY SELECTIONS' }, { name: 'LOGOUT',address:'/' }] : [{ name: 'LOGIN', address: '/sign-in' }, { name: 'MY STORE CREDIT' }, { name: 'MY SELECTIONS' }, { name: 'GIFT CARD BALANCE' }] },
       { name: 'SUNGLASSES', component: OpenSunglasses, data: sunglasses },
       { name: 'EYEGLASSES', component: OpenSunglasses, data: eyeGlasses },
       { name: 'NEW ARRIVALS' },

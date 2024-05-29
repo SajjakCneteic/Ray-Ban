@@ -35,6 +35,7 @@ const MenuOpen = ({ handleClose }) => {
       updatedSidebarItems.push({ name: 'MY ORDERS', link: '/account/order' });
       updatedSidebarItems.push({ name: 'LOG OUT' });
     } else {
+      updatedSidebarItems.unshift({ name: 'MY SELECTIONS' ,link: '/sign-in'});
 
       updatedSidebarItems.unshift({ name: 'LOG IN / REGISTER', link: '/sign-in' });
     }
