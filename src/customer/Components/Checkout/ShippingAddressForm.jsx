@@ -9,7 +9,7 @@ const ShippingAddressForm = ({ handleNext }) => {
     streetLine2: '',
     city: '',
     postalCode: '',
-    countryCode: 'IN', 
+    countryCode: 'IN',
     phoneNumber: '',
     state: '',
   });
@@ -44,10 +44,11 @@ const ShippingAddressForm = ({ handleNext }) => {
   };
 
   return (
-    <div className="w-full flex flex-col md:flex-row justify-between border-2 p-4">
-      <div className="flex flex-col justify-between mb-6 md:w-[60%]">
+    <div className="flex flex-col-reverse md:flex-row justify-between border-2 p-4">
+    
+      <div className="md:w-[60%]">
         <h2 className="text-xl font-bold mb-2">Shipping Address</h2>
-        <hr/>
+        <hr />
         <form onSubmit={handleSubmit} className="mt-4">
           <div className="mb-4">
             <label className="block text-zinc-700">
@@ -96,7 +97,6 @@ const ShippingAddressForm = ({ handleNext }) => {
               className="w-full border border-zinc-300 p-2"
               value={formData.streetLine2}
               onChange={handleChange}
-
             />
           </div>
           <div className="mb-4">
@@ -159,7 +159,7 @@ const ShippingAddressForm = ({ handleNext }) => {
           </button>
         </form>
       </div>
-      <div className="w-[35%]">
+      <div className="md:w-[35%] mb-6 md:mb-0">
         <OrderSummary />
       </div>
     </div>

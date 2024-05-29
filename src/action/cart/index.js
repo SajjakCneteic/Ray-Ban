@@ -172,7 +172,34 @@ console.log(payload)
   });
 };
 
+export const updateCartQtyModel = (reqdata,toast) => {
+  // const { orderId, orderItemId, productId, quantity } = reqdata;
+  const payload = {
+    lineId: reqdata.lineId,
+    quantity: reqdata.quantity,
+};
+console.log(payload)
+  return new Promise((resolve, reject) => {
+    putCall(`cart`, payload)
+      .then((response) => {
+        console.log('response',response.data,response.status)
+        if (response.status==200) {
+          // toast.success('Quantity Updated Successfully');
 
+          resolve(response.data);
+        } else {
+          // toast.success('Failed to update cart quantity');
+
+          reject(new Error('Failed to update cart quantity'));
+        }
+      })
+      .catch((error) => {
+        console.error('Error updating cart quantity:', error);
+        // toast.error("Failed to update cart quantity");
+        reject(error);
+      });
+  });
+};
 
 export const placeOrder = async (data) => {
 

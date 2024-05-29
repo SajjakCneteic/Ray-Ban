@@ -60,7 +60,7 @@ const EditAddressModal = ({ open, onClose, addressData, onSave }) => {
           <Grid item xs={12}>
             <TextField
               name="streetLine1"
-              label="Street Line 1"
+              label="Street Address"
               value={formData.streetLine1}
               onChange={handleChange}
               fullWidth
@@ -70,7 +70,7 @@ const EditAddressModal = ({ open, onClose, addressData, onSave }) => {
           <Grid item xs={12}>
             <TextField
               name="streetLine2"
-              label="Street Line 2"
+              label="Apartment/Unit/Flat"
               value={formData.streetLine2}
               onChange={handleChange}
               fullWidth

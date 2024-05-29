@@ -64,14 +64,13 @@ const Cart = () => {
                     <td className="px-6 py-4 border-b relative">
                       <div className="flex flex-col items-center mt-2 sm:flex-row md:flex-row gap-4">
                         <div className="flex flex-col items-center sm:flex-row md:flex-row gap-4">
-                        <img src={item.productVariant.images[index].url} alt="Product Image" className="w-[130px] h-auto mr-4" />
+                        <img src={item?.productVariant?.featuredAsset?.url} alt="Product Image" className="w-[130px] h-auto mr-4" />
                         <div>
                           <p className="font-semibold">{item.productVariant.name}</p>
                           <p className={textClasses}>Quantity: {item.quantity}</p>
                           <p>Unit Price: ₹{item.productVariant.price.toLocaleString()}</p>
                         </div>
-                        <span onClick={() => handleRemoveItemFromCart(item.id)} className="absolute cursor-pointer top-0 right-10 font-semibold text-red-500 text-sm mt-2 inline-block"> <DeleteIcon/> </span>
-                      </div>
+                        </div>
                         {/* <span onClick={() => handleRemoveItemFromCart(item)} className="absolute top-0 right-10 font-semibold text-red-500 text-sm mt-2 inline-block">× Remove</span> */}
                       </div>
                     </td>
@@ -80,6 +79,8 @@ const Cart = () => {
                         <button onClick={() => handleUpdateCartQty(item.id, item.quantity - 1)} className={buttonClasses}>-</button>
                         <span className="px-4">{item.quantity}</span>
                         <button onClick={() => handleUpdateCartQty(item.id, item.quantity + 1)} className={buttonClasses}>+</button>
+                        <button onClick={() => handleRemoveItemFromCart(item.id)} className={`${buttonClasses} ml-4`}> <DeleteIcon/> </button>
+                     
                       </div>
                     </td>
                     <td className="px-6 py-4 border-b hidden lg:table-cell">
