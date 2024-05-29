@@ -20,15 +20,15 @@ const PaymentMethod = () => {
     }
   }, []);
 
-  const handleCheckboxChange = (event) => {
-    setShowShippingAddress(event.target.checked);
-    if (!event.target.checked) {
-      setShippingAddress(null);
-      localStorage.removeItem('shippingAddress');
-    } else {
-      setError('');
-    }
-  };
+  // const handleCheckboxChange = (event) => {
+  //   setShowShippingAddress(event.target.checked);
+  //   if (!event.target.checked) {
+  //     setShippingAddress(null);
+  //     localStorage.removeItem('shippingAddress');
+  //   } else {
+  //     setError('');
+  //   }
+  // };
 
   const handleEditAddress = () => {
     setIsEditModalOpen(true);
@@ -74,7 +74,7 @@ const PaymentMethod = () => {
           <div className={`bg-zinc-100 p-4 mb-4 rounded`}>
             <PaymentOptions />
           </div>
-          <FormControlLabel
+          {/* <FormControlLabel
             control={
               <Checkbox
                 checked={showShippingAddress}
@@ -84,8 +84,8 @@ const PaymentMethod = () => {
             }
             label="My billing and shipping address are the same"
             className={`flex items-center mb-4`}
-          />
-          {showShippingAddress && shippingAddress && (
+          /> */}
+          {/* {showShippingAddress && shippingAddress && ( */}
             <div className={`text-zinc-600 mb-4`}>
               <AddressCard address={shippingAddress} />
               <Button
@@ -102,7 +102,7 @@ const PaymentMethod = () => {
                 onSave={handleSaveAddress}
               />
             </div>
-          )}
+          {/* )} */}
         </div>
         <div className="w-full md:w-1/3">
           <OrderSummary />
