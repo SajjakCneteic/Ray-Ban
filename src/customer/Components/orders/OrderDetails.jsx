@@ -177,10 +177,10 @@ const OrderDetails = () => {
       </Card>
       <Card style={{ display: 'flex', justifyContent: 'space-between', padding: '30px',gap:'20px' }}>
         <Section>
-          <AddressCard address={data?.shippingAddress} />
+          <AddressCard heading={"Shipping Address"} address={data?.shippingAddress} />
         </Section>
         <Section>
-          <AddressCard address={data?.billingAddress} />
+          <AddressCard heading={"Billing Address"} address={data?.billingAddress} />
         </Section>
       </Card>
     </Container>

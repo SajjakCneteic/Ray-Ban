@@ -275,10 +275,10 @@ const PaymentSuccess = () => {
         <div style={{width:'100%'}}>
         <AddressInfo>
           <div  style={{width:'100%'}}>
-            <AddressCard address={data?.billingAddress} />
+            <AddressCard heading={"Billing Address"} address={data?.billingAddress} />
           </div>
           <div style={{width:'100%'}} >
-            <AddressCard address={data?.shippingAddress} />
+            <AddressCard heading={"Shipping Address"} address={data?.shippingAddress} />
 
           </div>
         </AddressInfo>
