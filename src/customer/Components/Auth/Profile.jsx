@@ -88,6 +88,7 @@ const Links = styled.p`
 export default function Profile() {
   const [data,setData] = useState({})
   const dispatch = useDispatch()
+  console.log(data)
   useEffect(() => {
     const fetchData = async () => {
       try {

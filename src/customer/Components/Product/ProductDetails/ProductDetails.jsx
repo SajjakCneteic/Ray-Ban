@@ -30,12 +30,12 @@ export default function ProductDetails() {
     };
 
     checkCartItem();
-  }, [cart, variants.id]);
+  }, [ variants.id]);
 
   
 
   // const {ProductId} = useParams()
-console.log(cartItems)
+// console.log(cartItems)
   const ProductId = 58
 
 
