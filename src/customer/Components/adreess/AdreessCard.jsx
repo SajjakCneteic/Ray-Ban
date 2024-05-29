@@ -1,66 +1,73 @@
 import React from "react";
-import { Card, CardContent, Typography, List, ListItem, ListItemIcon, ListItemText } from "@mui/material";
-import PersonIcon from '@mui/icons-material/Person';
-import HomeIcon from '@mui/icons-material/Home';
-import LocationCityIcon from '@mui/icons-material/LocationCity';
-import MapIcon from '@mui/icons-material/Map';
-import MailIcon from '@mui/icons-material/Mail';
-import FlagIcon from '@mui/icons-material/Flag';
-import PhoneIcon from '@mui/icons-material/Phone';
+import { Box, Typography, Paper, Divider, Grid } from "@mui/material";
+import PhoneIcon from "@mui/icons-material/Phone";
+import HomeIcon from "@mui/icons-material/Home";
 
-const AddressCard = ({ addressData }) => {
+const AddressCard = ({ address }) => {
+  const {
+    firstName,
+    lastName,
+    fullName,
+    phoneNumber,
+    streetLine1,
+    streetLine2,
+    city,
+    province,
+    postalCode,
+    country,
+  } = address || {};
+
   return (
-    <Card variant="outlined" sx={{ margin: '1rem 0', padding: '1rem' }}>
-      <CardContent>
-        <Typography variant="h6" gutterBottom>
-          Address Details
-        </Typography>
-        <List>
-          <ListItem>
-            <ListItemIcon>
-              <PersonIcon />
-            </ListItemIcon>
-            <ListItemText primary={`${addressData?.firstName} ${addressData?.lastName}`} secondary="Name" />
-          </ListItem>
-          <ListItem>
-            <ListItemIcon>
-              <HomeIcon />
-            </ListItemIcon>
-            <ListItemText primary={`${addressData?.streetLine1}, ${addressData?.streetLine2}`} secondary="Street" />
-          </ListItem>
-          <ListItem>
-            <ListItemIcon>
-              <LocationCityIcon />
-            </ListItemIcon>
-            <ListItemText primary={addressData?.city} secondary="City" />
-          </ListItem>
-          <ListItem>
-            <ListItemIcon>
-              <MapIcon />
-            </ListItemIcon>
-            <ListItemText primary={addressData?.state} secondary="State" />
-          </ListItem>
-          <ListItem>
-            <ListItemIcon>
-              <MailIcon />
-            </ListItemIcon>
-            <ListItemText primary={addressData?.postalCode} secondary="Postal Code" />
-          </ListItem>
-          <ListItem>
-            <ListItemIcon>
-              <FlagIcon />
-            </ListItemIcon>
-            <ListItemText primary={addressData?.countryCode} secondary="Country" />
-          </ListItem>
-          <ListItem>
-            <ListItemIcon>
-              <PhoneIcon />
-            </ListItemIcon>
-            <ListItemText primary={addressData?.phoneNumber} secondary="Phone" />
-          </ListItem>
-        </List>
-      </CardContent>
-    </Card>
+    <Paper elevation={5} sx={{ padding: 3, borderRadius: 2 }}>
+      <Typography variant="h6" component="h1" sx={{ fontWeight: "bold", pb: 2 }}>
+        Delivery Address
+      </Typography>
+      <Divider sx={{ mb: 2 }} />
+      <Grid container spacing={2}>
+        <Grid item xs={12}>
+          <Typography variant="body1" component="p" sx={{ fontWeight: "bold" }}>
+            {fullName || `${firstName }  ${lastName }` || "N/A"}
+          </Typography>
+        </Grid>
+        <Grid item xs={12}>
+          <Box sx={{ display: "flex", alignItems: "center" }}>
+            <HomeIcon sx={{ mr: 1, color: "gray" }} />
+            <Box>
+              <Typography variant="body1" component="p" sx={{ fontWeight: "bold" }}>
+                Address
+              </Typography>
+              <Typography variant="body2" component="p">
+                {streetLine1 || "N/A"}
+              </Typography>
+              {streetLine2 && (
+                <Typography variant="body2" component="p">
+                  {streetLine2}
+                </Typography>
+              )}
+              <Typography variant="body2" component="p">
+                {`${city || "N/A"}, ${province || "N/A"} ${postalCode || "N/A"}`}
+              </Typography>
+              <Typography variant="body2" component="p">
+                {country || "N/A"}
+              </Typography>
+            </Box>
+          </Box>
+        </Grid>
+        <Grid item xs={12}>
+          <Box sx={{ display: "flex", alignItems: "center" }}>
+            <PhoneIcon sx={{ mr: 1, color: "gray" }} />
+            <Box>
+              <Typography variant="body1" component="p" sx={{ fontWeight: "bold" }}>
+                Phone Number
+              </Typography>
+              <Typography variant="body2" component="p">
+                {phoneNumber || "N/A"}
+              </Typography>
+            </Box>
+          </Box>
+        </Grid>
+      </Grid>
+    </Paper>
   );
 };
 
