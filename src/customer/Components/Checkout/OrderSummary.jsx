@@ -74,7 +74,7 @@ const OrderSummary = () => {
     name: line.productVariant.name,
     quantity: line.quantity,
     price: `₹${line.linePrice.toLocaleString()}.00`,
-    image: line.productVariant.images[i].url,
+    image: line?.productVariant?.featuredAsset?.url,
   }));
 
   // Calculate subtotal, shipping, and total

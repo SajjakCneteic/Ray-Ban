@@ -4,10 +4,9 @@ import { getCartItems, placeOrder } from '../../../action/cart';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-hot-toast';
 import PaymentInfo from './PaymentInfo';
-// import { fetchCart } from './redux/actions/cartActions'; // Example import, adjust based on your project structure
 
-const inputClasses = "border p-2 rounded";
-const buttonClasses = "p-2 rounded";
+const inputClasses = "border p-2 rounded w-full";
+const buttonClasses = "p-2 rounded bg-blue-500 text-white w-full";
 const checkboxClasses = "mr-2";
 const hiddenClass = "hidden";
 
@@ -58,14 +57,14 @@ const TransactionComponent = () => {
       [e.target.name]: e.target.value,
     });
   };
-console.log("transation",cart)
+
   return (
     <div className="container mx-auto p-4">
       <div className="bg-green-500 text-white text-center py-2 mb-4">
         Transaction times out in {`${minutes}:${seconds < 10 ? `0${seconds}` : seconds}`} mins
       </div>
       <div className="flex justify-between items-center mb-4">
-        <span>#{cart?.id}</span>
+        {/* <span>#{cart?.id}</span> */}
         <select className={inputClasses}>
           <option>English</option>
           <option>Hindi</option>
@@ -75,41 +74,216 @@ console.log("transation",cart)
         <div className="md:col-span-2">
           <h2 className="text-xl font-bold mb-2">Billing Information</h2>
           <div className="grid grid-cols-1 gap-4">
-            <input type="text" name="firstName" className={inputClasses} placeholder="First Name" value={billingInfo.firstName} onChange={handleInputChange} />
-            <input type="text" name="lastName" className={inputClasses} placeholder="Last Name" value={billingInfo.lastName} onChange={handleInputChange} />
-            <input type="text" name="streetLine1" className={inputClasses} placeholder="Address Line 1" value={billingInfo.streetLine1} onChange={handleInputChange} />
-            <input type="text" name="streetLine2" className={inputClasses} placeholder="Address Line 2" value={billingInfo.streetLine2} onChange={handleInputChange} />
-            <input type="text" name="postalCode" className={inputClasses} placeholder="Postal Code" value={billingInfo.postalCode} onChange={handleInputChange} />
-            <input type="text" name="city" className={inputClasses} placeholder="City" value={billingInfo.city} onChange={handleInputChange} />
-            <select name="countryCode" className={inputClasses} value={billingInfo.countryCode} onChange={handleInputChange}>
-              <option value="">Country</option>
-              <option value="IN">India</option>
-              <option value="US">USA</option>
-              {/* Add other countries as needed */}
-            </select>
-            <input type="text" name="phoneNumber" className={inputClasses} placeholder="Phone" value={billingInfo.phoneNumber} onChange={handleInputChange} />
-         
+            <div>
+              <label htmlFor="firstName" className="block mb-1">First Name</label>
+              <input
+                type="text"
+                name="firstName"
+                id="firstName"
+                className={inputClasses}
+                placeholder="First Name"
+                value={billingInfo.firstName}
+                onChange={handleInputChange}
+              />
+            </div>
+            <div>
+              <label htmlFor="lastName" className="block mb-1">Last Name</label>
+              <input
+                type="text"
+                name="lastName"
+                id="lastName"
+                className={inputClasses}
+                placeholder="Last Name"
+                value={billingInfo.lastName}
+                onChange={handleInputChange}
+              />
+            </div>
+            <div>
+              <label htmlFor="streetLine1" className="block mb-1">Address Line 1</label>
+              <input
+                type="text"
+                name="streetLine1"
+                id="streetLine1"
+                className={inputClasses}
+                placeholder="Address Line 1"
+                value={billingInfo.streetLine1}
+                onChange={handleInputChange}
+              />
+            </div>
+            <div>
+              <label htmlFor="streetLine2" className="block mb-1">Address Line 2</label>
+              <input
+                type="text"
+                name="streetLine2"
+                id="streetLine2"
+                className={inputClasses}
+                placeholder="Address Line 2"
+                value={billingInfo.streetLine2}
+                onChange={handleInputChange}
+              />
+            </div>
+            <div>
+              <label htmlFor="postalCode" className="block mb-1">Postal Code</label>
+              <input
+                type="text"
+                name="postalCode"
+                id="postalCode"
+                className={inputClasses}
+                placeholder="Postal Code"
+                value={billingInfo.postalCode}
+                onChange={handleInputChange}
+              />
+            </div>
+            <div>
+              <label htmlFor="city" className="block mb-1">City</label>
+              <input
+                type="text"
+                name="city"
+                id="city"
+                className={inputClasses}
+                placeholder="City"
+                value={billingInfo.city}
+                onChange={handleInputChange}
+              />
+            </div>
+            <div>
+              <label htmlFor="countryCode" className="block mb-1">Country</label>
+              <select
+                name="countryCode"
+                id="countryCode"
+                className={inputClasses}
+                value={billingInfo.countryCode}
+                onChange={handleInputChange}
+              >
+                <option value="">Country</option>
+                <option value="IN">India</option>
+                <option value="US">USA</option>
+                {/* Add other countries as needed */}
+              </select>
+            </div>
+            <div>
+              <label htmlFor="phoneNumber" className="block mb-1">Phone</label>
+              <input
+                type="text"
+                name="phoneNumber"
+                id="phoneNumber"
+                className={inputClasses}
+                placeholder="Phone"
+                value={billingInfo.phoneNumber}
+                onChange={handleInputChange}
+              />
+            </div>
           </div>
           <div className="flex items-center mt-4">
-            <input type="checkbox" id="different-shipping" className={checkboxClasses} onChange={handleCheckboxChange} />
+            <input
+              type="checkbox"
+              id="different-shipping"
+              className={checkboxClasses}
+              onChange={handleCheckboxChange}
+            />
             <label htmlFor="different-shipping">My Billing and Shipping address are different</label>
           </div>
           {/* {showShippingInfo && (
             <div id="shipping-info">
               <h2 className="text-xl font-bold mb-2">Shipping Information</h2>
               <div className="grid grid-cols-1 gap-4">
-                <input type="text" className={inputClasses} placeholder="Name" value={`${shippingInfo.firstName} ${shippingInfo.lastName}`} />
-                <input type="text" className={inputClasses} placeholder="Address Line 1" value={shippingInfo.streetLine1} />
-                <input type="text" className={inputClasses} placeholder="Address Line 2" value={shippingInfo.streetLine2} />
-                <input type="text" className={inputClasses} placeholder="Postal Code" value={shippingInfo.postalCode} />
-                <input type="text" className={inputClasses} placeholder="City" value={shippingInfo.city} />
-                <select className={inputClasses} value={shippingInfo.countryCode}>
-                  <option value="">Country</option>
-                  <option value="IN">India</option>
-                  <option value="US">USA</option>
-                  
-                </select>
-                <input type="text" className={inputClasses} placeholder="Phone" value={shippingInfo.phoneNumber} />
+                <div>
+                  <label htmlFor="shippingFirstName" className="block mb-1">First Name</label>
+                  <input
+                    type="text"
+                    name="shippingFirstName"
+                    id="shippingFirstName"
+                    className={inputClasses}
+                    placeholder="First Name"
+                    value={shippingInfo?.firstName}
+                    readOnly
+                  />
+                </div>
+                <div>
+                  <label htmlFor="shippingLastName" className="block mb-1">Last Name</label>
+                  <input
+                    type="text"
+                    name="shippingLastName"
+                    id="shippingLastName"
+                    className={inputClasses}
+                    placeholder="Last Name"
+                    value={shippingInfo?.lastName}
+                    readOnly
+                  />
+                </div>
+                <div>
+                  <label htmlFor="shippingStreetLine1" className="block mb-1">Address Line 1</label>
+                  <input
+                    type="text"
+                    name="shippingStreetLine1"
+                    id="shippingStreetLine1"
+                    className={inputClasses}
+                    placeholder="Address Line 1"
+                    value={shippingInfo?.streetLine1}
+                    readOnly
+                  />
+                </div>
+                <div>
+                  <label htmlFor="shippingStreetLine2" className="block mb-1">Address Line 2</label>
+                  <input
+                    type="text"
+                    name="shippingStreetLine2"
+                    id="shippingStreetLine2"
+                    className={inputClasses}
+                    placeholder="Address Line 2"
+                    value={shippingInfo?.streetLine2}
+                    readOnly
+                  />
+                </div>
+                <div>
+                  <label htmlFor="shippingPostalCode" className="block mb-1">Postal Code</label>
+                  <input
+                    type="text"
+                    name="shippingPostalCode"
+                    id="shippingPostalCode"
+                    className={inputClasses}
+                    placeholder="Postal Code"
+                    value={shippingInfo?.postalCode}
+                    readOnly
+                  />
+                </div>
+                <div>
+                  <label htmlFor="shippingCity" className="block mb-1">City</label>
+                  <input
+                    type="text"
+                    name="shippingCity"
+                    id="shippingCity"
+                    className={inputClasses}
+                    placeholder="City"
+                    value={shippingInfo?.city}
+                    readOnly
+                  />
+                </div>
+                <div>
+                  <label htmlFor="shippingCountryCode" className="block mb-1">Country</label>
+                  <select
+                    name="shippingCountryCode"
+                    id="shippingCountryCode"
+                    className={inputClasses}
+                    value={shippingInfo?.countryCode}
+                    readOnly
+                  >
+                    <option value="IN">India</option>
+                    <option value="US">USA</option>
+                  </select>
+                </div>
+                <div>
+                  <label htmlFor="shippingPhoneNumber" className="block mb-1">Phone</label>
+                  <input
+                    type="text"
+                    name="shippingPhoneNumber"
+                    id="shippingPhoneNumber"
+                    className={inputClasses}
+                    placeholder="Phone"
+                    value={shippingInfo?.phoneNumber}
+                    readOnly
+                  />
+                </div>
               </div>
             </div>
           )} */}
@@ -146,4 +320,3 @@ console.log("transation",cart)
 };
 
 export default TransactionComponent;
-

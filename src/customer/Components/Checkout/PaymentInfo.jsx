@@ -2,10 +2,11 @@ import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { getCartItems, placeOrder } from '../../../action/cart';
+
 const inputClasses = "border p-2 rounded";
 const buttonClasses = "p-2 rounded";
 const checkboxClasses = "mr-2";
-const hiddenClass = "hidden";
+
 const PaymentInfo = ({ shippingInfo }) => {
   const [selectedPaymentMethod, setSelectedPaymentMethod] = useState('Credit Card');
   const [cardNumber, setCardNumber] = useState('');
@@ -51,16 +52,16 @@ const PaymentInfo = ({ shippingInfo }) => {
       totalAmount: cart?.total,
     };
 
-    // Add more client-side validations here if needed
-
-    placeOrder(paymentData).then((response) => {
-      alert('Payment successfully done');
-      dispatch(getCartItems());
-      navigate(`/payment/${cart.id}`, { state: paymentsuccessdata });
-      console.log(response);
-    }).catch(err => {
-      setError('Payment failed. Please try again.');
-    });
+    placeOrder(paymentData)
+      .then((response) => {
+        alert('Payment successfully done');
+        dispatch(getCartItems());
+        navigate(`/payment/${cart.id}`, { state: paymentsuccessdata });
+        console.log(response);
+      })
+      .catch(err => {
+        setError('Payment failed. Please try again.');
+      });
   };
 
   const monthOptions = Array.from({ length: 12 }, (_, i) => i + 1);
@@ -72,119 +73,166 @@ const PaymentInfo = ({ shippingInfo }) => {
         {paymentMethods.map((method, index) => (
           <button
             key={index}
-            className={`${buttonClasses} ${selectedPaymentMethod === method ? 'bg-green-500 text-white' : 'border'} `}
+            className={`${buttonClasses} ${selectedPaymentMethod === method ? 'bg-green-500 text-white' : 'border'}`}
             onClick={() => handlePaymentMethodChange(method)}
           >
             {method}
           </button>
         ))}
       </div>
-      <div className="border p-6 rounded  w-[60%]">
+      <div className="border p-6 rounded w-[60%]">
         <div className="flex justify-between mb-4">
           <span>We Accept:</span>
           <img src={'/mastercard.png'} alt="Accepted Cards" className='h-8 w-16 object-cover' />
         </div>
         {selectedPaymentMethod === 'Credit Card' && (
           <div className="grid grid-cols-1 gap-4 mb-4">
-            <input
-              type="text"
-              className={inputClasses}
-              placeholder="Card Number"
-              value={cardNumber}
-              onChange={(e) => setCardNumber(e.target.value)}
-            />
+            <label>
+              Card Number
+              </label>
+              <input
+                type="text"
+                className={inputClasses}
+                placeholder="Card Number"
+                value={cardNumber}
+                onChange={(e) => setCardNumber(e.target.value)}
+              />
+         
             <div className="grid grid-cols-2 gap-4">
-              <select className={inputClasses} value={expiryMonth} onChange={(e) => setExpiryMonth(e.target.value)}>
-                <option value="">Month</option>
-                {monthOptions.map((month) => (
-                  <option key={month} value={month}>{month}</option>
-                ))}
-              </select>
-              <select className={inputClasses} value={expiryYear} onChange={(e) => setExpiryYear(e.target.value)}>
-                <option value="">Year</option>
-                {yearOptions.map((year) => (
-                  <option key={year} value={year}>{year}</option>
-                ))}
-              </select>
+              <label>
+                Expiry Month
+                </label>
+                <select className={inputClasses} value={expiryMonth} onChange={(e) => setExpiryMonth(e.target.value)}>
+                  <option value="">Month</option>
+                  {monthOptions.map((month) => (
+                    <option key={month} value={month}>{month}</option>
+                  ))}
+                </select>
+              
+              <label>
+                Expiry Year
+                </label>
+                <select className={inputClasses} value={expiryYear} onChange={(e) => setExpiryYear(e.target.value)}>
+                  <option value="">Year</option>
+                  {yearOptions.map((year) => (
+                    <option key={year} value={year}>{year}</option>
+                  ))}
+                </select>
+        
             </div>
-            <input
-              type="text"
-              className={inputClasses}
-              placeholder="CVV"
-              value={cvv}
-              onChange={(e) => setCvv(e.target.value)}
-            />
+            <label>
+              CVV
+              </label>
+              <input
+                type="text"
+                className={inputClasses}
+                placeholder="CVV"
+                value={cvv}
+                onChange={(e) => setCvv(e.target.value)}
+              />
+            
           </div>
         )}
         {selectedPaymentMethod === 'Debit Card' && (
           <div className="grid grid-cols-1 gap-4 mb-4">
-            <input
-              type="text"
-              className={inputClasses}
-              placeholder="Card Number"
-              value={cardNumber}
-              onChange={(e) => setCardNumber(e.target.value)}
-            />
+            <label>
+              Card Number
+              </label>
+              <input
+                type="text"
+                className={inputClasses}
+                placeholder="Card Number"
+                value={cardNumber}
+                onChange={(e) => setCardNumber(e.target.value)}
+              />
+            
             <div className="grid grid-cols-2 gap-4">
-              <select className={inputClasses} value={expiryMonth} onChange={(e) => setExpiryMonth(e.target.value)}>
-                <option value="">Month</option>
-                {monthOptions.map((month) => (
-                  <option key={month} value={month}>{month}</option>
-                ))}
-              </select>
-              <select className={inputClasses} value={expiryYear} onChange={(e) => setExpiryYear(e.target.value)}>
-                <option value="">Year</option>
-                {yearOptions.map((year) => (
-                  <option key={year} value={year}>{year}</option>
-                ))}
-              </select>
+              <label>
+                Expiry Month
+                </label>
+                <select className={inputClasses} value={expiryMonth} onChange={(e) => setExpiryMonth(e.target.value)}>
+                  <option value="">Month</option>
+                  {monthOptions.map((month) => (
+                    <option key={month} value={month}>{month}</option>
+                  ))}
+                </select>
+             
+              <label>
+                Expiry Year
+                </label>
+                <select className={inputClasses} value={expiryYear} onChange={(e) => setExpiryYear(e.target.value)}>
+                  <option value="">Year</option>
+                  {yearOptions.map((year) => (
+                    <option key={year} value={year}>{year}</option>
+                  ))}
+                </select>
+            
             </div>
-            <input
-              type="text"
-              className={inputClasses}
-              placeholder="CVV"
-              value={cvv}
-              onChange={(e) => setCvv(e.target.value)}
-            />
+            <label>
+              CVV
+              </label>
+              <input
+                type="text"
+                className={inputClasses}
+                placeholder="CVV"
+                value={cvv}
+                onChange={(e) => setCvv(e.target.value)}
+              />
+           
           </div>
         )}
         {selectedPaymentMethod === 'Net Banking' && (
           <div className="grid grid-cols-1 gap-4 mb-4">
-            <select className={inputClasses}>
-              <option>Bank</option>
-              {/* Add bank options here */}
-            </select>
+            <label>
+              Bank
+              <select className={inputClasses}>
+                <option value="">Select Bank</option>
+                {/* Add bank options here */}
+              </select>
+            </label>
           </div>
         )}
         {selectedPaymentMethod === 'Wallet' && (
           <div className="grid grid-cols-1 gap-4 mb-4">
-            <select className={inputClasses}>
-              <option>Wallet</option>
-              {/* Add wallet options here */}
-            </select>
+            <label>
+              Wallet
+              <select className={inputClasses}>
+                <option value="">Select Wallet</option>
+                {/* Add wallet options here */}
+              </select>
+            </label>
           </div>
         )}
         {selectedPaymentMethod === 'UPI' && (
           <div className="grid grid-cols-1 gap-4 mb-4">
-            <input
-              type="text"
-              className={inputClasses}
-              placeholder="UPI ID"
-              value={upiId}
-              onChange={(e) => setUpiId(e.target.value)}
-            />
+            <label>
+              UPI ID
+              <input
+                type="text"
+                className={inputClasses}
+                placeholder="UPI ID"
+                value={upiId}
+                onChange={(e) => setUpiId(e.target.value)}
+              />
+            </label>
           </div>
         )}
         {selectedPaymentMethod === 'EMI Options' && (
           <div className="grid grid-cols-1 gap-4 mb-4">
-            <select className={inputClasses}>
-              <option>Bank</option>
-              {/* Add bank options here */}
-            </select>
-            <select className={inputClasses}>
-              <option>EMI Tenure</option>
-              {/* Add EMI tenure options here */}
-            </select>
+            <label>
+              Bank
+              <select className={inputClasses}>
+                <option value="">Select Bank</option>
+                {/* Add bank options here */}
+              </select>
+            </label>
+            <label>
+              EMI Tenure
+              <select className={inputClasses}>
+                <option value="">Select EMI Tenure</option>
+                {/* Add EMI tenure options here */}
+              </select>
+            </label>
           </div>
         )}
         <div className="flex items-center mb-4">

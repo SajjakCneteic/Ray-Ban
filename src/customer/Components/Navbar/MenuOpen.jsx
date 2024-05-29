@@ -24,13 +24,18 @@ const MenuOpen = ({ handleClose }) => {
 
   useEffect(() => {
     const updatedSidebarItems = [
-      { name: 'MY ACCOUNT', link: '/my-account' },
-      { name: 'MY ORDERS', link: '/account/order' },
+
+      // { name: 'MY ACCOUNT', link: '/my-account' },
+      // { name: 'MY ORDERS', link: '/my-orders' },
+
       { name: 'MY STORE CREDIT', link: './my-store-credit' },
     ];
     if (jwt) {
+      updatedSidebarItems.push({ name: 'MY ACCOUNT', link: '/my-account' });
+      updatedSidebarItems.push({ name: 'MY ORDERS', link: '/my-orders' });
       updatedSidebarItems.push({ name: 'LOG OUT' });
     } else {
+
       updatedSidebarItems.unshift({ name: 'LOG IN / REGISTER', link: '/sign-in' });
     }
     setSidebarItems(updatedSidebarItems);
