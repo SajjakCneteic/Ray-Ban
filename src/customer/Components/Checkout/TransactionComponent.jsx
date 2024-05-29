@@ -149,6 +149,18 @@ const TransactionComponent = () => {
               />
             </div>
             <div>
+              <label htmlFor="countryCode" className="block mb-1">Country code</label>
+              <input
+                type="text"
+                name="countryCode"
+                id="countryCode"
+                className={inputClasses}
+                placeholder="countryCode"
+                value={billingInfo.countryCode}
+                onChange={handleInputChange}
+              />
+            </div>
+            {/* <div>
               <label htmlFor="countryCode" className="block mb-1">Country</label>
               <select
                 name="countryCode"
@@ -160,9 +172,9 @@ const TransactionComponent = () => {
                 <option value="">Country</option>
                 <option value="IN">India</option>
                 <option value="US">USA</option>
-                {/* Add other countries as needed */}
+                
               </select>
-            </div>
+            </div> */}
             <div>
               <label htmlFor="phoneNumber" className="block mb-1">Phone</label>
               <input
@@ -184,7 +196,7 @@ const TransactionComponent = () => {
               className={checkboxClasses}
               onChange={handleCheckboxChange}
             />
-            <label htmlFor="different-shipping">My Billing and Shipping address are different</label>
+            <label htmlFor="different-shipping">My Billing and Shipping address are same</label>
           </div>
           {/* {showShippingInfo && (
             <div id="shipping-info">
