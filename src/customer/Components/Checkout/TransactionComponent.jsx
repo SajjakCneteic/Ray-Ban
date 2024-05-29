@@ -100,6 +100,7 @@ const TransactionComponent = () => {
                 />
               </div>
             </div>
+           
             <div>
               <label htmlFor="streetLine1" className="block mb-1">Address Line 1</label>
               <input
@@ -124,6 +125,8 @@ const TransactionComponent = () => {
                 onChange={handleInputChange}
               />
             </div>
+            <div className="grid grid-cols-2 gap-4">
+
             <div>
               <label htmlFor="postalCode" className="block mb-1">Postal Code</label>
               <input
@@ -148,6 +151,9 @@ const TransactionComponent = () => {
                 onChange={handleInputChange}
               />
             </div>
+            </div>
+            <div className="grid grid-cols-2 gap-4">
+
             <div>
               <label htmlFor="countryCode" className="block mb-1">Country code</label>
               <input
@@ -188,7 +194,7 @@ const TransactionComponent = () => {
               />
             </div>
           </div>
-
+</div>
           <div className="flex items-center mt-4">
             <input
               type="checkbox"

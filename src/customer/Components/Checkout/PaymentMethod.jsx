@@ -87,7 +87,7 @@ const PaymentMethod = () => {
           />
           {showShippingAddress && shippingAddress && (
             <div className={`text-zinc-600 mb-4`}>
-              <AddressCard addressData={shippingAddress} />
+              <AddressCard address={shippingAddress} />
               <Button
                 variant="contained"
                 onClick={handleEditAddress}
