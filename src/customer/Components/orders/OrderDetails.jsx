@@ -39,7 +39,14 @@ const SubTitle = styled.h3`
 
 const Text = styled.p`
   margin: 5px 0;
+  font-size: 1em;
+  font-weight: bold; 
+`;
+const Text1 = styled.span`
+  margin: 5px 0;
+  color:#414141;
   font-size: 1.1em;
+  font-weight: 400;
 `;
 
 const Status = styled.span`
@@ -102,10 +109,12 @@ const CardTotal = styled.div`
 
 const getStatusColor = (status) => {
   switch (status) {
-    case 'PaymentSettled':
+    case 'Delivered':
       return '#4caf50';
     case 'Pending':
       return '#ff9800';
+    case 'PaymentAuthorized':
+      return '#008cff';
     case 'Cancelled':
       return '#f44336';
     default:
@@ -141,30 +150,49 @@ const OrderDetails = () => {
     <Container>
       <Section>
         <Title>Order Details</Title>
-        <Text><strong>Order ID:</strong> {data?.code}</Text>
-        <Text><strong>Sku:</strong> {data?.lines?.[0]?.productVariant?.sku}</Text>
-        {/* <Text><strong>Order Date:</strong> {formatDate(data?.orderDate)}</Text> */}
+        <Text><strong>Order ID:</strong> {data?.id}</Text>
         <Text><strong>Quantity:</strong> {data?.lines?.[0]?.quantity}</Text>
-        <Text><strong>Total Amount:</strong>  {data?.totalWithTax}</Text>
+        <Text><strong>Total Amount with Tax:</strong> ₹  {data?.totalWithTax}</Text>
         <Text><strong>Status:</strong> <Status statusColor={getStatusColor(data.state)}>{data.state}</Status></Text>
       </Section>
 
       <Card>
-        <CardImage src={data?.lines?.[0]?.productVariant?.product?.featuredAsset?.preview}  />
+        <CardImage src={data?.lines?.[0]?.productVariant?.featuredAsset?.preview} />
         <CardContent>
           <CardTitle>{data?.lines?.[0]?.productVariant?.name}</CardTitle>
-          <CardPrice>Price: {data?.lines?.[0]?.productVariant?.price}</CardPrice>
-          {/* <CardQuantity>Quantity: {order.product.quantity}</CardQuantity>
-          <CardTotal>Total: INR {order.product.total}</CardTotal> */}
+          <CardPrice>Price: ₹ {data?.lines?.[0]?.productVariant?.priceWithTax}</CardPrice>
+          <CardQuantity>Quantity: {data?.lines?.[0]?.quantity}</CardQuantity>
+          {/* <CardTotal>Total: INR {order.product.total}</CardTotal> */}
         </CardContent>
       </Card>
-
+      <Card style={{display:'flex',justifyContent:'space-between',padding:'20px 50px'}}>
+     
       <Section>
-        <SubTitle>Shipping Information</SubTitle>
-        {/* <Text><strong>Name:</strong> {order.shipping.name}</Text>
-        <Text><strong>Phone:</strong> {order.shipping.phone}</Text> */}
-        <Text><strong>Address:</strong> {data?.shippingAddress?.company}</Text>
+        <SubTitle>Shipping Address</SubTitle>
+        <Text>Full Name: <Text1> {data?.shippingAddress?.fullName }</Text1></Text>
+        <Text>Phone Number: <Text1> {data?.shippingAddress?.phoneNumber }</Text1></Text>
+        <Text>Street Line1: <Text1> {data?.shippingAddress?.streetLine1}</Text1></Text>
+        <Text>Street Line2: <Text1>{data?.shippingAddress?.streetLine2}</Text1></Text>
+        <Text>City: <Text1>{data?.shippingAddress?.city }</Text1></Text>
+        <Text>Province: <Text1>{data?.shippingAddress?.province }</Text1></Text>
+        <Text>Postal Code: <Text1>{data?.shippingAddress?.postalCode }</Text1></Text>
+        <Text>Country: <Text1>{data?.shippingAddress?.country }</Text1></Text>
+
       </Section>
+      <Section>
+        <SubTitle>Billing Address</SubTitle>
+
+        <Text>Full Name: <Text1>{data?.billingAddress?.fullName }</Text1></Text>
+        <Text>Phone Number: <Text1>{data?.billingAddress?.phoneNumber }</Text1></Text>
+        <Text>Street Line1: <Text1>{data?.billingAddress?.streetLine1}</Text1></Text>
+        <Text>Street Line2: <Text1>{data?.billingAddress?.streetLine2}</Text1></Text>
+        <Text>City: <Text1>{data?.billingAddress?.city }</Text1></Text>
+        <Text>Province: <Text1>{data?.billingAddress?.province }</Text1></Text>
+        <Text>Postal Code: <Text1>{data?.billingAddress?.postalCode }</Text1></Text>
+        <Text>Country: <Text1>{data?.billingAddress?.country }</Text1></Text>
+      </Section>
+     
+      </Card>
     </Container>
   );
 };
