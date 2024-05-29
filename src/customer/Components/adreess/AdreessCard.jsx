@@ -5,9 +5,8 @@ import HomeIcon from "@mui/icons-material/Home";
 
 const AddressCard = ({ address }) => {
   const {
-    firstName,
-    lastName,
-    fullName,
+   
+    
     phoneNumber,
     streetLine1,
     streetLine2,
@@ -26,7 +25,7 @@ const AddressCard = ({ address }) => {
       <Grid container spacing={2}>
         <Grid item xs={12}>
           <Typography variant="body1" component="p" sx={{ fontWeight: "bold" }}>
-            {fullName || `${firstName }  ${lastName }` || "N/A"}
+            {address?.fullName || `${address?.firstName }  ${address?.lastName }` || "N/A"}
           </Typography>
         </Grid>
         <Grid item xs={12}>
@@ -45,10 +44,10 @@ const AddressCard = ({ address }) => {
                 </Typography>
               )}
               <Typography variant="body2" component="p">
-                {`${city || "N/A"}, ${province || "N/A"} ${postalCode || "N/A"}`}
+                {`${city || "N/A"}, ${province || "Maharashtra"} ${postalCode || "N/A"}`}
               </Typography>
               <Typography variant="body2" component="p">
-                {country || "N/A"}
+                {country || "India"}
               </Typography>
             </Box>
           </Box>

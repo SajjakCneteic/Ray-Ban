@@ -1,9 +1,13 @@
 import { Box, Typography, Button, Modal, TextField, Grid } from '@mui/material';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 const EditAddressModal = ({ open, onClose, addressData, onSave }) => {
   const [formData, setFormData] = useState(addressData);
+// console.log(addressData,formData,"EditeData")
+useEffect(() => {
 
+setFormData(addressData)
+},[addressData])
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
@@ -41,7 +45,7 @@ const EditAddressModal = ({ open, onClose, addressData, onSave }) => {
             <TextField
               name="firstName"
               label="First Name"
-              value={formData.firstName}
+              value={formData?.firstName}
               onChange={handleChange}
               fullWidth
               margin="normal"
@@ -51,7 +55,7 @@ const EditAddressModal = ({ open, onClose, addressData, onSave }) => {
             <TextField
               name="lastName"
               label="Last Name"
-              value={formData.lastName}
+              value={formData?.lastName}
               onChange={handleChange}
               fullWidth
               margin="normal"
@@ -61,7 +65,7 @@ const EditAddressModal = ({ open, onClose, addressData, onSave }) => {
             <TextField
               name="streetLine1"
               label="Street Address"
-              value={formData.streetLine1}
+              value={formData?.streetLine1}
               onChange={handleChange}
               fullWidth
               margin="normal"
@@ -71,7 +75,7 @@ const EditAddressModal = ({ open, onClose, addressData, onSave }) => {
             <TextField
               name="streetLine2"
               label="Apartment/Unit/Flat"
-              value={formData.streetLine2}
+              value={formData?.streetLine2}
               onChange={handleChange}
               fullWidth
               margin="normal"
@@ -81,7 +85,7 @@ const EditAddressModal = ({ open, onClose, addressData, onSave }) => {
             <TextField
               name="city"
               label="City"
-              value={formData.city}
+              value={formData?.city}
               onChange={handleChange}
               fullWidth
               margin="normal"
@@ -91,7 +95,7 @@ const EditAddressModal = ({ open, onClose, addressData, onSave }) => {
             <TextField
               name="postalCode"
               label="Postal Code"
-              value={formData.postalCode}
+              value={formData?.postalCode}
               onChange={handleChange}
               fullWidth
               margin="normal"
@@ -101,7 +105,7 @@ const EditAddressModal = ({ open, onClose, addressData, onSave }) => {
             <TextField
               name="countryCode"
               label="Country Code"
-              value={formData.countryCode}
+              value={formData?.countryCode}
               onChange={handleChange}
               fullWidth
               margin="normal"
@@ -111,7 +115,7 @@ const EditAddressModal = ({ open, onClose, addressData, onSave }) => {
             <TextField
               name="phoneNumber"
               label="Phone Number"
-              value={formData.phoneNumber}
+              value={formData?.phoneNumber}
               onChange={handleChange}
               fullWidth
               margin="normal"
