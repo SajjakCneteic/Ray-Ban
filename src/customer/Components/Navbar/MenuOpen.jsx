@@ -11,7 +11,7 @@ const MenuOpen = ({ handleClose }) => {
   const sidebarClasses = 'relative mr-2 z-10 bg-zinc-200 p-5 w-60 dark:bg-zinc-800';
   const [sidebarItems, setSidebarItems] = useState([
     { name: 'MY ACCOUNT', link: '/my-account' },
-    { name: 'MY ORDERS', link: '/my-orders' },
+    { name: 'MY ORDERS', link: '/account/order' },
     { name: 'MY STORE CREDIT', link: './my-store-credit' },
   ]);
 
@@ -25,7 +25,7 @@ const MenuOpen = ({ handleClose }) => {
   useEffect(() => {
     const updatedSidebarItems = [
       { name: 'MY ACCOUNT', link: '/my-account' },
-      { name: 'MY ORDERS', link: '/my-orders' },
+      { name: 'MY ORDERS', link: '/account/order' },
       { name: 'MY STORE CREDIT', link: './my-store-credit' },
     ];
     if (jwt) {

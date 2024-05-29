@@ -4,118 +4,138 @@ import styled, { createGlobalStyle, keyframes } from 'styled-components';
 
 const GlobalStyle = createGlobalStyle`
   body {
+    font-family: Arial, sans-serif;
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-family: Arial, sans-serif;
   }
 `;
 
 const fadeIn = keyframes`
   from {
     opacity: 0;
-    transform: scale(0.8);
   }
   to {
     opacity: 1;
-    transform: scale(1);
   }
 `;
 
-const Card = styled.div`
-  width: 100%;
-  max-width: 350px;
-  padding: 20px;
-  border-radius: 10px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-  background-color: #fff;
-  text-align: center;
-  margin: 20px auto;
-  transition: box-shadow 0.3s ease-in-out;
-
-  &:hover {
-    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
-  }
-
-  @media (max-width: 600px) {
-    padding: 15px;
-  }
-`;
-
-const Title = styled.h2`
-  color: #4CAF50;
-  margin-bottom: 20px;
-  font-size: 1.5em;
-
-  @media (max-width: 600px) {
-    font-size: 1.2em;
-    margin-bottom: 15px;
-  }
-`;
-
-const IconWrapper = styled.div`
-  width: 100%;
-  padding: 20px 100px;
+const Container = styled.div`
   display: flex;
-  justify-content: center;
-  align-items: center;
-`;
-
-const AnimationContainer = styled.div`
-  animation: ${fadeIn} 1s ease-in-out;
-`;
-
-const Details = styled.div`
-  text-align: left;
-  margin-bottom: 20px;
-
-  @media (max-width: 600px) {
-    margin-bottom: 15px;
-  }
-`;
-
-const Detail = styled.p`
-  margin: 5px 0;
-  color: #666;
-  display: flex;
+  flex-wrap: wrap;
   justify-content: space-between;
+  padding: 20px;
+  animation: ${fadeIn} 0.5s ease-in-out;
+`;
 
-  @media (max-width: 600px) {
-    margin: 3px 0;
-    font-size: 0.9em;
+const Section = styled.div`
+  width: 100%;
+  padding: 20px;
+  @media (min-width: 768px) {
+    width: 48%;
   }
 `;
 
-const BoldDetail = styled(Detail)`
-  font-weight: bold;
-`;
-
-const Buttons = styled.div`
-  display: flex;
-  justify-content: space-around;
-
-  @media (max-width: 600px) {
-    flex-direction: column;
-    align-items: center;
+const ThankYou = styled.div`
+  text-align: center;
+  .successImage{
+    display: flex;
+    justify-content: center;
   }
-`;
-
-const Button = styled.button`
-  padding: 10px 20px;
-  border: none;
-  border-radius: 5px;
-  color: #fff;
-  background-color: ${props => (props.primary ? '#2196F3' : '#f44336')};
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-
-  &:hover {
-    background-color: ${props => (props.primary ? '#1976D2' : '#d32f2f')};
+  img {
+    width: 100px;
+    height: 100px;
+    margin-bottom: 20px;
   }
-
-  @media (max-width: 600px) {
-    width: 100%;
+  h1 {
+    font-size: 24px;
+    margin: 20px 0 10px;
+  }
+  p {
     margin: 5px 0;
+  }
+  a {
+    color: #007bff;
+    text-decoration: none;
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+`;
+
+const NewCollection = styled.div`
+  img {
+    width: 100%;
+    height: auto;
+    margin-top: 20px;
+    border-radius: 10px;
+  }
+`;
+
+const CreateAccount = styled.div`
+  margin-top: 20px;
+  h2 {
+    font-size: 20px;
+    margin-bottom: 10px;
+  }
+  input {
+    width: calc(50% - 10px);
+    padding: 10px;
+    margin: 5px 0;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+  }
+  button {
+    background-color: #8bc34a;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    &:hover {
+      background-color: #7cb342;
+    }
+  }
+`;
+
+const ItemsOrdered = styled.div`
+  margin-top: 20px;
+  h2 {
+    margin-bottom: 10px;
+  }
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    th, td {
+      border: 1px solid #ccc;
+      padding: 10px;
+      text-align: left;
+    }
+    th {
+      background-color: #f9f9f9;
+    }
+    tfoot td {
+      text-align: right;
+    }
+  }
+`;
+
+const AddressInfo = styled.div`
+  margin-top: 20px;
+  .flex {
+    border: 1px solid #ccc;
+    padding: 10px;
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+    border-radius: 5px;
+    h3{
+      font-weight: bold;
+      font-size:18px;
+    }
+    .method{
+      margin:0 auto;
+    }
   }
 `;
 
@@ -131,37 +151,102 @@ const PaymentSuccess = () => {
     return () => clearTimeout(timer);
   }, []);
 
+ 
+
   return (
     <>
       <GlobalStyle />
-      <Card>
-        <Title>Payment successful!</Title>
-        <IconWrapper>
-          {!showDetails ? (
-            <AnimationContainer>
-              <svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="green" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="feather feather-check-circle">
-                <path d="M9 11l3 3L22 4"></path>
-                <path d="M21 12v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-9"></path>
-                <path d="M22 4L12 14 9 11 4 16"></path>
-              </svg>
-            </AnimationContainer>
-          ) : (
-            <img src="https://cdn-icons-png.flaticon.com/512/5709/5709755.png" alt="Success" />
-          )}
-        </IconWrapper>
-        {showDetails && (
-          <Details>
-            <Detail>Payment type <span>{paymentsuccessdata?.paymentMethod}</span></Detail>
-            <Detail>Mobile <span>{paymentsuccessdata?.mobile}</span></Detail>
-            <BoldDetail>Amount paid <span>₹ {paymentsuccessdata?.totalAmount}</span></BoldDetail>
-            <Detail>Transaction id <span>125478965698</span></Detail>
-          </Details>
-        )}
-        <Buttons>
-          <Button primary>PRINT</Button>
-          <Button><Link to='/shops'>CLOSE</Link></Button>
-        </Buttons>
-      </Card>
+      <Container>
+        <Section>
+          <ThankYou>
+            <div className='successImage'>
+            <img src="https://cdn-icons-png.flaticon.com/512/5709/5709755.png" alt="Checkmark" />
+            </div>
+            <h1>THANK YOU FOR YOUR PURCHASE!</h1>
+            <p>You will receive an order confirmation email with details of your order.</p>
+            <p>Your order # is: 4000000005.</p>
+            <Link to="/shops">Continue Shopping</Link>
+          </ThankYou>
+          <NewCollection>
+            <img src="https://india.ray-ban.com/media/wysiwyg/Rb_sunglasses_clp_opti/07_RB_Sunglasses_Page_Bottom_Banner_Desktop.jpg" alt="New Collection" />
+          </NewCollection>
+          <CreateAccount>
+            <h2>CREATE ACCOUNT FOR NEXT TIME</h2>
+            <input type="password" placeholder="Password" />
+            <input type="password" placeholder="Confirm Password" />
+            <button>Create Account</button>
+          </CreateAccount>
+        </Section>
+        <Section>
+          <ItemsOrdered>
+            <h2>ITEMS ORDERED</h2>
+            <table>
+              <thead>
+                <tr>
+                  <th>Product Name</th>
+                  <th>SKU</th>
+                  <th>Price</th>
+                  <th>Qty</th>
+                  <th>Subtotal</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>Jackie O Round Sunglasses</td>
+                  <td>ace001</td>
+                  <td>$225.00</td>
+                  <td>Ordered: 1</td>
+                  <td>$225.00</td>
+                </tr>
+              </tbody>
+              <tfoot>
+                <tr>
+                  <td colSpan="4">Subtotal</td>
+                  <td>$225.00</td>
+                </tr>
+                <tr>
+                  <td colSpan="4">Shipping & Handling</td>
+                  <td>$5.00</td>
+                </tr>
+                <tr>
+                  <td colSpan="4">Grand Total</td>
+                  <td>$230.00</td>
+                </tr>
+              </tfoot>
+            </table>
+          </ItemsOrdered>
+          <AddressInfo>
+            <div className='flex'>
+              <div>
+              <h3>Shipping Address</h3>
+              <p>Drew France</p>
+              <p>Lake view st</p>
+              <p>Paris, Paris, 75008</p>
+              <p>France</p>
+              <p>T: 907-555-3209</p>
+              </div>
+            <div className='method'>
+              <h3>Shipping Method</h3>
+              <p>Flat Rate - Fixed</p>
+            </div>
+            </div>
+            <div className='flex'>
+              <div>
+              <h3>Billing Address</h3>
+              <p>Drew France</p>
+              <p>Lake view st</p>
+              <p>Paris, Paris, 75008</p>
+              <p>France</p>
+              <p>T: 907-555-3209</p>
+              </div>
+            <div className='method'>
+              <h3>Payment Method</h3>
+              <p>Cash On Delivery</p>
+            </div>
+            </div>
+          </AddressInfo>
+        </Section>
+      </Container>
     </>
   );
 };
