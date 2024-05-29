@@ -284,15 +284,15 @@ const PaymentSuccess = () => {
               <Text style={{ display: 'flex', alignItems: 'center' }}><FaGlobe size={'20px'} style={{ marginRight: '5px' }} /> <Text1>{data?.billingAddress?.country}</Text1></Text>
             </div>
             <div >
-              <SubTitle>Billing Address</SubTitle>
+              <SubTitle>Shipping Address</SubTitle>
 
-              <Text><PersonIcon /> <Text1>{data?.billingAddress?.fullName}</Text1></Text>
-              <Text><PhoneIcon /> <Text1>{data?.billingAddress?.phoneNumber}</Text1></Text>
-              <Text><HomeIcon /> <Text1>{data?.billingAddress?.streetLine1}, {data?.billingAddress?.streetLine2}</Text1></Text>
-              <Text><LocationCityIcon /><Text1>{data?.billingAddress?.city}</Text1></Text>
-              <Text><MapIcon /> <Text1>{data?.billingAddress?.province}</Text1></Text>
-              <Text style={{ display: 'flex', alignItems: 'center' }}><FaMapMarkerAlt size={'20px'} style={{ marginRight: '5px' }} /> <Text1>{data?.billingAddress?.postalCode}</Text1></Text>
-              <Text style={{ display: 'flex', alignItems: 'center' }}><FaGlobe size={'20px'} style={{ marginRight: '5px' }} /> <Text1>{data?.billingAddress?.country}</Text1></Text>
+              <Text><PersonIcon /> <Text1>{data?.shippingAddress?.fullName}</Text1></Text>
+              <Text><PhoneIcon /> <Text1>{data?.shippingAddress?.phoneNumber}</Text1></Text>
+              <Text><HomeIcon /> <Text1>{data?.shippingAddress?.streetLine1}, {data?.billingAddress?.streetLine2}</Text1></Text>
+              <Text><LocationCityIcon /><Text1>{data?.shippingAddress?.city}</Text1></Text>
+              <Text><MapIcon /> <Text1>{data?.shippingAddress?.province}</Text1></Text>
+              <Text style={{ display: 'flex', alignItems: 'center' }}><FaMapMarkerAlt size={'20px'} style={{ marginRight: '5px' }} /> <Text1>{data?.shippingAddress?.postalCode}</Text1></Text>
+              <Text style={{ display: 'flex', alignItems: 'center' }}><FaGlobe size={'20px'} style={{ marginRight: '5px' }} /> <Text1>{data?.shippingAddress?.country}</Text1></Text>
             </div>
           </AddressInfo>
         </Section>
