@@ -11,7 +11,8 @@ import MapIcon from '@mui/icons-material/Map';
 import MailIcon from '@mui/icons-material/Mail';
 import FlagIcon from '@mui/icons-material/Flag';
 import PhoneIcon from '@mui/icons-material/Phone';
-import { FaUser, FaPhone, FaHome, FaMapMarkerAlt,FaGlobe } from 'react-icons/fa';
+import { FaUser, FaPhone, FaHome, FaMapMarkerAlt, FaGlobe } from 'react-icons/fa';
+import AddressCard from '../adreess/AdreessCard';
 
 const Container = styled.div`
   padding: 20px;
@@ -171,35 +172,16 @@ const OrderDetails = () => {
           <CardTitle>{data?.lines?.[0]?.productVariant?.name}</CardTitle>
           <CardPrice>Price: ₹ {data?.lines?.[0]?.productVariant?.priceWithTax}</CardPrice>
           <CardQuantity>Quantity: {data?.lines?.[0]?.quantity}</CardQuantity>
-          {/* <CardTotal>Total: INR {order.product.total}</CardTotal> */}
+         
         </CardContent>
       </Card>
-      <Card style={{ display: 'flex', justifyContent: 'space-between', padding: '20px 50px' }}>
-
+      <Card style={{ display: 'flex', justifyContent: 'space-between', padding: '30px',gap:'20px' }}>
         <Section>
-          <SubTitle>Shipping Address</SubTitle>
-          <Text><PersonIcon /> <Text1> {data?.shippingAddress?.fullName}</Text1></Text>
-          <Text><PhoneIcon /><Text1> {data?.shippingAddress?.phoneNumber}</Text1></Text>
-          <Text><HomeIcon /> <Text1> {data?.shippingAddress?.streetLine1}, {data?.shippingAddress?.streetLine2}
-          </Text1></Text>
-          <Text><LocationCityIcon /> <Text1>{data?.shippingAddress?.city}</Text1></Text>
-          <Text><MapIcon/> <Text1>{data?.shippingAddress?.province}</Text1></Text>
-          <Text style={{display:'flex',alignItems:'center'}}><FaMapMarkerAlt size={'20px'} style={{marginRight:'5px'}}/> <Text1>{data?.shippingAddress?.postalCode}</Text1></Text>
-          <Text style={{display:'flex',alignItems:'center'}}><FaGlobe size={'20px'} style={{marginRight:'5px'}}/> <Text1>{data?.shippingAddress?.country}</Text1></Text>
-
+          <AddressCard address={data?.shippingAddress} />
         </Section>
         <Section>
-          <SubTitle>Billing Address</SubTitle>
-
-          <Text><PersonIcon /> <Text1>{data?.billingAddress?.fullName}</Text1></Text>
-          <Text><PhoneIcon /> <Text1>{data?.billingAddress?.phoneNumber}</Text1></Text>
-          <Text><HomeIcon /> <Text1>{data?.billingAddress?.streetLine1}, {data?.billingAddress?.streetLine2}</Text1></Text>
-          <Text><LocationCityIcon /><Text1>{data?.billingAddress?.city}</Text1></Text>
-          <Text><MapIcon/> <Text1>{data?.billingAddress?.province}</Text1></Text>
-          <Text style={{display:'flex',alignItems:'center'}}><FaMapMarkerAlt size={'20px'} style={{marginRight:'5px'}}/> <Text1>{data?.billingAddress?.postalCode}</Text1></Text>
-          <Text style={{display:'flex',alignItems:'center'}}><FaGlobe size={'20px'} style={{marginRight:'5px'}}/> <Text1>{data?.billingAddress?.country}</Text1></Text>
+          <AddressCard address={data?.billingAddress} />
         </Section>
-
       </Card>
     </Container>
   );

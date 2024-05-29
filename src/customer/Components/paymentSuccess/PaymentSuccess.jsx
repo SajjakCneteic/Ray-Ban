@@ -12,6 +12,7 @@ import MailIcon from '@mui/icons-material/Mail';
 import FlagIcon from '@mui/icons-material/Flag';
 import PhoneIcon from '@mui/icons-material/Phone';
 import { FaUser, FaPhone, FaHome, FaMapMarkerAlt, FaGlobe } from 'react-icons/fa';
+import AddressCard from '../adreess/AdreessCard';
 
 const GlobalStyle = createGlobalStyle`
   body {
@@ -133,6 +134,9 @@ const ItemsOrdered = styled.div`
 
 const AddressInfo = styled.div`
   margin-top: 20px;
+  padding:0 50px ;
+  width:100%;
+  gap:20px;
   display:flex;
   justify-content: space-between;
   .flex {
@@ -226,12 +230,7 @@ const PaymentSuccess = () => {
           <NewCollection>
             <img src="https://india.ray-ban.com/media/wysiwyg/Rb_sunglasses_clp_opti/07_RB_Sunglasses_Page_Bottom_Banner_Desktop.jpg" alt="New Collection" />
           </NewCollection>
-          {/* <CreateAccount>
-            <h2>CREATE ACCOUNT FOR NEXT TIME</h2>
-            <input type="password" placeholder="Password" />
-            <input type="password" placeholder="Confirm Password" />
-            <button>Create Account</button>
-          </CreateAccount> */}
+
         </Section>
         <Section>
           <ItemsOrdered>
@@ -240,7 +239,7 @@ const PaymentSuccess = () => {
               <thead>
                 <tr>
                   <th>Product Name</th>
-                  <th>SKU</th>
+                  <th>Id</th>
                   <th>Price</th>
                   <th>Qty</th>
                   <th>Subtotal</th>
@@ -249,7 +248,7 @@ const PaymentSuccess = () => {
               <tbody>
                 <tr>
                   <td>{data?.lines?.[0]?.productVariant?.name}</td>
-                  <td>ace001</td>
+                  <td>{data?.id}</td>
                   <td>₹ {data?.lines?.[0]?.productVariant?.priceWithTax}</td>
                   <td>Ordered: {data?.lines?.[0]?.quantity}</td>
                   <td>₹  {data?.totalWithTax}</td>
@@ -266,36 +265,24 @@ const PaymentSuccess = () => {
                 </tr>
                 <tr>
                   <td colSpan="4">Grand Total</td>
-                  <td>₹  {data?.totalWithTax+40}</td>
+                  <td>₹  {data?.totalWithTax + 40}</td>
                 </tr>
               </tfoot>
             </table>
           </ItemsOrdered>
-          <AddressInfo>
-            <div >
-              <SubTitle>Billing Address</SubTitle>
 
-              <Text><PersonIcon /> <Text1>{data?.billingAddress?.fullName}</Text1></Text>
-              <Text><PhoneIcon /> <Text1>{data?.billingAddress?.phoneNumber}</Text1></Text>
-              <Text><HomeIcon /> <Text1>{data?.billingAddress?.streetLine1}, {data?.billingAddress?.streetLine2}</Text1></Text>
-              <Text><LocationCityIcon /><Text1>{data?.billingAddress?.city}</Text1></Text>
-              <Text><MapIcon /> <Text1>{data?.billingAddress?.province}</Text1></Text>
-              <Text style={{ display: 'flex', alignItems: 'center' }}><FaMapMarkerAlt size={'20px'} style={{ marginRight: '5px' }} /> <Text1>{data?.billingAddress?.postalCode}</Text1></Text>
-              <Text style={{ display: 'flex', alignItems: 'center' }}><FaGlobe size={'20px'} style={{ marginRight: '5px' }} /> <Text1>{data?.billingAddress?.country}</Text1></Text>
-            </div>
-            <div >
-              <SubTitle>Shipping Address</SubTitle>
-
-              <Text><PersonIcon /> <Text1>{data?.shippingAddress?.fullName}</Text1></Text>
-              <Text><PhoneIcon /> <Text1>{data?.shippingAddress?.phoneNumber}</Text1></Text>
-              <Text><HomeIcon /> <Text1>{data?.shippingAddress?.streetLine1}, {data?.billingAddress?.streetLine2}</Text1></Text>
-              <Text><LocationCityIcon /><Text1>{data?.shippingAddress?.city}</Text1></Text>
-              <Text><MapIcon /> <Text1>{data?.shippingAddress?.province}</Text1></Text>
-              <Text style={{ display: 'flex', alignItems: 'center' }}><FaMapMarkerAlt size={'20px'} style={{ marginRight: '5px' }} /> <Text1>{data?.shippingAddress?.postalCode}</Text1></Text>
-              <Text style={{ display: 'flex', alignItems: 'center' }}><FaGlobe size={'20px'} style={{ marginRight: '5px' }} /> <Text1>{data?.shippingAddress?.country}</Text1></Text>
-            </div>
-          </AddressInfo>
         </Section>
+        <div style={{width:'100%'}}>
+        <AddressInfo>
+          <div  style={{width:'100%'}}>
+            <AddressCard address={data?.billingAddress} />
+          </div>
+          <div style={{width:'100%'}} >
+            <AddressCard address={data?.shippingAddress} />
+
+          </div>
+        </AddressInfo>
+        </div>
       </Container>
     </>
   );
