@@ -16,10 +16,27 @@ export default function ProductDetails() {
   const [variants, setVariants] = useState({})
   const [cartItemAdded,setCartItemAdded] = useState(false)
   const { cart} = useSelector((store) => store.cartItems.cartItems);
-  const [cartItems, setCartItems] = useState()
+  const [cartItems, setCartItems] = useState([])
+  const [btn,setBtn] = useState(false)
   const dispatch = useDispatch()
 
  
+  useEffect(() => {
+
+    receiveProductsById(ProductId).then((res) => {
+
+      setProductDetails(res);
+      setVariants(res.product.variants[0])
+    });
+  }, []);
+  const handleAddToCart = () => {
+    const data = {
+      productVariantId: variants.id,
+      quantity: qty
+    }
+    AddItemToCartNew(data)
+    setBtn(!btn)
+  }
   
   useEffect(() => {
     const checkCartItem = () => {
@@ -30,7 +47,7 @@ export default function ProductDetails() {
     };
 
     checkCartItem();
-  }, [ variants.id]);
+  }, [handleAddToCart, variants.id]);
 
   
 
@@ -39,14 +56,6 @@ export default function ProductDetails() {
   const ProductId = 58
 
 
-  useEffect(() => {
-
-    receiveProductsById(ProductId).then((res) => {
-
-      setProductDetails(res);
-      setVariants(res.product.variants[0])
-    });
-  }, []);
 
   const decrementQty = () => {
     setQty((prev) => Math.max(prev - 1, 1));
@@ -59,16 +68,10 @@ export default function ProductDetails() {
     setActiveIndex(activeIndex === index ? null : index);
   };
 
-  const handleAddToCart = () => {
-    const data = {
-      productVariantId: variants.id,
-      quantity: qty
-    }
-    AddItemToCartNew(data)
-  }
+
   useEffect(() => {
     dispatch(getCartItems());
-  }, [handleAddToCart]);
+  }, [btn]);
 
   const faceShapeGuide = "https://india.ray-ban.com/pub/media/wysiwyg/Rb_PDP_opti/eyeglasses_faceshapeguide-min.jpg";
 

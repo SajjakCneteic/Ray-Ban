@@ -4,6 +4,15 @@ import styled from 'styled-components';
 import { useDispatch } from 'react-redux';
 import { ordersById } from '../../../action';
 
+import PersonIcon from '@mui/icons-material/Person';
+import HomeIcon from '@mui/icons-material/Home';
+import LocationCityIcon from '@mui/icons-material/LocationCity';
+import MapIcon from '@mui/icons-material/Map';
+import MailIcon from '@mui/icons-material/Mail';
+import FlagIcon from '@mui/icons-material/Flag';
+import PhoneIcon from '@mui/icons-material/Phone';
+import { FaUser, FaPhone, FaHome, FaMapMarkerAlt,FaGlobe } from 'react-icons/fa';
+
 const Container = styled.div`
   padding: 20px;
   max-width: 800px;
@@ -165,33 +174,32 @@ const OrderDetails = () => {
           {/* <CardTotal>Total: INR {order.product.total}</CardTotal> */}
         </CardContent>
       </Card>
-      <Card style={{display:'flex',justifyContent:'space-between',padding:'20px 50px'}}>
-     
-      <Section>
-        <SubTitle>Shipping Address</SubTitle>
-        <Text>Full Name: <Text1> {data?.shippingAddress?.fullName }</Text1></Text>
-        <Text>Phone Number: <Text1> {data?.shippingAddress?.phoneNumber }</Text1></Text>
-        <Text>Street Line1: <Text1> {data?.shippingAddress?.streetLine1}</Text1></Text>
-        <Text>Street Line2: <Text1>{data?.shippingAddress?.streetLine2}</Text1></Text>
-        <Text>City: <Text1>{data?.shippingAddress?.city }</Text1></Text>
-        <Text>Province: <Text1>{data?.shippingAddress?.province }</Text1></Text>
-        <Text>Postal Code: <Text1>{data?.shippingAddress?.postalCode }</Text1></Text>
-        <Text>Country: <Text1>{data?.shippingAddress?.country }</Text1></Text>
+      <Card style={{ display: 'flex', justifyContent: 'space-between', padding: '20px 50px' }}>
 
-      </Section>
-      <Section>
-        <SubTitle>Billing Address</SubTitle>
+        <Section>
+          <SubTitle>Shipping Address</SubTitle>
+          <Text><PersonIcon /> <Text1> {data?.shippingAddress?.fullName}</Text1></Text>
+          <Text><PhoneIcon /><Text1> {data?.shippingAddress?.phoneNumber}</Text1></Text>
+          <Text><HomeIcon /> <Text1> {data?.shippingAddress?.streetLine1}, {data?.shippingAddress?.streetLine2}
+          </Text1></Text>
+          <Text><LocationCityIcon /> <Text1>{data?.shippingAddress?.city}</Text1></Text>
+          <Text><MapIcon/> <Text1>{data?.shippingAddress?.province}</Text1></Text>
+          <Text style={{display:'flex',alignItems:'center'}}><FaMapMarkerAlt size={'20px'} style={{marginRight:'5px'}}/> <Text1>{data?.shippingAddress?.postalCode}</Text1></Text>
+          <Text style={{display:'flex',alignItems:'center'}}><FaGlobe size={'20px'} style={{marginRight:'5px'}}/> <Text1>{data?.shippingAddress?.country}</Text1></Text>
 
-        <Text>Full Name: <Text1>{data?.billingAddress?.fullName }</Text1></Text>
-        <Text>Phone Number: <Text1>{data?.billingAddress?.phoneNumber }</Text1></Text>
-        <Text>Street Line1: <Text1>{data?.billingAddress?.streetLine1}</Text1></Text>
-        <Text>Street Line2: <Text1>{data?.billingAddress?.streetLine2}</Text1></Text>
-        <Text>City: <Text1>{data?.billingAddress?.city }</Text1></Text>
-        <Text>Province: <Text1>{data?.billingAddress?.province }</Text1></Text>
-        <Text>Postal Code: <Text1>{data?.billingAddress?.postalCode }</Text1></Text>
-        <Text>Country: <Text1>{data?.billingAddress?.country }</Text1></Text>
-      </Section>
-     
+        </Section>
+        <Section>
+          <SubTitle>Billing Address</SubTitle>
+
+          <Text><PersonIcon /> <Text1>{data?.billingAddress?.fullName}</Text1></Text>
+          <Text><PhoneIcon /> <Text1>{data?.billingAddress?.phoneNumber}</Text1></Text>
+          <Text><HomeIcon /> <Text1>{data?.billingAddress?.streetLine1}, {data?.billingAddress?.streetLine2}</Text1></Text>
+          <Text><LocationCityIcon /><Text1>{data?.billingAddress?.city}</Text1></Text>
+          <Text><MapIcon/> <Text1>{data?.billingAddress?.province}</Text1></Text>
+          <Text style={{display:'flex',alignItems:'center'}}><FaMapMarkerAlt size={'20px'} style={{marginRight:'5px'}}/> <Text1>{data?.billingAddress?.postalCode}</Text1></Text>
+          <Text style={{display:'flex',alignItems:'center'}}><FaGlobe size={'20px'} style={{marginRight:'5px'}}/> <Text1>{data?.billingAddress?.country}</Text1></Text>
+        </Section>
+
       </Card>
     </Container>
   );

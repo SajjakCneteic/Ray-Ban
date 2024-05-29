@@ -32,7 +32,7 @@ const MenuOpen = ({ handleClose }) => {
     ];
     if (jwt) {
       updatedSidebarItems.push({ name: 'MY ACCOUNT', link: '/my-account' });
-      updatedSidebarItems.push({ name: 'MY ORDERS', link: '/my-orders' });
+      updatedSidebarItems.push({ name: 'MY ORDERS', link: '/account/order' });
       updatedSidebarItems.push({ name: 'LOG OUT' });
     } else {
 
