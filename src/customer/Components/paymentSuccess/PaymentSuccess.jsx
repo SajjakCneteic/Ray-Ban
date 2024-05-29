@@ -1,6 +1,17 @@
 import React, { useEffect, useState } from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { Link, useLocation, useParams } from 'react-router-dom';
 import styled, { createGlobalStyle, keyframes } from 'styled-components';
+import { getCutomerOrdersNew } from '../../../action/cart';
+import { ordersById } from '../../../action';
+import PersonIcon from '@mui/icons-material/Person';
+import HomeIcon from '@mui/icons-material/Home';
+import LocationCityIcon from '@mui/icons-material/LocationCity';
+import MapIcon from '@mui/icons-material/Map';
+import MailIcon from '@mui/icons-material/Mail';
+import FlagIcon from '@mui/icons-material/Flag';
+import PhoneIcon from '@mui/icons-material/Phone';
+import { FaUser, FaPhone, FaHome, FaMapMarkerAlt, FaGlobe } from 'react-icons/fa';
 
 const GlobalStyle = createGlobalStyle`
   body {
@@ -122,6 +133,8 @@ const ItemsOrdered = styled.div`
 
 const AddressInfo = styled.div`
   margin-top: 20px;
+  display:flex;
+  justify-content: space-between;
   .flex {
     border: 1px solid #ccc;
     padding: 10px;
@@ -139,10 +152,53 @@ const AddressInfo = styled.div`
   }
 `;
 
+
+const SubTitle = styled.h3`
+  margin-bottom: 10px;
+  font-size: 1.5em;
+
+  @media (max-width: 600px) {
+    font-size: 1.2em;
+  }
+`;
+
+const Text = styled.p`
+  margin: 5px 0;
+  font-size: 1em;
+  font-weight: bold; 
+`;
+const Text1 = styled.span`
+  margin: 5px 0;
+  color:#414141;
+  font-size: 1.1em;
+  font-weight: 400;
+`;
+
 const PaymentSuccess = () => {
   const location = useLocation();
   const paymentsuccessdata = location.state;
   const [showDetails, setShowDetails] = useState(false);
+  const { orderId } = useParams()
+
+  console.log(orderId)
+
+  const [data, setData] = useState([])
+  const dispatch = useDispatch();
+  const { newOrder } = useSelector((store) => store);
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const orders = await ordersById(orderId);
+        setData(orders.data.order); // Access the response data here
+      } catch (error) {
+        console.error('Error fetching customer orders:', error);
+      }
+    };
+
+    fetchData();
+  }, [orderId]);
+
+  console.log(data)
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -151,7 +207,7 @@ const PaymentSuccess = () => {
     return () => clearTimeout(timer);
   }, []);
 
- 
+
 
   return (
     <>
@@ -160,22 +216,22 @@ const PaymentSuccess = () => {
         <Section>
           <ThankYou>
             <div className='successImage'>
-            <img src="https://cdn-icons-png.flaticon.com/512/5709/5709755.png" alt="Checkmark" />
+              <img src="https://cdn-icons-png.flaticon.com/512/5709/5709755.png" alt="Checkmark" />
             </div>
             <h1>THANK YOU FOR YOUR PURCHASE!</h1>
             <p>You will receive an order confirmation email with details of your order.</p>
-            <p>Your order # is: 4000000005.</p>
+            <p>Your order # is: {data?.id}</p>
             <Link to="/shops">Continue Shopping</Link>
           </ThankYou>
           <NewCollection>
             <img src="https://india.ray-ban.com/media/wysiwyg/Rb_sunglasses_clp_opti/07_RB_Sunglasses_Page_Bottom_Banner_Desktop.jpg" alt="New Collection" />
           </NewCollection>
-          <CreateAccount>
+          {/* <CreateAccount>
             <h2>CREATE ACCOUNT FOR NEXT TIME</h2>
             <input type="password" placeholder="Password" />
             <input type="password" placeholder="Confirm Password" />
             <button>Create Account</button>
-          </CreateAccount>
+          </CreateAccount> */}
         </Section>
         <Section>
           <ItemsOrdered>
@@ -192,57 +248,51 @@ const PaymentSuccess = () => {
               </thead>
               <tbody>
                 <tr>
-                  <td>Jackie O Round Sunglasses</td>
+                  <td>{data?.lines?.[0]?.productVariant?.name}</td>
                   <td>ace001</td>
-                  <td>$225.00</td>
-                  <td>Ordered: 1</td>
-                  <td>$225.00</td>
+                  <td>₹ {data?.lines?.[0]?.productVariant?.priceWithTax}</td>
+                  <td>Ordered: {data?.lines?.[0]?.quantity}</td>
+                  <td>₹  {data?.totalWithTax}</td>
                 </tr>
               </tbody>
               <tfoot>
                 <tr>
                   <td colSpan="4">Subtotal</td>
-                  <td>$225.00</td>
+                  <td>₹  {data?.totalWithTax}</td>
                 </tr>
                 <tr>
                   <td colSpan="4">Shipping & Handling</td>
-                  <td>$5.00</td>
+                  <td>40.00</td>
                 </tr>
                 <tr>
                   <td colSpan="4">Grand Total</td>
-                  <td>$230.00</td>
+                  <td>₹  {data?.totalWithTax+40}</td>
                 </tr>
               </tfoot>
             </table>
           </ItemsOrdered>
           <AddressInfo>
-            <div className='flex'>
-              <div>
-              <h3>Shipping Address</h3>
-              <p>Drew France</p>
-              <p>Lake view st</p>
-              <p>Paris, Paris, 75008</p>
-              <p>France</p>
-              <p>T: 907-555-3209</p>
-              </div>
-            <div className='method'>
-              <h3>Shipping Method</h3>
-              <p>Flat Rate - Fixed</p>
+            <div >
+              <SubTitle>Billing Address</SubTitle>
+
+              <Text><PersonIcon /> <Text1>{data?.billingAddress?.fullName}</Text1></Text>
+              <Text><PhoneIcon /> <Text1>{data?.billingAddress?.phoneNumber}</Text1></Text>
+              <Text><HomeIcon /> <Text1>{data?.billingAddress?.streetLine1}, {data?.billingAddress?.streetLine2}</Text1></Text>
+              <Text><LocationCityIcon /><Text1>{data?.billingAddress?.city}</Text1></Text>
+              <Text><MapIcon /> <Text1>{data?.billingAddress?.province}</Text1></Text>
+              <Text style={{ display: 'flex', alignItems: 'center' }}><FaMapMarkerAlt size={'20px'} style={{ marginRight: '5px' }} /> <Text1>{data?.billingAddress?.postalCode}</Text1></Text>
+              <Text style={{ display: 'flex', alignItems: 'center' }}><FaGlobe size={'20px'} style={{ marginRight: '5px' }} /> <Text1>{data?.billingAddress?.country}</Text1></Text>
             </div>
-            </div>
-            <div className='flex'>
-              <div>
-              <h3>Billing Address</h3>
-              <p>Drew France</p>
-              <p>Lake view st</p>
-              <p>Paris, Paris, 75008</p>
-              <p>France</p>
-              <p>T: 907-555-3209</p>
-              </div>
-            <div className='method'>
-              <h3>Payment Method</h3>
-              <p>Cash On Delivery</p>
-            </div>
+            <div >
+              <SubTitle>Billing Address</SubTitle>
+
+              <Text><PersonIcon /> <Text1>{data?.billingAddress?.fullName}</Text1></Text>
+              <Text><PhoneIcon /> <Text1>{data?.billingAddress?.phoneNumber}</Text1></Text>
+              <Text><HomeIcon /> <Text1>{data?.billingAddress?.streetLine1}, {data?.billingAddress?.streetLine2}</Text1></Text>
+              <Text><LocationCityIcon /><Text1>{data?.billingAddress?.city}</Text1></Text>
+              <Text><MapIcon /> <Text1>{data?.billingAddress?.province}</Text1></Text>
+              <Text style={{ display: 'flex', alignItems: 'center' }}><FaMapMarkerAlt size={'20px'} style={{ marginRight: '5px' }} /> <Text1>{data?.billingAddress?.postalCode}</Text1></Text>
+              <Text style={{ display: 'flex', alignItems: 'center' }}><FaGlobe size={'20px'} style={{ marginRight: '5px' }} /> <Text1>{data?.billingAddress?.country}</Text1></Text>
             </div>
           </AddressInfo>
         </Section>

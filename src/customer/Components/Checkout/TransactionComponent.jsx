@@ -65,38 +65,40 @@ const TransactionComponent = () => {
       </div>
       <div className="flex justify-between items-center mb-4">
         {/* <span>#{cart?.id}</span> */}
-        <select className={inputClasses}>
+        {/* <select className={inputClasses}>
           <option>English</option>
           <option>Hindi</option>
-        </select>
+        </select> */}
       </div>
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
         <div className="md:col-span-2">
           <h2 className="text-xl font-bold mb-2">Billing Information</h2>
           <div className="grid grid-cols-1 gap-4">
-            <div>
-              <label htmlFor="firstName" className="block mb-1">First Name</label>
-              <input
-                type="text"
-                name="firstName"
-                id="firstName"
-                className={inputClasses}
-                placeholder="First Name"
-                value={billingInfo.firstName}
-                onChange={handleInputChange}
-              />
-            </div>
-            <div>
-              <label htmlFor="lastName" className="block mb-1">Last Name</label>
-              <input
-                type="text"
-                name="lastName"
-                id="lastName"
-                className={inputClasses}
-                placeholder="Last Name"
-                value={billingInfo.lastName}
-                onChange={handleInputChange}
-              />
+            <div className="grid grid-cols-2 gap-4">
+              <div>
+                <label htmlFor="firstName" className="block mb-1">First Name</label>
+                <input
+                  type="text"
+                  name="firstName"
+                  id="firstName"
+                  className={inputClasses}
+                  placeholder="First Name"
+                  value={billingInfo.firstName}
+                  onChange={handleInputChange}
+                />
+              </div>
+              <div>
+                <label htmlFor="lastName" className="block mb-1">Last Name</label>
+                <input
+                  type="text"
+                  name="lastName"
+                  id="lastName"
+                  className={inputClasses}
+                  placeholder="Last Name"
+                  value={billingInfo.lastName}
+                  onChange={handleInputChange}
+                />
+              </div>
             </div>
             <div>
               <label htmlFor="streetLine1" className="block mb-1">Address Line 1</label>
@@ -174,6 +176,7 @@ const TransactionComponent = () => {
               />
             </div>
           </div>
+
           <div className="flex items-center mt-4">
             <input
               type="checkbox"
