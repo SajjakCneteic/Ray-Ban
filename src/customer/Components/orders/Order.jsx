@@ -97,7 +97,7 @@ const Order = () => {
     const fetchData = async () => {
       try {
         const orders = await dispatch(getCutomerOrdersNew());
-        setData(orders) // Access the response data here
+        setData(orders.orders.items) // Access the response data here
       } catch (error) {
         console.error('Error fetching customer orders:', error);
       }
@@ -105,6 +105,8 @@ const Order = () => {
 
     fetchData();
   }, [dispatch]);
+
+  console.log(data)
 
   const formatDate = (dateString) => {
     const date = new Date(dateString);
@@ -125,23 +127,23 @@ const Order = () => {
           </tr>
         </thead>
         <tbody>
-          {data?.orders?.map((data, index) =>
+          {data?.map((data, index) =>
 
             <Tr>
-              <Td>{data.orderId}</Td>
+              <Td>{data?.id}</Td>
               <Td>
                 <CustomerInfo>
-                  <CustomerName>{data?.lines?.[0].productName}</CustomerName>
+                  <CustomerName>{data?.lines?.[0]?.productVariant?.name}</CustomerName>
                 </CustomerInfo>
               </Td>
               <Td>{data?.totalAmount}</Td>
-              <Td><Status style={{ backgroundColor: `${data?.status == 'Delivered' ? 'green' : 'red'}` }}>{data?.status}</Status></Td>
+              <Td><Status style={{ backgroundColor: `${data?.state == 'Delivered' ? 'green' : 'red'}` }}>{data?.state}</Status></Td>
               <Td>
                 <CreatedAt>
-                  <CreatedDate>{formatDate(data?.orderDate)}</CreatedDate>
+                  <CreatedDate>{formatDate(data?.orderPlacedAt)}</CreatedDate>
                 </CreatedAt>
               </Td>
-              <Ellipsis><Link to={`/account/order/${data.orderId}`}>View Details</Link></Ellipsis>
+              <Ellipsis><Link to={`/account/order/${data?.id}`}>View Details</Link></Ellipsis>
             </Tr>
           )}
         </tbody>

@@ -87,20 +87,23 @@ const Links = styled.p`
 
 export default function Profile() {
   const [data,setData] = useState({})
-  const dispatch = useDispatch()
-  console.log(data)
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const orders = await dispatch(getCutomerOrdersNew());
-        setData(orders.customer) // Access the response data here
-      } catch (error) {
-        console.error('Error fetching customer orders:', error);
-      }
-    };
 
-    fetchData();
-  }, [dispatch]);
+  useEffect(() => {
+    const storedState = localStorage.getItem('state');
+    if (storedState) {
+      try {
+        const parsedState = JSON.parse(storedState);
+        if (parsedState && parsedState.auth && parsedState.auth.user && parsedState.auth.user.user) {
+          setData(parsedState.auth.user.user);
+        }
+      } catch (error) {
+        console.error('Error parsing JSON from localStorage', error);
+      }
+    }
+  }, []);
+
+  
+ 
   return (
     <Container>
       <Sidebar>
