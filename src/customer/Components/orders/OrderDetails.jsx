@@ -274,7 +274,7 @@ const OrderDetails = () => {
           {/* <p>Shipped with FedEX</p> */}
         </ProgressStep>
         <ProgressStep>
-          <ProgressCircle active>{ data?.state==='Delivered' ? '✔' : '2'}</ProgressCircle>
+          <ProgressCircle active>{ data?.state==='Delivered' ? '✔' : '3'}</ProgressCircle>
 
           <p>TO DELIVER</p>
           {/* <p>Estimated date: Feb 15, 2023</p> */}
