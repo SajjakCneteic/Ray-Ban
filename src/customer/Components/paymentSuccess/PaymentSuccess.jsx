@@ -246,26 +246,28 @@ const PaymentSuccess = () => {
                 </tr>
               </thead>
               <tbody>
+                {data?.lines?.map((el,index)=>
                 <tr>
-                  <td>{data?.lines?.[0]?.productVariant?.name}</td>
-                  <td>{data?.id}</td>
-                  <td>₹ {data?.lines?.[0]?.productVariant?.priceWithTax}</td>
-                  <td>Ordered: {data?.lines?.[0]?.quantity}</td>
-                  <td>₹  {data?.totalWithTax}</td>
+                  <td>{el?.productVariant?.name}</td>
+                  <td>{el?.id}</td>
+                  <td>₹{el?.productVariant?.priceWithTax}.00</td>
+                  <td>Ordered: {el?.quantity}</td>
+                  <td>₹{el?.linePriceWithTax}.00</td>
                 </tr>
+                )}
               </tbody>
               <tfoot>
                 <tr>
                   <td colSpan="4">Subtotal</td>
-                  <td>₹  {data?.totalWithTax}</td>
+                  <td>₹{data?.subTotalWithTax}.00</td>
                 </tr>
                 <tr>
                   <td colSpan="4">Shipping & Handling</td>
-                  <td>40.00</td>
+                  <td>{data?.shippingWithTax}.00</td>
                 </tr>
                 <tr>
                   <td colSpan="4">Grand Total</td>
-                  <td>₹  {data?.totalWithTax + 40}</td>
+                  <td>₹{data?.totalWithTax }.00</td>
                 </tr>
               </tfoot>
             </table>

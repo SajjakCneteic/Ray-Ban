@@ -47,8 +47,7 @@ const PaymentMethod = () => {
     // if (!showShippingAddress) {
     //   setError('Please confirm that your billing and shipping address are the same.');
     // } else {
-    //   navigate('/payment');
-    // }
+
     navigate('/payment');
   };
 

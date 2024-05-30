@@ -4,152 +4,142 @@ import styled from 'styled-components';
 import { getCutomerOrdersNew } from '../../../action/cart';
 import { Link } from 'react-router-dom';
 
-const TableContainer = styled.div`
-  width: 100%;
-  border: 1px solid #e0e0e0;
-  border-radius: 8px;
-  overflow: hidden;
-  margin: 10px auto;
-  margin-bottom: 100px;
-  @media (max-width: 768px) {
+const Container = styled.div`
     width: 100%;
-    overflow-x: auto;
-  }
+    margin-top: 10px;
+    padding: 20px;
+    margin: 0 auto;
+    font-family: Arial, sans-serif;
+`;
+
+const Title = styled.h2`
+    font-size: 24px;
+    margin-bottom: 20px;
+    font-weight: bold;
+
+    @media (max-width: 768px) {
+        font-size: 20px;
+        margin-bottom: 10px;
+    }
 `;
 
 const Table = styled.table`
-  width: 100%;
-  border-collapse: collapse;
+    width: 100%;
+    border-collapse: collapse;
+
+    @media (max-width: 768px) {
+        font-size: 12px;
+    }
 `;
 
 const Th = styled.th`
-  padding: 12px;
-  text-align: left;
-  background-color: #333;
-  font-weight: bold;
-  color:white;
+    padding: 12px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+    background-color: #f2f2f2;
+
+    @media (max-width: 768px) {
+        padding: 8px;
+    }
 `;
 
 const Td = styled.td`
-  padding: 12px;
-  text-align: left;
- 
+    padding: 12px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+
+    @media (max-width: 768px) {
+        padding: 8px;
+    }
+`;
+
+const StyledLinkTd = styled(Td)`
+    cursor: pointer;
+    text-decoration: underline;
+
+    &:hover {
+        text-decoration: none;
+        color: red;
+    }
 `;
 
 const Status = styled.span`
-  color: white;
-  background-color: #ff4d4f;
-  padding: 4px 8px;
-  border-radius: 4px;
-`;
+    color: white;
+    background-color: ${props => props.statusColor || '#000'};
+    padding: 4px 8px;
+    border-radius: 4px;
 
-const Ellipsis = styled.td`
-  cursor: pointer;
-  text-decoration: underline;
-  &:hover {
-    text-decoration: none;
-    Link{
-      color: red;
+    @media (max-width: 768px) {
+        padding: 2px 4px;
+        font-size: 10px;
     }
-  }
 `;
 
-const CustomerInfo = styled.div`
-  display: flex;
-  flex-direction: column;
-`;
-
-const CustomerName = styled.span`
-  font-weight: bold;
-`;
-
-const CustomerCompany = styled.span`
-  color: #888;
-`;
-
-const CreatedAt = styled.div`
-  display: flex;
-  flex-direction: column;
-`;
-
-const CreatedDate = styled.span`
-  font-weight: bold;
-`;
-
-const CreatedTime = styled.span`
-  color: #888;
-`;
-
-const Tr = styled.tr`
-  &:nth-child(even) {
-    background-color: #ffffff; /* Background color for even rows */
-  }
-  &:nth-child(odd) {
-    background-color: #c8c8c8; /* Background color for odd rows */
-  }
-`
+const getStatusColor = (status) => {
+    switch (status) {
+        case 'Delivered':
+            return '#4caf50';
+        case 'Pending':
+            return '#ff9800';
+        case 'PaymentAuthorized':
+            return '#008cff';
+        case 'Cancelled':
+            return '#f44336';
+        default:
+            return '#000';
+    }
+};
 
 const Order = () => {
-  const [data, setData] = useState([])
-  const dispatch = useDispatch();
-  const { newOrder } = useSelector((store) => store);
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const orders = await dispatch(getCutomerOrdersNew());
-        setData(orders.orders.items) // Access the response data here
-      } catch (error) {
-        console.error('Error fetching customer orders:', error);
-      }
+    const [data, setData] = useState([]);
+    const dispatch = useDispatch();
+    const { newOrder } = useSelector((store) => store);
+
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const orders = await dispatch(getCutomerOrdersNew());
+                setData(orders.orders.items); // Access the response data here
+            } catch (error) {
+                console.error('Error fetching customer orders:', error);
+            }
+        };
+
+        fetchData();
+    }, [dispatch]);
+
+    const formatDate = (dateString) => {
+        const date = new Date(dateString);
+        return `${date.toLocaleDateString()} ${date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}`;
     };
 
-    fetchData();
-  }, [dispatch]);
-
-  console.log(data)
-
-  const formatDate = (dateString) => {
-    const date = new Date(dateString);
-    return `${date.toLocaleDateString()} ${date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}`;
-  };
-  console.log(data)
-  return (
-    <TableContainer>
-      <Table>
-        <thead>
-          <tr>
-            <Th>ID</Th>
-            <Th>Product Name</Th>
-            <Th>Total Amount</Th>
-            <Th>Status</Th>
-            <Th>Order Date</Th>
-            <Th></Th>
-          </tr>
-        </thead>
-        <tbody>
-          {data?.map((data, index) =>
-
-            <Tr>
-              <Td>{data?.id}</Td>
-              <Td>
-                <CustomerInfo>
-                  <CustomerName>{data?.lines?.[0]?.productVariant?.name}</CustomerName>
-                </CustomerInfo>
-              </Td>
-              <Td>{data?.totalAmount}</Td>
-              <Td><Status style={{ backgroundColor: `${data?.state == 'Delivered' ? 'green' : 'red'}` }}>{data?.state}</Status></Td>
-              <Td>
-                <CreatedAt>
-                  <CreatedDate>{formatDate(data?.orderPlacedAt)}</CreatedDate>
-                </CreatedAt>
-              </Td>
-              <Ellipsis><Link to={`/account/order/${data?.id}`}>View Details</Link></Ellipsis>
-            </Tr>
-          )}
-        </tbody>
-      </Table>
-    </TableContainer>
-  );
+    return (
+        <Container>
+            <Title>My Recent Orders</Title>
+            <Table>
+                <thead>
+                    <tr>
+                        <Th>Order</Th>
+                        <Th>Order date</Th>
+                        <Th>Total</Th>
+                        <Th>Order status</Th>
+                        <Th></Th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {data?.map((el, index) =>
+                        <tr key={index}>
+                            <Td>{el?.id}</Td>
+                            <Td>{formatDate(el?.orderPlacedAt)}</Td>
+                            <Td>₹{el?.totalWithTax}</Td>
+                            <Td><Status statusColor={getStatusColor(el?.state)}>{el?.state}</Status></Td>
+                            <StyledLinkTd><Link to={`/account/order/${el?.id}`}>View details</Link></StyledLinkTd>
+                        </tr>
+                    )}
+                </tbody>
+            </Table>
+        </Container>
+    );
 }
 
 export default Order;
