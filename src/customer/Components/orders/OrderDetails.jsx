@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import styled from 'styled-components';
 import { useDispatch } from 'react-redux';
 import { ordersById } from '../../../action';
@@ -15,106 +15,205 @@ import { FaUser, FaPhone, FaHome, FaMapMarkerAlt, FaGlobe } from 'react-icons/fa
 import AddressCard from '../adreess/AdreessCard';
 
 const Container = styled.div`
-  padding: 20px;
-  max-width: 800px;
-  margin: 0 auto;
-  font-family: 'Arial', sans-serif;
+    font-family: Arial, sans-serif;
+    width: 90%;
+    margin: auto;
+    margin-top: 10px;
+    padding: 20px;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
 
-  @media (max-width: 600px) {
+    @media (max-width: 768px) {
+        width: 100%;
+        padding: 10px;
+    }
+`;
+
+const BackLink = styled.p`
+    text-decoration: none;
+    color: #000;
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+`;
+
+const OrderTitle = styled.h1`
+    font-size: 24px;
+    margin-bottom: 5px;
+
+    @media (max-width: 768px) {
+        font-size: 20px;
+    }
+`;
+
+const OrderDate = styled.span`
+    font-size: 14px;
+    color: #888;
+
+    @media (max-width: 768px) {
+        font-size: 12px;
+    }
+`;
+
+const StatusBadge = styled.span`
+    background-color: #E0E7FF;
+    color: #ff6404;
+    padding: 5px 10px;
+    border-radius: 5px;
+    margin-top: 10px;
+    display: inline-block;
+`;
+
+const OrderProgress = styled.div`
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 20px;
+    padding: 20px 0;
+    border-bottom: 1px solid #e0e0e0;
+
+    @media (max-width: 768px) {
+        flex-direction: row;
+        padding: 10px 0;
+    }
+`;
+
+const ProgressStep = styled.div`
+    text-align: center;
+
+    @media (max-width: 768px) {
+        margin-bottom: 10px;
+    }
+`;
+
+const ProgressCircle = styled.div`
+    background-color: ${props => props.active ? '#fb0e0e' : '#e0e0e0'};
+    color: ${props => props.active ? '#fff' : '#888'};
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: auto;
+`;
+
+const InputGroup = styled.div`
+    margin-bottom: 10px;
+    width: 100%;
+`;
+
+const Label = styled.label`
+    font-size: 14px;
+    color: #888;
+`;
+
+const Input = styled.input`
+    width: 100%;
     padding: 10px;
-  }
+    border: 1px solid #e0e0e0;
+    border-radius: 5px;
+    margin-top: 5px;
 `;
 
-const Section = styled.div`
-  margin-bottom: 20px;
+const ItemSection = styled.div`
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    padding: 20px;
+    margin-top: 20px;
+
+    @media (max-width: 768px) {
+        padding: 10px;
+    }
 `;
 
-const Title = styled.h2`
-  margin-bottom: 10px;
-  font-size: 2em;
+const Item = styled.div`
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+    &:last-child {
+        margin-bottom: 0;
+    }
 
-  @media (max-width: 600px) {
-    font-size: 1.5em;
-  }
+    @media (max-width: 768px) {
+        flex-direction: column;
+        align-items: flex-start;
+    }
 `;
 
-const SubTitle = styled.h3`
-  margin-bottom: 10px;
-  font-size: 1.5em;
+const ItemImage = styled.img`
+    width: 180px;
+    height: 100px;
+    object-fit: cover;
+    border-radius: 8px;
+    margin-right: 20px;
 
-  @media (max-width: 600px) {
-    font-size: 1.2em;
-  }
+    @media (max-width: 768px) {
+        width: 100%;
+        height: auto;
+        margin-right: 0;
+        margin-bottom: 10px;
+    }
 `;
 
-const Text = styled.p`
-  margin: 5px 0;
-  font-size: 1em;
-  font-weight: bold; 
-`;
-const Text1 = styled.span`
-  margin: 5px 0;
-  color:#414141;
-  font-size: 1.1em;
-  font-weight: 400;
+const ItemDetails = styled.div`
+    flex-grow: 1;
 `;
 
-const Status = styled.span`
-  color: white;
-  background-color: ${props => props.statusColor || '#000'};
-  padding: 4px 8px;
-  border-radius: 4px;
+const ItemTitle = styled.p`
+    font-size: 14px;
+    margin: 0;
 `;
 
-const Card = styled.div`
-  display: flex;
-  flex-direction: column;
-  border: 1px solid #ccc;
-  border-radius: 8px;
-  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-  margin: 16px 0;
-  overflow: hidden;
-
-  @media (min-width: 600px) {
-    flex-direction: row;
-  }
+const ItemQuantity = styled.p`
+    font-size: 14px;
+    color: #888;
+    margin: 0;
 `;
 
-const CardImage = styled.img`
-  max-width: 40%;
-  height: auto;
-
-
+const ItemPrice = styled.p`
+    font-size: 14px;
+    margin: 0;
 `;
 
-const CardContent = styled.div`
-  padding: 16px;
-  flex: 1;
+const Summary = styled.div`
+    margin-top: 20px;
+    padding: 20px;
+    border-top: 1px solid #e0e0e0;
+
+    @media (max-width: 768px) {
+        padding: 10px;
+    }
 `;
 
-const CardTitle = styled.h2`
-  font-size: 1.5em;
-  margin-bottom: 8px;
-`;
+// style={{ display: 'flex', gap: '20px', width: '100%', justifyContent: 'space-between', }}
 
-const CardText = styled.p`
-  font-size: 1em;
-  margin-bottom: 8px;
-`;
+const AddressCont = styled.div`
+display: flex;
+gap:20px;
+width: 100%;
+justify-content: space-between;
+ @media(max-width: 768px){
+  display: block;
+  
+}
+`
 
-const CardPrice = styled.div`
-  font-size: 1.2em;
-  margin-bottom: 4px;
-`;
+const Div = styled.div`
+@media(max-width: 768px){
+  width:100%;
+  margin-bottom:10px;
+}
+`
 
-const CardQuantity = styled.div`
-  font-size: 1.2em;
-  margin-bottom: 4px;
-`;
-
-const CardTotal = styled.div`
-  font-size: 1.2em;
-  margin-bottom: 4px;
+const SummaryRow = styled.div`
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+    font-size: 14px;
+    color: ${props => props.total ? '#000' : '#888'};
+    font-weight: ${props => props.total ? 'bold' : 'normal'};
 `;
 
 const getStatusColor = (status) => {
@@ -158,31 +257,68 @@ const OrderDetails = () => {
 
   return (
     <Container>
-      <Section>
-        <Title>Order Details</Title>
-        <Text><strong>Order ID:</strong> {data?.id}</Text>
-        <Text><strong>Quantity:</strong> {data?.lines?.[0]?.quantity}</Text>
-        <Text><strong>Total Amount with Tax:</strong> ₹  {data?.totalWithTax}</Text>
-        <Text><strong>Status:</strong> <Status statusColor={getStatusColor(data.state)}>{data.state}</Status></Text>
-      </Section>
+      <BackLink ><Link to='/account/order'> &larr; Orders</Link></BackLink>
+      <OrderTitle>Order details #{data?.id}</OrderTitle>
+      <OrderDate>Date: {formatDate(data?.orderPlacedAt)}</OrderDate>
+      {/* <StatusBadge>SHIPPING</StatusBadge> */}
+      <OrderProgress>
+        <ProgressStep>
+          <ProgressCircle active>{(data?.state==='PaymentAuthorized' || data?.state==='Delivered') ? '✔' : '1'}</ProgressCircle>
+          <p>ORDER CONFIRMED</p>
+          {/* <p>8:00 AM, Feb 8, 2023</p> */}
+        </ProgressStep>
+        <ProgressStep>
+          <ProgressCircle active>{(data?.state==='PaymentAuthorized' || data?.state==='Delivered') ? '✔' : '2'}</ProgressCircle>
 
-      <Card>
-        <CardImage src={data?.lines?.[0]?.productVariant?.featuredAsset?.preview} />
-        <CardContent>
-          <CardTitle>{data?.lines?.[0]?.productVariant?.name}</CardTitle>
-          <CardPrice>Price: ₹ {data?.lines?.[0]?.productVariant?.priceWithTax}</CardPrice>
-          <CardQuantity>Quantity: {data?.lines?.[0]?.quantity}</CardQuantity>
-         
-        </CardContent>
-      </Card>
-      <Card style={{ display: 'flex', justifyContent: 'space-between', padding: '30px',gap:'20px' }}>
-        <Section>
+          <p>SHIPPING</p>
+          {/* <p>Shipped with FedEX</p> */}
+        </ProgressStep>
+        <ProgressStep>
+          <ProgressCircle active>{ data?.state==='Delivered' ? '✔' : '3'}</ProgressCircle>
+
+          <p>TO DELIVER</p>
+          {/* <p>Estimated date: Feb 15, 2023</p> */}
+        </ProgressStep>
+       
+      </OrderProgress>
+
+      <h2>Item ordered</h2>
+      <ItemSection>
+        {data?.lines?.map((el, index) =>
+          <Item key={index}>
+            <ItemImage src={el?.productVariant?.featuredAsset?.preview} alt="Item 1" />
+            <ItemDetails>
+              <ItemTitle>{el?.productVariant?.name}</ItemTitle>
+            </ItemDetails>
+            <ItemDetails>
+              <ItemQuantity>{el?.quantity}</ItemQuantity>
+            </ItemDetails>
+            <ItemPrice>₹{el?.linePriceWithTax}.00</ItemPrice>
+          </Item>
+        )}
+      </ItemSection>
+      <Summary>
+        <SummaryRow>
+          <span>Product Total</span>
+          <span>₹{data?.subTotalWithTax}.00</span>
+        </SummaryRow>
+        <SummaryRow>
+          <span>Shipping cost</span>
+          <span style={{ color: '#fc2008' }}>₹{data?.shippingWithTax}.00</span>
+        </SummaryRow>
+        <SummaryRow total>
+          <span>Total</span>
+          <span>₹{data?.totalWithTax}.00</span>
+        </SummaryRow>
+      </Summary>
+      <AddressCont >
+        <Div style={{ width: '100%',  }}>
           <AddressCard heading={"Shipping Address"} address={data?.shippingAddress} />
-        </Section>
-        <Section>
+        </Div>
+        <Div style={{ width: '100%',}}>
           <AddressCard heading={"Billing Address"} address={data?.billingAddress} />
-        </Section>
-      </Card>
+        </Div>
+      </AddressCont>
     </Container>
   );
 };
