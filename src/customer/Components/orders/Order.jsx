@@ -113,6 +113,15 @@ const Order = () => {
         return `${date.toLocaleDateString()} ${date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}`;
     };
 
+    const amountPrint = (price) => {
+      if (typeof price !== 'undefined' && price !== null) {
+        const formattedPrice = "₹" + price.toLocaleString("en-IN", { maximumFractionDigits: 2, minimumFractionDigits: 2 });
+        return formattedPrice;
+      } else {
+        return "₹0.00"; // Or any default value you prefer
+      }
+    }
+
     return (
         <Container>
             <Title>My Recent Orders</Title>
@@ -120,7 +129,7 @@ const Order = () => {
                 <thead>
                     <tr>
                         <Th>Order</Th>
-                        <Th>Order date</Th>
+                        <Th>Placed On</Th>
                         <Th>Total</Th>
                         <Th>Order status</Th>
                         <Th></Th>
@@ -131,7 +140,7 @@ const Order = () => {
                         <tr key={index}>
                             <Td>{el?.id}</Td>
                             <Td>{formatDate(el?.orderPlacedAt)}</Td>
-                            <Td>₹{el?.totalWithTax}</Td>
+                            <Td>{amountPrint(el?.totalWithTax)}</Td>
                             <Td><Status statusColor={getStatusColor(el?.state)}>{el?.state}</Status></Td>
                             <StyledLinkTd><Link to={`/account/order/${el?.id}`}>View details</Link></StyledLinkTd>
                         </tr>

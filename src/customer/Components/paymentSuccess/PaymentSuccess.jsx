@@ -211,7 +211,14 @@ const PaymentSuccess = () => {
     return () => clearTimeout(timer);
   }, []);
 
-
+  const amountPrint = (price) => {
+    if (typeof price !== 'undefined' && price !== null) {
+      const formattedPrice = "₹" + price.toLocaleString("en-IN", { maximumFractionDigits: 2, minimumFractionDigits: 2 });
+      return formattedPrice;
+    } else {
+      return "₹0.00"; // Or any default value you prefer
+    }
+  }
 
   return (
     <>
@@ -250,24 +257,24 @@ const PaymentSuccess = () => {
                 <tr>
                   <td>{el?.productVariant?.name}</td>
                   <td>{el?.id}</td>
-                  <td>₹{el?.productVariant?.priceWithTax}.00</td>
+                  <td>{amountPrint(el?.productVariant?.priceWithTax)}</td>
                   <td>Ordered: {el?.quantity}</td>
-                  <td>₹{el?.linePriceWithTax}.00</td>
+                  <td>{amountPrint(el?.linePriceWithTax)}</td>
                 </tr>
                 )}
               </tbody>
               <tfoot>
                 <tr>
                   <td colSpan="4">Subtotal</td>
-                  <td>₹{data?.subTotalWithTax}.00</td>
+                  <td>{amountPrint(data?.subTotalWithTax)}</td>
                 </tr>
                 <tr>
                   <td colSpan="4">Shipping & Handling</td>
-                  <td>{data?.shippingWithTax}.00</td>
+                  <td>{amountPrint(data?.shippingWithTax)}</td>
                 </tr>
                 <tr>
                   <td colSpan="4">Grand Total</td>
-                  <td>₹{data?.totalWithTax }.00</td>
+                  <td>{ amountPrint(data?.totalWithTax)}</td>
                 </tr>
               </tfoot>
             </table>
