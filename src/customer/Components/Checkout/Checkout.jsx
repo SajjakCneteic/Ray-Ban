@@ -4,9 +4,10 @@ import { useLocation, useNavigate } from "react-router-dom";
 import AddDeliveryAddressForm from "./ShippingAddressForm";
 import PaymentMethod from "./PaymentMethod";
 import { CheckCircle, CircleOutlined, FiberManualRecord } from '@mui/icons-material/';
+import CustomStepper from "./CustomStepper";
 
 // Define the steps for the stepper
-const steps = ["LogIn", 'Shipping', 'Review & Payments'];
+const steps = ["LogIn", 'Shipping', `Payments`];
 
 export default function Checkout() {
   const [activeStep, setActiveStep] = useState(0); // State to manage active step
@@ -42,7 +43,7 @@ export default function Checkout() {
 
   return (
     <Box className="px-5 lg:px-8" sx={{ width: "100%" }}>
-      <Stepper alternativeLabel activeStep={activeStep} connector={<div />}>
+      {/* <Stepper alternativeLabel activeStep={activeStep} connector={<div />}>
         {steps.map((label, index) => (
           <div key={label} style={{display:"flex", marginLeft:"20%", }}>
             <StepLabel style={{ display: 'block', alignItems: 'center', justifyContent: 'center' }}>
@@ -55,8 +56,9 @@ export default function Checkout() {
             </StepLabel>
           </div>
         ))}
-      </Stepper>
+      </Stepper> */}
 
+<CustomStepper steps={steps} activeStep={activeStep}/>
       {/* Conditional rendering based on the active step */}
       {activeStep === steps.length ? (
         <React.Fragment>
