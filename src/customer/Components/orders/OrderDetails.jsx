@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
-import styled from 'styled-components';
 import { useDispatch } from 'react-redux';
 import { ordersById } from '../../../action';
+import { FaLongArrowAltLeft,FaCheck } from "react-icons/fa";
+
 
 import PersonIcon from '@mui/icons-material/Person';
 import HomeIcon from '@mui/icons-material/Home';
@@ -12,7 +13,9 @@ import MailIcon from '@mui/icons-material/Mail';
 import FlagIcon from '@mui/icons-material/Flag';
 import PhoneIcon from '@mui/icons-material/Phone';
 import { FaUser, FaPhone, FaHome, FaMapMarkerAlt, FaGlobe } from 'react-icons/fa';
+import styled, { keyframes } from 'styled-components';
 import AddressCard from '../adreess/AdreessCard';
+
 
 const Container = styled.div`
     font-family: Arial, sans-serif;
@@ -36,11 +39,16 @@ const BackLink = styled.p`
     display: flex;
     align-items: center;
     margin-bottom: 20px;
+    &:hover{
+      color: #444444;
+      text-decoration:underline;
+    }
 `;
 
 const OrderTitle = styled.h1`
-    font-size: 24px;
+    font-size: 29px;
     margin-bottom: 5px;
+    font-weight: 800;
 
     @media (max-width: 768px) {
         font-size: 20px;
@@ -48,7 +56,7 @@ const OrderTitle = styled.h1`
 `;
 
 const OrderDate = styled.span`
-    font-size: 14px;
+    font-size: 18px;
     color: #888;
 
     @media (max-width: 768px) {
@@ -118,10 +126,11 @@ const Input = styled.input`
 `;
 
 const ItemSection = styled.div`
-    border: 1px solid #e0e0e0;
+    border: 1px solid #b2b1b1;
     border-radius: 8px;
-    padding: 20px;
+    padding: 20px 50px;
     margin-top: 20px;
+    margin-bottom: 50px;
 
     @media (max-width: 768px) {
         padding: 10px;
@@ -159,31 +168,39 @@ const ItemImage = styled.img`
 
 const ItemDetails = styled.div`
     flex-grow: 1;
+   
+   
 `;
 
 const ItemTitle = styled.p`
-    font-size: 14px;
+    font-size: 18px;
+    max-width:'300px';
     margin: 0;
+    @media(max-width: 768px){
+      margin:0 !important;
+    }
 `;
 
 const ItemQuantity = styled.p`
-    font-size: 14px;
-    color: #888;
+    font-size: 18px;
+    color: #030303;
+    font-weight:bold;
     margin: 0;
 `;
 
 const ItemPrice = styled.p`
-    font-size: 14px;
+    font-size: 18px;
     margin: 0;
 `;
 
 const Summary = styled.div`
+    font-size: 18px;
     margin-top: 20px;
-    padding: 20px;
-    border-top: 1px solid #e0e0e0;
+   
+   
 
     @media (max-width: 768px) {
-        padding: 10px;
+       
     }
 `;
 
@@ -214,6 +231,76 @@ const SummaryRow = styled.div`
     font-size: 14px;
     color: ${props => props.total ? '#000' : '#888'};
     font-weight: ${props => props.total ? 'bold' : 'normal'};
+`;
+
+const progressAnimation = keyframes`
+  from {
+    width: 0%;
+  }
+  to {
+    width: 100%; /* Adjust this percentage based on the progress */
+  }
+`;
+
+const pulseAnimation = keyframes`
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.1);
+  }
+  100% {
+    transform: scale(1);
+  }
+`;
+
+// Styled components
+const ProgressWidget = styled.div`
+width:90%;
+  margin: 20px auto;
+  text-align: center;
+`;
+
+const ProgressContainer = styled.div`
+  width:100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin: 0 auto;
+`;
+
+const ProgressBar = styled.div`
+  position: relative;
+  flex: 1;
+  height: 4px;
+  background-color: #e0e0e0;
+  margin: 0 10px;
+  overflow: hidden;
+`;
+
+const ProgressFill = styled.div`
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 0;
+  background-color: #676869;
+  animation: ${progressAnimation} 1s ease forwards;
+`;
+
+const Step = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background-color: ${({ completed, active }) =>
+    completed ? '#f44336' : active ? '#f44336' : '#e0e0e0'};
+  color: ${({ completed }) => (completed ? 'white' : '#000')};
+  font-size: 12px;
+  cursor: pointer;
+  animation: ${({ active }) => (active ? pulseAnimation : 'none')} 1s infinite;
 `;
 
 const getStatusColor = (status) => {
@@ -252,67 +339,112 @@ const OrderDetails = () => {
 
   const formatDate = (dateString) => {
     const date = new Date(dateString);
-    return `${date.toLocaleDateString()} ${date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}`;
+    return `${date.toLocaleDateString()}  `;
   };
+
+  const amountPrint = (price) => {
+    if (typeof price !== 'undefined' && price !== null) {
+      const formattedPrice = "₹" + price.toLocaleString("en-IN", { maximumFractionDigits: 2, minimumFractionDigits: 2 });
+      return formattedPrice;
+    } else {
+      return "₹0.00"; // Or any default value you prefer
+    }
+  }
+
+  function formatText(str) {
+    return str.split(' ').map(word => {
+        return word.charAt(0).toUpperCase() + word.slice(1).toLowerCase();
+    }).join(' ');
+}
 
   return (
     <Container>
-      <BackLink ><Link to='/account/order'> &larr; Orders</Link></BackLink>
-      <OrderTitle>Order details #{data?.id}</OrderTitle>
-      <OrderDate>Date: {formatDate(data?.orderPlacedAt)}</OrderDate>
+      <BackLink style={{display:'flex',fontSize:'18px',gap:'5px'}}><FaLongArrowAltLeft /><Link to='/account/order'>  Orders</Link></BackLink>
+      <OrderTitle>Order Details #{data?.id}</OrderTitle>
+      <OrderDate>Placed On: {formatDate(data?.orderPlacedAt)}</OrderDate>
       {/* <StatusBadge>SHIPPING</StatusBadge> */}
-      <OrderProgress>
-        <ProgressStep>
-          <ProgressCircle active>{(data?.state==='PaymentAuthorized' || data?.state==='Delivered') ? '✔' : '1'}</ProgressCircle>
-          <p>ORDER CONFIRMED</p>
-          {/* <p>8:00 AM, Feb 8, 2023</p> */}
-        </ProgressStep>
-        <ProgressStep>
-          <ProgressCircle active>{(data?.state==='PaymentAuthorized' || data?.state==='Delivered') ? '✔' : '2'}</ProgressCircle>
+      
+      <ProgressWidget>
+        {data?.state==='PaymentAuthorized' && 
+      <ProgressContainer>
+        <Step  completed><FaCheck/></Step>
+        <ProgressBar>
+          <ProgressFill />
+        </ProgressBar>
+        <Step  active> 2</Step>
+        <ProgressBar>
+          <ProgressFill />
+        </ProgressBar>
+        <Step >3</Step>
+      </ProgressContainer>
+      }
+        {data?.state==='Delivered' && 
+      <ProgressContainer>
+        <Step  completed><FaCheck/></Step>
+        <ProgressBar>
+          <ProgressFill />
+        </ProgressBar>
+        <Step  completed><FaCheck/> </Step>
+        <ProgressBar>
+          <ProgressFill />
+        </ProgressBar>
+        <Step completed><FaCheck/></Step>
+      </ProgressContainer>
+      }
+      <div style={{display:'flex',justifyContent:'space-between',marginTop:'20px'}}>
+        <div style={{textAlign:'start'}}><p style={{fontSize:'16px',fontWeight:'bold'}}>ORDER CONFIRMED</p>
+          <p style={{fontSize:'14px',color:'#888'}}>8:00 AM, Feb 8, 2023</p>
+          </div>
+        <div style={{textAlign:'center'}}><p style={{fontSize:'16px',fontWeight:'bold'}}>
+          SHIPPING
+        </p>
+          <p style={{fontSize:'14px',color:'#888'}}>Shipped with FedEX</p>
+          </div>
+        <div style={{textAlign:'end'}} ><p style={{fontSize:'16px',fontWeight:'bold'}}>TO DELIVER</p>
+          <p style={{fontSize:'14px',color:'#888'}}>Estimated date: Feb 15, 2023</p>
+          </div>
+        
+      </div>
+    </ProgressWidget>
 
-          <p>SHIPPING</p>
-          {/* <p>Shipped with FedEX</p> */}
-        </ProgressStep>
-        <ProgressStep>
-          <ProgressCircle active>{ data?.state==='Delivered' ? '✔' : '3'}</ProgressCircle>
 
-          <p>TO DELIVER</p>
-          {/* <p>Estimated date: Feb 15, 2023</p> */}
-        </ProgressStep>
-       
-      </OrderProgress>
-
-      <h2>Item ordered</h2>
+      <h1 style={{fontSize:'22px',fontWeight:'bold'}}>Items Ordered</h1>
       <ItemSection>
         {data?.lines?.map((el, index) =>
+        <>
           <Item key={index}>
             <ItemImage src={el?.productVariant?.featuredAsset?.preview} alt="Item 1" />
-            <ItemDetails>
-              <ItemTitle>{el?.productVariant?.name}</ItemTitle>
+            <ItemDetails style={{marginLeft:'100px'}}>
+              <ItemTitle style={{maxWidth:'230px',}}>{formatText(el?.productVariant?.name)}</ItemTitle>
             </ItemDetails>
             <ItemDetails>
               <ItemQuantity>{el?.quantity}</ItemQuantity>
             </ItemDetails>
-            <ItemPrice>₹{el?.linePriceWithTax}.00</ItemPrice>
+            <ItemPrice>{amountPrint(el?.linePriceWithTax)}</ItemPrice>
           </Item>
+          <hr style={{border:'1px solid #e0e0e0'}} />
+          </>
         )}
-      </ItemSection>
+      
+      <div style={{display:'flex',justifyContent:'flex-end',marginBottom:"25px"}}>
       <Summary>
-        <SummaryRow>
-          <span>Product Total</span>
-          <span>₹{data?.subTotalWithTax}.00</span>
+        <SummaryRow >
+          <span style={{fontSize:'23px',marginRight:'110px'}}>Subtotal</span>
+          <span style={{fontSize:'23px'}}>{amountPrint(data?.subTotalWithTax)}</span>
         </SummaryRow>
         <SummaryRow>
-          <span>Shipping cost</span>
-          <span style={{ color: '#fc2008' }}>₹{data?.shippingWithTax}.00</span>
+          <span style={{fontSize:'23px'}}>Shipping </span>
+          <span style={{ color: '#fc2008' ,fontSize:'23px'}}>{amountPrint(data?.shippingWithTax)}</span>
         </SummaryRow>
-        <SummaryRow total>
-          <span>Total</span>
-          <span>₹{data?.totalWithTax}.00</span>
+        <SummaryRow style={{ borderTop: '2px solid #e0e0e0', marginTop:'18px'}} total>
+          <span style={{fontSize:'26px',margin:'18px 0'}}>Total</span>
+          <span style={{fontSize:'26px',margin:'18px 0'}}>{amountPrint(data?.totalWithTax)}</span>
         </SummaryRow>
       </Summary>
+      </div>
+      </ItemSection>
       <AddressCont >
-        <Div style={{ width: '100%',  }}>
+        <Div style={{ width: '100%', }}>
           <AddressCard heading={"Shipping Address"} address={data?.shippingAddress} />
         </Div>
         <Div style={{ width: '100%',}}>
